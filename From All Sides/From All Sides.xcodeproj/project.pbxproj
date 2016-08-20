@@ -16,6 +16,7 @@
 		2465CE541D68243A0047B63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2465CE521D68243A0047B63E /* LaunchScreen.storyboard */; };
 		2465CE5F1D68243A0047B63E /* From_All_SidesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE5E1D68243A0047B63E /* From_All_SidesTests.swift */; };
 		2465CE6A1D68243A0047B63E /* From_All_SidesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE691D68243A0047B63E /* From_All_SidesUITests.swift */; };
+		2465CE781D6826F90047B63E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE771D6826F90047B63E /* GameScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		2465CE651D68243A0047B63E /* From All SidesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "From All SidesUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2465CE691D68243A0047B63E /* From_All_SidesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = From_All_SidesUITests.swift; sourceTree = "<group>"; };
 		2465CE6B1D68243A0047B63E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2465CE771D6826F90047B63E /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				2465CE501D68243A0047B63E /* Assets.xcassets */,
 				2465CE521D68243A0047B63E /* LaunchScreen.storyboard */,
 				2465CE551D68243A0047B63E /* Info.plist */,
+				2465CE771D6826F90047B63E /* GameScene.swift */,
 			);
 			path = "From All Sides";
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 			files = (
 				2465CE4A1D68243A0047B63E /* MenuScene.swift in Sources */,
 				2465CE4C1D68243A0047B63E /* GameViewController.swift in Sources */,
+				2465CE781D6826F90047B63E /* GameScene.swift in Sources */,
 				2465CE461D68243A0047B63E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

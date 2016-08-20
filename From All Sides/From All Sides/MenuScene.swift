@@ -11,14 +11,15 @@ import SpriteKit
 class MenuScene: SKScene {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        let titleLabel = SKLabelNode(fontNamed:"Chalkduster")
+        let titleLabel = SKLabelNode(fontNamed:"AlNile-Bold")
         titleLabel.text = "From All Sides"
-        titleLabel.fontSize = 55
+        titleLabel.fontSize = 60
         titleLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
         
-        let playLabel = SKLabelNode(fontNamed: "Chalkduster")
+        let playLabel = SKLabelNode(fontNamed: "AlNile-Bold")
+        playLabel.name = "playLabel"
         playLabel.text = "Play"
-        playLabel.fontSize = 40
+        playLabel.fontSize = 45
         playLabel.position = CGPoint(x:size.width/2, y:size.height/2)
         
         self.addChild(titleLabel)
@@ -31,17 +32,21 @@ class MenuScene: SKScene {
         for touch in touches {
             let location = touch.locationInNode(self)
             
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
+            let touchedNode = self.nodeAtPoint(location)
             
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
+            if let name = touchedNode.name {
+                if name == "playLabel" { //if play label is tapped
+                    
+                    let transition = SKTransition.fadeWithDuration(1.0)
+                    let nextScene = GameScene(size: scene!.size)
+                    nextScene.scaleMode = .AspectFill
+                    
+                    scene?.view?.presentScene(nextScene, transition: transition) //transitions to gamescene
+                    
+                    print("Tapped Play")
+                }
+            }
+
         }
     }
    
