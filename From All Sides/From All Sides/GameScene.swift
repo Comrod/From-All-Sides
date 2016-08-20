@@ -28,6 +28,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var attitudeX:CGFloat = 0.0
     var attitudeY: CGFloat = 0.0
     
+    //The smaller the value, the more often a projectile is spawned
+    var difficulty = 0.2
+
+    //Projectile Locations
+    var startX = CGFloat()
+    var startY = CGFloat()
+    var endX = CGFloat()
+    var endY = CGFloat()
     
     override func didMoveToView(view: SKView) {
         
@@ -61,12 +69,107 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.player.runAction(moveCharacter)
             })
         }
+        
+        //Add Projectiles
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "projectileAction")
     }
     
+    
+    //Gets attitude (angle of rotation) of the phone
     func getAttitudeData(attitude:CMAttitude) {
         attitudeX = CGFloat(attitude.pitch)
         attitudeY = CGFloat(attitude.roll)
     }
     
+    
+    //Add Projectiles
+    func projectileFlightCalc() {
+        let projectile = SKSpriteNode(imageNamed: "projectile")
+        projectile.xScale = 1
+        projectile.yScale = 1
+        
+        let projectileSpeed = NSTimeInterval(randRange(2, upper: 5))
+        
+        
+        let lowerX = Int(projectile.size.width)
+        let upperX = Int(size.width)
+        let randX = CGFloat(randRange(lowerX, upper: upperX))
+        
+        let lowerY = Int(projectile.size.height)
+        let upperY = Int(size.height)
+        let randY = CGFloat(randRange(lowerY, upper: upperY))
+        
+        
+        let whichSide = Int(arc4random_uniform(UInt32(4)))
+        
+        //Top
+        if whichSide == 0 {
+            
+            //Starting Coordinates
+            startX = randX
+            startY = size.height + projectile.size.height
+            
+            //Ending Coordinates
+            endX = randX //will change later so flight path is diagonal
+            endY = -projectile.size.height
+            print("top")
+        }
+            //Right
+        else if whichSide == 1 {
+            
+            startX = size.width + projectile.size.width
+            startY = randY
+            
+            endX = -projectile.size.width
+            endY = randY //will change later so flight path is diagonal
+            print("right")
+        }
+            //Bottom
+        else if whichSide == 2 {
+            
+            startX = randX
+            startY = -projectile.size.height
+            
+            endX = randX //will change later so flight path is diagonal
+            endY = size.height + projectile.size.height
+            print("bottom")
+        }
+            //Left
+        else if whichSide == 3 {
+            
+            startX = -projectile.size.width
+            startY = randY
+            
+            endX = size.width + projectile.size.width
+            endY = randY //will change later so flight path is diagonal
+            print("left")
+        }
+        
+        print("endx1")
+        print(endX)
+        
+        projectile.position = CGPointMake(startX, startY)
+        print("Start position:")
+        print(projectile.position)
+        
+        addChild(projectile)
+        
+        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.height/2)
+        projectile.physicsBody?.dynamic = true
+        projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile //What category the projectile belongs to
+        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Character //What category it interacts with
+        projectile.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
+        projectile.physicsBody?.usesPreciseCollisionDetection = true
+        
+        let actionMove = SKAction.moveTo(CGPointMake(size.width + projectile.size.width, endY), duration: projectileSpeed)
+        let actionMoveDone = SKAction.removeFromParent()
+        projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
+        
+    }
+    
+    //Create random range
+    func randRange (lower: Int , upper: Int) -> Int {
+        return lower + Int(arc4random_uniform(UInt32(upper - lower + 1)))
+    }
     
 }
