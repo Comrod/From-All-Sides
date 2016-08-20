@@ -1,5 +1,5 @@
 //
-//  GameScene.swift
+//  MenuScene.swift
 //  From All Sides
 //
 //  Created by Cormac Chester on 8/20/16.
@@ -8,15 +8,21 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class MenuScene: SKScene {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!"
-        myLabel.fontSize = 45
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        let titleLabel = SKLabelNode(fontNamed:"Chalkduster")
+        titleLabel.text = "From All Sides"
+        titleLabel.fontSize = 55
+        titleLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
         
-        self.addChild(myLabel)
+        let playLabel = SKLabelNode(fontNamed: "Chalkduster")
+        playLabel.text = "Play"
+        playLabel.fontSize = 40
+        playLabel.position = CGPoint(x:size.width/2, y:size.height/2)
+        
+        self.addChild(titleLabel)
+        self.addChild(playLabel)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
