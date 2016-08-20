@@ -17,6 +17,8 @@
 		2465CE5F1D68243A0047B63E /* From_All_SidesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE5E1D68243A0047B63E /* From_All_SidesTests.swift */; };
 		2465CE6A1D68243A0047B63E /* From_All_SidesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE691D68243A0047B63E /* From_All_SidesUITests.swift */; };
 		2465CE781D6826F90047B63E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE771D6826F90047B63E /* GameScene.swift */; };
+		24D1A5091D68D1BB002B7E63 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 24D1A5081D68D1BB002B7E63 /* GameScene.sks */; };
+		24D1A50B1D68D2C6002B7E63 /* locationIndicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24D1A50A1D68D2C6002B7E63 /* locationIndicator@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		2465CE691D68243A0047B63E /* From_All_SidesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = From_All_SidesUITests.swift; sourceTree = "<group>"; };
 		2465CE6B1D68243A0047B63E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2465CE771D6826F90047B63E /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		24D1A5081D68D1BB002B7E63 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		24D1A50A1D68D2C6002B7E63 /* locationIndicator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locationIndicator@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,7 @@
 				2465CE5D1D68243A0047B63E /* From All SidesTests */,
 				2465CE681D68243A0047B63E /* From All SidesUITests */,
 				2465CE431D68243A0047B63E /* Products */,
+				24D1A50A1D68D2C6002B7E63 /* locationIndicator@2x.png */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,14 +109,15 @@
 			isa = PBXGroup;
 			children = (
 				2465CE451D68243A0047B63E /* AppDelegate.swift */,
+				2465CE4B1D68243A0047B63E /* GameViewController.swift */,
 				2465CE471D68243A0047B63E /* MenuScene.sks */,
 				2465CE491D68243A0047B63E /* MenuScene.swift */,
-				2465CE4B1D68243A0047B63E /* GameViewController.swift */,
+				24D1A5081D68D1BB002B7E63 /* GameScene.sks */,
+				2465CE771D6826F90047B63E /* GameScene.swift */,
 				2465CE4D1D68243A0047B63E /* Main.storyboard */,
 				2465CE501D68243A0047B63E /* Assets.xcassets */,
 				2465CE521D68243A0047B63E /* LaunchScreen.storyboard */,
 				2465CE551D68243A0047B63E /* Info.plist */,
-				2465CE771D6826F90047B63E /* GameScene.swift */,
 			);
 			path = "From All Sides";
 			sourceTree = "<group>";
@@ -239,6 +245,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2465CE481D68243A0047B63E /* MenuScene.sks in Resources */,
+				24D1A50B1D68D2C6002B7E63 /* locationIndicator@2x.png in Resources */,
+				24D1A5091D68D1BB002B7E63 /* GameScene.sks in Resources */,
 				2465CE541D68243A0047B63E /* LaunchScreen.storyboard in Resources */,
 				2465CE511D68243A0047B63E /* Assets.xcassets in Resources */,
 				2465CE4F1D68243A0047B63E /* Main.storyboard in Resources */,
@@ -498,6 +506,7 @@
 				2465CE701D68243A0047B63E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2465CE711D68243A0047B63E /* Build configuration list for PBXNativeTarget "From All SidesTests" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +515,7 @@
 				2465CE731D68243A0047B63E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2465CE741D68243A0047B63E /* Build configuration list for PBXNativeTarget "From All SidesUITests" */ = {
 			isa = XCConfigurationList;
@@ -514,6 +524,7 @@
 				2465CE761D68243A0047B63E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
