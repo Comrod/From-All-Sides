@@ -32,10 +32,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var difficulty = 0.2
 
     //Projectile Locations
-    var startX = CGFloat()
+    /*var startX = CGFloat()
     var startY = CGFloat()
     var endX = CGFloat()
-    var endY = CGFloat()
+    var endY = CGFloat()*/
     
     override func didMoveToView(view: SKView) {
         
@@ -81,17 +81,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         attitudeY = CGFloat(attitude.roll)
     }
     
-    
+
     //Add Projectiles
     func projectileFlightCalc() {
         let projectile = SKSpriteNode(imageNamed: "projectile")
-        projectile.xScale = 1
-        projectile.yScale = 1
+        projectile.xScale = 0.5
+        projectile.yScale = 0.5
         
-        let projectileSpeed = NSTimeInterval(randRange(2, upper: 5))
+        let projectileSpeed = NSTimeInterval(random(1, max: 4))
+        
+        let beginY = random(projectile.size.height/2, max: size.height - projectile.size.height/2)
+        let endY = random(projectile.size.height/2, max: size.height - projectile.size.height/2)
+        
+        projectile.position = CGPoint(x: size.width + projectile.size.height/2, y: beginY)
+        
+        addChild(projectile)
+        
+        //Add back when figuring out collision physics
+        /*projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.height/2)
+        projectile.physicsBody?.dynamic = true
+        projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile //What category the projectile belongs to
+        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Character //What category it interacts with
+        projectile.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
+        projectile.physicsBody?.usesPreciseCollisionDetection = true*/
+        
+        let actionMove = SKAction.moveTo(CGPoint(x: -projectile.size.width/2, y: endY), duration: projectileSpeed)
+        let actionMoveDone = SKAction.removeFromParent()
+        projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
         
         
-        let lowerX = Int(projectile.size.width)
+        
+        /*let lowerX = Int(projectile.size.width)
         let upperX = Int(size.width)
         let randX = CGFloat(randRange(lowerX, upper: upperX))
         
@@ -101,6 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         let whichSide = Int(arc4random_uniform(UInt32(4)))
+        print("Which side: " + String(whichSide))
         
         //Top
         if whichSide == 0 {
@@ -150,26 +171,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         projectile.position = CGPointMake(startX, startY)
         print("Start position:")
-        print(projectile.position)
-        
-        addChild(projectile)
-        
-        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.height/2)
-        projectile.physicsBody?.dynamic = true
-        projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile //What category the projectile belongs to
-        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Character //What category it interacts with
-        projectile.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
-        projectile.physicsBody?.usesPreciseCollisionDetection = true
-        
-        let actionMove = SKAction.moveTo(CGPointMake(size.width + projectile.size.width, endY), duration: projectileSpeed)
-        let actionMoveDone = SKAction.removeFromParent()
-        projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
+        print(projectile.position)*/
         
     }
     
+    func randNum() -> CGFloat {
+        return CGFloat(Float(arc4random())/0xFFFFFFFF)
+    }
+    
+    
     //Create random range
-    func randRange (lower: Int , upper: Int) -> Int {
-        return lower + Int(arc4random_uniform(UInt32(upper - lower + 1)))
+    func random(min: CGFloat , max: CGFloat) -> CGFloat {
+        return randNum()*(max-min)+min
+        //return CGFloat(arc4random_uniform(UInt32(max))) + min
+        //return lower + Int(arc4random_uniform(UInt32(upper - lower + 1)))
     }
     
 }
