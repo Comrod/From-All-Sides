@@ -26,10 +26,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Device Attitude Vars
     var attitudeX:CGFloat = 0.0
-    var attitudeY: CGFloat = 0.0
+    var attitudeY:CGFloat = 0.0
     
-    //The smaller the value, the more often a projectile is spawned
-    var difficulty = 0.5
+    
+    var difficulty = 0.5 //The smaller the value, the more often a projectile is spawned
+    var difficCounter = 0 //Counter for difficulty method
+    var minProjSpeed:CGFloat = 3.0 //maximum time in seconds for projectile to travel across the screen
 
     //Incremental variable for indicating what side a projectile will spawned
     var whatSide = 0
@@ -71,7 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 self.getAttitudeData(self.motionManager.deviceMotion!.attitude)
-                let moveCharacter = SKAction.moveBy(CGVectorMake(-self.attitudeX*10, -self.attitudeY*10), duration: 0.1)
+                let moveCharacter = SKAction.moveBy(CGVectorMake(-self.attitudeX*30, -self.attitudeY*30), duration: 0.1)
                 self.player.runAction(moveCharacter)
             })
         }
@@ -94,56 +96,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         projectile.xScale = 0.5
         projectile.yScale = 0.5
         
-        let projectileSpeed = NSTimeInterval(random(1.5, max: 4)) //Chooses speed of projectile from 1
+        let projectileSpeed = NSTimeInterval(random(1.0, max: minProjSpeed)) //Chooses speed of projectile from 1
         
-        //Value for half of size of projectile
-        let projHSize = projectile.size.height/2
+        //Value for size of projectile
+        let projSize = projectile.size.height
         
         //Move Projectile Action
         var actionMove = SKAction()
         
+        //Chooses side projectile is launched from randomly
+        whatSide = Int(random(0, max: 4))
+        
         if whatSide == 0{ //Right
-            beginY = random(projHSize, max: size.height - projHSize)
-            endY = random(projHSize, max: size.height - projHSize)
+            beginY = random(projSize, max: size.height - projSize)
+            endY = random(projSize, max: size.height - projSize)
             
-            projectile.position = CGPoint(x: size.width + projHSize, y: beginY)
-            actionMove = SKAction.moveTo(CGPoint(x: -projHSize, y: endY), duration: projectileSpeed)
+            projectile.position = CGPoint(x: size.width + projSize, y: beginY)
+            actionMove = SKAction.moveTo(CGPoint(x: -projSize, y: endY), duration: projectileSpeed)
         }
         else if whatSide == 1{ //Top
-            beginX = random(projHSize, max: size.width - projHSize)
-            endX = random(projHSize, max: size.width - projHSize)
+            beginX = random(projSize, max: size.width - projSize)
+            endX = random(projSize, max: size.width - projSize)
             
-            projectile.position = CGPoint(x: beginX, y: size.height + projHSize)
-            actionMove = SKAction.moveTo(CGPoint(x: endX, y: -projHSize), duration: projectileSpeed)
+            projectile.position = CGPoint(x: beginX, y: size.height + projSize)
+            actionMove = SKAction.moveTo(CGPoint(x: endX, y: -projSize), duration: projectileSpeed)
         }
         else if whatSide == 2{ //Left
-            beginY = random(projHSize, max: size.height - projHSize)
-            endY = random(projHSize, max: size.height - projHSize)
+            beginY = random(projSize, max: size.height - projSize)
+            endY = random(projSize, max: size.height - projSize)
             
-            projectile.position = CGPoint(x: -projHSize, y: beginY)
-            actionMove = SKAction.moveTo(CGPoint(x: size.width + projHSize, y: endY), duration: projectileSpeed)
+            projectile.position = CGPoint(x: -projSize, y: beginY)
+            actionMove = SKAction.moveTo(CGPoint(x: size.width + projSize, y: endY), duration: projectileSpeed)
         }
         else if whatSide == 3{ //Bottom
-            beginX = random(projHSize, max: size.width - projHSize)
-            endX = random(projHSize, max: size.width - projHSize)
+            beginX = random(projSize, max: size.width - projSize)
+            endX = random(projSize, max: size.width - projSize)
             
-            projectile.position = CGPoint(x: beginX, y: -projHSize)
-            actionMove = SKAction.moveTo(CGPoint(x: endX, y: size.height + projHSize), duration: projectileSpeed)
+            projectile.position = CGPoint(x: beginX, y: -projSize)
+            actionMove = SKAction.moveTo(CGPoint(x: endX, y: size.height + projSize), duration: projectileSpeed)
 
         }
         
         //Adds projectile to the scene
         addChild(projectile)
-        
-        //Incremental variable to change what side the projectile spawns
-        if (whatSide < 3) {
-            whatSide += 1
-        }
-        else {
-            whatSide = 0 //Reset whatSide counter
-        }
-        
-        
         
         
         //Add back when figuring out collision physics
@@ -158,7 +153,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let actionMoveDone = SKAction.removeFromParent()
         //projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
         projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]), completion: {
-            self.incrementScore() //Increment the score - score only increases once the projectile has passed by the entire screen
+            self.incrementScoreDiff() //Increment the score - score only increases once the projectile has passed by the entire screen
         })
         
         
@@ -225,6 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("Start position:")
         print(projectile.position)*/
         
+        
     }
     
     //Create random number
@@ -241,8 +237,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     //Score Counter
-    func incrementScore() {
+    func incrementScoreDiff() {
         score += 1
+        difficCounter += 1
+        
+        //Increase difficulty by decreasing the time inbetween each projectile spawn every time the score increases by 20
+        if difficulty > 0.1 { //Maxes out the difficulty so that it can't be decreased to zero
+            if difficCounter > 20 {
+                difficCounter = 0 //Reset counter
+                difficulty -= 0.1 //Decrease difficulty
+                print("Difficulty decreased")
+                
+                if minProjSpeed > 1.5 {
+                    minProjSpeed -= 0.1 //decrease maximum time in seconds for projectile to travel across the screen
+                }
+            }
+        }
+        
         print("Score: " + String(score))
     }
     
