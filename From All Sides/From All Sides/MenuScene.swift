@@ -36,14 +36,17 @@ class MenuScene: SKScene {
             
             if let name = touchedNode.name {
                 if name == "playLabel" { //if play label is tapped
+                    print("Tapped Play")
                     
                     let transition = SKTransition.fadeWithDuration(1.0)
                     let nextScene = GameScene(size: scene!.size)
                     nextScene.scaleMode = .AspectFill
                     
+                    
+                    
                     scene?.view?.presentScene(nextScene, transition: transition) //transitions to gamescene
                     
-                    print("Tapped Play")
+                    
                 }
             }
 

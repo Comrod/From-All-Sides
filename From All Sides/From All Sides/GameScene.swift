@@ -21,18 +21,20 @@ struct PhysicsCategory {
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
     //Initialize MotionManager
-    var motionManager = CMMotionManager()
+    let motionManager: CMMotionManager = CMMotionManager()
     
     //Initialize Player
     var player = SKSpriteNode()
+    var playerSpeed:CGFloat = 30
     
     var difficulty = 0.5 //The smaller the value, the more often a projectile is spawned
     var difficCounter = 0 //Counter for difficulty method
     var minProjSpeed:CGFloat = 3.0 //maximum time in seconds for projectile to travel across the screen
     
+    
     //Device Attitude Vars
-    var attitudeX:CGFloat = 0.0
-    var attitudeY:CGFloat = 0.0
+    var attitudeX:CGFloat = CGFloat()
+    var attitudeY:CGFloat = CGFloat()
 
     //Incremental variable for indicating what side a projectile will spawned
     var whatSide = 0
@@ -43,26 +45,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var endX = CGFloat()
     var endY = CGFloat()
     
-    //Score counter
-    var score = 0
-    
+    //Score
+    var score = 0 //Counter that is incremented
+    var scoreLabel: SKLabelNode!
     
     
     override func didMoveToView(view: SKView) {
-        
-        //Player Setup
-        setupPlayer()
+
         
         //Physics World
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         
         
-        //Player Motion
-        NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(movePlayer), userInfo: nil, repeats: false) //Delays player movement so scene has enough time to load
+        setupScoreLabel()//Score Label Setup
+        setupPlayer()//Player setup
+        print("player setup")
+        getDeviceAttitude()//Gets attitude of device and moves player
+        //NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(getDeviceAttitude), userInfo: nil, repeats: false) //Delays player movement so scene has enough time to load
+        
         
         //Add Projectiles
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "projectileAction")
+        
     }
     
     //Setup Player
@@ -81,27 +86,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(player)
     }
     
-    //Player Motion
-    func movePlayer() {
+    //Gets attitude of device
+    func getDeviceAttitude() {
         if motionManager.deviceMotionAvailable {
+            motionManager.deviceMotionUpdateInterval = 0.014
             motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler: { (deviceMotionData, error) in
                 if (error != nil) {
                     print("\(error)")
                 }
+                self.attitudeX = CGFloat(self.motionManager.deviceMotion!.attitude.pitch)
+                self.attitudeY = CGFloat(self.motionManager.deviceMotion!.attitude.roll)
+                print("Attitude X: " + String(self.attitudeX))
                 
-                self.getAttitudeData(self.motionManager.deviceMotion!.attitude)
-                let moveCharacter = SKAction.moveBy(CGVectorMake(-self.attitudeX*20, -self.attitudeY*20), duration: 0.1)
-                self.player.runAction(moveCharacter)
+                self.movePlayer()
+                
             })
         }
     }
     
-    //Gets attitude (angle of rotation) of the phone
-    func getAttitudeData(attitude:CMAttitude) {
-        attitudeX = CGFloat(attitude.pitch)
-        attitudeY = CGFloat(attitude.roll)
+    //Player Motion
+    func movePlayer() {
+        let movePlayerAction = SKAction.moveBy(CGVectorMake(self.attitudeX*playerSpeed, self.attitudeY*playerSpeed), duration: 0.1)
+        player.runAction(movePlayerAction)
     }
     
+    //Score Label
+    func setupScoreLabel() {
+        scoreLabel = SKLabelNode(fontNamed:"ArialMT")
+        scoreLabel.text = "0"
+        scoreLabel.position = CGPoint(x: self.frame.size.width/10, y: (3/4)*self.frame.size.height)
+        scoreLabel.fontSize = 60
+        scoreLabel.color = SKColor.whiteColor()
+        self.addChild(scoreLabel)
+    }
 
     //Add Projectiles - method run for every projectile spawned
     func projectileFlightCalc() {
@@ -161,77 +178,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         projectile.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
         projectile.physicsBody?.usesPreciseCollisionDetection = true
         
-        //let actionMove = SKAction.moveTo(CGPoint(x: -projectile.size.width/2, y: endY), duration: projectileSpeed)
         let actionMoveDone = SKAction.removeFromParent()
-        //projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
         projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]), completion: {
             self.incrementScoreDiff() //Increment the score - score only increases once the projectile has passed by the entire screen
         })
-        
-        
-        /*let lowerX = Int(projectile.size.width)
-        let upperX = Int(size.width)
-        let randX = CGFloat(randRange(lowerX, upper: upperX))
-        
-        let lowerY = Int(projectile.size.height)
-        let upperY = Int(size.height)
-        let randY = CGFloat(randRange(lowerY, upper: upperY))
-        
-        
-        let whichSide = Int(arc4random_uniform(UInt32(4)))
-        print("Which side: " + String(whichSide))
-        
-        //Top
-        if whichSide == 0 {
-            
-            //Starting Coordinates
-            startX = randX
-            startY = size.height + projectile.size.height
-            
-            //Ending Coordinates
-            endX = randX //will change later so flight path is diagonal
-            endY = -projectile.size.height
-            print("top")
-        }
-            //Right
-        else if whichSide == 1 {
-            
-            startX = size.width + projectile.size.width
-            startY = randY
-            
-            endX = -projectile.size.width
-            endY = randY //will change later so flight path is diagonal
-            print("right")
-        }
-            //Bottom
-        else if whichSide == 2 {
-            
-            startX = randX
-            startY = -projectile.size.height
-            
-            endX = randX //will change later so flight path is diagonal
-            endY = size.height + projectile.size.height
-            print("bottom")
-        }
-            //Left
-        else if whichSide == 3 {
-            
-            startX = -projectile.size.width
-            startY = randY
-            
-            endX = size.width + projectile.size.width
-            endY = randY //will change later so flight path is diagonal
-            print("left")
-        }
-        
-        print("endx1")
-        print(endX)
-        
-        projectile.position = CGPointMake(startX, startY)
-        print("Start position:")
-        print(projectile.position)*/
-        
-        
     }
     
     //Create random number
@@ -249,7 +199,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Score Counter
     func incrementScoreDiff() {
-        score += 1
+        
+        score += 1 //Increase score
+        scoreLabel.text = String(score) //Set score label to the newly increased score
+        
         difficCounter += 1
         
         //Increase difficulty by decreasing the time inbetween each projectile spawn every time the score increases by 20
@@ -264,17 +217,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
-        
-        print("Score: " + String(score))
     }
     
     //Called when the player is hit by a projectile
     func playerHitByProjectile(projectile:SKSpriteNode, character:SKSpriteNode) {
         print("Hit")
-        projectile.removeFromParent()
-        character.removeFromParent()
-        self.removeAllChildren()
-        self.removeActionForKey("projectileAction")
+        self.removeAllChildren() //deletes all children from the scene (projectiles, player, scorelabel)
+        self.removeAllActions()
+        motionManager.stopDeviceMotionUpdates()
+        NSOperationQueue.currentQueue()!.cancelAllOperations() //May or may not need
+        print(motionManager.deviceMotionActive)
+        
+        NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: #selector(goToMenu), userInfo: nil, repeats: false)
+
+    }
+    
+    func goToMenu() {
+        //Transition back to main menu
+        let transition = SKTransition.fadeWithDuration(0.25)
+        let nextScene = MenuScene(size: scene!.size)
+        nextScene.scaleMode = .AspectFill
+        scene?.view?.presentScene(nextScene, transition: transition) //transitions to menuscene
+        print("Went back to MenuScene")
     }
     
     //Called when two physics bodies contact eachother
