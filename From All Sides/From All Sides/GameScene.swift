@@ -40,6 +40,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var endX = CGFloat()
     var endY = CGFloat()
     
+    //Score counter
+    var score = 0
+    
     override func didMoveToView(view: SKView) {
         
         //Player Setup
@@ -85,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
 
-    //Add Projectiles
+    //Add Projectiles - method run for every projectile spawned
     func projectileFlightCalc() {
         let projectile = SKSpriteNode(imageNamed: "projectile")
         projectile.xScale = 0.5
@@ -153,7 +156,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //let actionMove = SKAction.moveTo(CGPoint(x: -projectile.size.width/2, y: endY), duration: projectileSpeed)
         let actionMoveDone = SKAction.removeFromParent()
-        projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
+        //projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
+        projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]), completion: {
+            self.incrementScore() //Increment the score - score only increases once the projectile has passed by the entire screen
+        })
         
         
         
@@ -221,6 +227,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    //Create random number
     func randNum() -> CGFloat {
         return CGFloat(Float(arc4random())/0xFFFFFFFF)
     }
@@ -231,6 +238,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return randNum()*(max-min)+min
         //return CGFloat(arc4random_uniform(UInt32(max))) + min
         //return lower + Int(arc4random_uniform(UInt32(upper - lower + 1)))
+    }
+    
+    //Score Counter
+    func incrementScore() {
+        score += 1
+        print("Score: " + String(score))
     }
     
 }
