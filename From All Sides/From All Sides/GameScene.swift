@@ -31,7 +31,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var difficCounter = 0 //Counter for difficulty method
     var minProjSpeed:CGFloat = 3.0 //maximum time in seconds for projectile to travel across the screen
     
-    
     //Device Attitude Vars
     var attitudeX:CGFloat = CGFloat()
     var attitudeY:CGFloat = CGFloat()
@@ -49,16 +48,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score = 0 //Counter that is incremented
     var scoreLabel: SKLabelNode!
     
+    //Pause Button
+    var pauseButton: SKSpriteNode!
+    
     
     override func didMoveToView(view: SKView) {
-
-        
         //Physics World
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         
         
         setupScoreLabel()//Score Label Setup
+        setupPauseButton()//Pause Button Setup
         setupPlayer()//Player setup
         print("player setup")
         getDeviceAttitude()//Gets attitude of device and moves player
@@ -73,9 +74,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Setup Player
     func setupPlayer() {
         player = SKSpriteNode(imageNamed: "player")
-        player.position = CGPoint(x: self.frame.size.width/4, y: self.frame.size.height/2)
-        player.xScale = 1
-        player.yScale = 1
+        player.position = CGPoint(x: size.width/4, y: size.height/2)
         
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.height/2)
         player.physicsBody?.dynamic = true
@@ -110,19 +109,68 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.runAction(movePlayerAction)
     }
     
-    //Score Label
+    
+    //Setup Score Label
     func setupScoreLabel() {
         scoreLabel = SKLabelNode(fontNamed:"ArialMT")
         scoreLabel.text = "0"
-        scoreLabel.position = CGPoint(x: self.frame.size.width/10, y: (3/4)*self.frame.size.height)
+        scoreLabel.position = CGPoint(x: size.width/10, y: (3/4)*size.height)
         scoreLabel.fontSize = 60
         scoreLabel.color = SKColor.whiteColor()
         self.addChild(scoreLabel)
     }
 
+    //Pause Button Setup
+    func setupPauseButton() {
+        pauseButton = SKSpriteNode(imageNamed: "pausebutton")
+        pauseButton.position = CGPoint(x:size.width/2, y:(4/5)*size.height)
+        pauseButton.name = "pauseButton"
+        self.addChild(pauseButton)
+    }
+    
+    //Pause Scene
+    func pauseScene(){
+        
+        if scene!.view!.paused { //if the scene is paused
+            scene!.view!.paused = false
+            
+            getDeviceAttitude() //Restart getting device attitutde
+            
+            
+            print("Scene is resumed")
+        }
+        else { //if the scene isn't paused
+            scene!.view!.paused = true
+            
+            motionManager.stopDeviceMotionUpdates()
+            NSOperationQueue.currentQueue()!.cancelAllOperations() //May or may not need
+            
+            /*if let action = projectile.actionForKey("projectileAction") {
+                
+                action.speed = 0
+            }*/
+            
+            print("Scene is paused")
+        }
+    }
+    
+    //Create random number
+    func randNum() -> CGFloat {
+        return CGFloat(Float(arc4random())/0xFFFFFFFF)
+    }
+    
+    
+    //Create random range
+    func random(min: CGFloat , max: CGFloat) -> CGFloat {
+        return randNum()*(max-min)+min
+    }
+    
     //Add Projectiles - method run for every projectile spawned
     func projectileFlightCalc() {
+        
+        //Initialize projectile
         let projectile = SKSpriteNode(imageNamed: "projectile")
+        
         projectile.xScale = 0.5
         projectile.yScale = 0.5
         
@@ -184,17 +232,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
-    //Create random number
-    func randNum() -> CGFloat {
-        return CGFloat(Float(arc4random())/0xFFFFFFFF)
-    }
-    
-    
-    //Create random range
-    func random(min: CGFloat , max: CGFloat) -> CGFloat {
-        return randNum()*(max-min)+min
-        //return CGFloat(arc4random_uniform(UInt32(max))) + min
-        //return lower + Int(arc4random_uniform(UInt32(upper - lower + 1)))
+    //Called when two physics bodies contact eachother
+    func didBeginContact(contact: SKPhysicsContact) {
+        
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        //Checks to see if 2 physics bodies collided
+        if ((firstBody.categoryBitMask & PhysicsCategory.Character != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
+            playerHitByProjectile(firstBody.node as! SKSpriteNode, character: secondBody.node as! SKSpriteNode)
+        }
+        
     }
     
     //Score Counter
@@ -232,8 +288,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     }
     
+    //Transition back to main menu
     func goToMenu() {
-        //Transition back to main menu
         let transition = SKTransition.fadeWithDuration(0.25)
         let nextScene = MenuScene(size: scene!.size)
         nextScene.scaleMode = .AspectFill
@@ -241,26 +297,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("Went back to MenuScene")
     }
     
-    //Called when two physics bodies contact eachother
-    func didBeginContact(contact: SKPhysicsContact) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        /* Called when a touch begins */
         
-        var firstBody: SKPhysicsBody
-        var secondBody: SKPhysicsBody
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
-        } else {
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
+        for touch in touches {
+            let location = touch.locationInNode(self)
+            
+            let touchedNode = self.nodeAtPoint(location)
+            
+            if let name = touchedNode.name {
+                if name == "pauseButton" { //if pause button is tapped
+                    pauseScene()
+                }
+            }
         }
-        
-        //Checks to see if 2 physics bodies collided
-        if ((firstBody.categoryBitMask & PhysicsCategory.Character != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
-            playerHitByProjectile(firstBody.node as! SKSpriteNode, character: secondBody.node as! SKSpriteNode)
-        }
-        
     }
-    
-    
+
 }
