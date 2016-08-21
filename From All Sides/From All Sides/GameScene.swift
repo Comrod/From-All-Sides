@@ -46,27 +46,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Score counter
     var score = 0
     
+    
+    
     override func didMoveToView(view: SKView) {
         
         //Player Setup
-        performSelector(#selector(setupPlayer), withObject: nil, afterDelay: 0.75) //Delays player loading so that scene has enough time to load
-
+        setupPlayer()
+        
         //Physics World
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         
-        //Character Motion
-        if motionManager.deviceMotionAvailable {
-            motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler: { (deviceMotionData, error) in
-                if (error != nil) {
-                    print("\(error)")
-                }
-                
-                self.getAttitudeData(self.motionManager.deviceMotion!.attitude)
-                let moveCharacter = SKAction.moveBy(CGVectorMake(-self.attitudeX*15, -self.attitudeY*15), duration: 0.1)
-                self.player.runAction(moveCharacter)
-            })
-        }
+        
+        //Player Motion
+        NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(movePlayer), userInfo: nil, repeats: false) //Delays player movement so scene has enough time to load
         
         //Add Projectiles
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "projectileAction")
@@ -88,6 +81,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(player)
     }
     
+    //Player Motion
+    func movePlayer() {
+        if motionManager.deviceMotionAvailable {
+            motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler: { (deviceMotionData, error) in
+                if (error != nil) {
+                    print("\(error)")
+                }
+                
+                self.getAttitudeData(self.motionManager.deviceMotion!.attitude)
+                let moveCharacter = SKAction.moveBy(CGVectorMake(-self.attitudeX*20, -self.attitudeY*20), duration: 0.1)
+                self.player.runAction(moveCharacter)
+            })
+        }
+    }
     
     //Gets attitude (angle of rotation) of the phone
     func getAttitudeData(attitude:CMAttitude) {
