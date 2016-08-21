@@ -6,32 +6,33 @@
 //  Copyright © 2016 Cormac Chester. All rights reserved.
 //
 
+
+
 import SpriteKit
 import CoreMotion
 
 struct PhysicsCategory {
     static let None      : UInt32 = 0
     static let All       : UInt32 = UInt32.max
-    static let Character : UInt32 = 0b1       // 1
-    static let Projectile: UInt32 = 0b10      // 2
+    static let Character : UInt32 = 0b1
+    static let Projectile: UInt32 = 0b10
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
-    //Initialize Player
-    var player = SKSpriteNode()
-    
     //Initialize MotionManager
     var motionManager = CMMotionManager()
     
-    //Device Attitude Vars
-    var attitudeX:CGFloat = 0.0
-    var attitudeY:CGFloat = 0.0
-    
+    //Initialize Player
+    var player = SKSpriteNode()
     
     var difficulty = 0.5 //The smaller the value, the more often a projectile is spawned
     var difficCounter = 0 //Counter for difficulty method
     var minProjSpeed:CGFloat = 3.0 //maximum time in seconds for projectile to travel across the screen
+    
+    //Device Attitude Vars
+    var attitudeX:CGFloat = 0.0
+    var attitudeY:CGFloat = 0.0
 
     //Incremental variable for indicating what side a projectile will spawned
     var whatSide = 0
@@ -48,18 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMoveToView(view: SKView) {
         
         //Player Setup
-        player = SKSpriteNode(imageNamed: "player")
-        player.position = CGPointMake(CGRectGetMidX(self.frame)/2, CGRectGetMidY(self.frame))
-        player.xScale = 1
-        player.yScale = 1
-        
-        player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.height/2)
-        player.physicsBody?.dynamic = true
-        player.physicsBody?.categoryBitMask = PhysicsCategory.Character //What category the projectile belongs to
-        player.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile //What category it interacts with
-        player.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
-        
-        self.addChild(player)
+        performSelector(#selector(setupPlayer), withObject: nil, afterDelay: 0.75) //Delays player loading so that scene has enough time to load
 
         //Physics World
         physicsWorld.gravity = CGVectorMake(0, 0)
@@ -73,13 +63,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 self.getAttitudeData(self.motionManager.deviceMotion!.attitude)
-                let moveCharacter = SKAction.moveBy(CGVectorMake(-self.attitudeX*30, -self.attitudeY*30), duration: 0.1)
+                let moveCharacter = SKAction.moveBy(CGVectorMake(-self.attitudeX*15, -self.attitudeY*15), duration: 0.1)
                 self.player.runAction(moveCharacter)
             })
         }
         
         //Add Projectiles
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "projectileAction")
+    }
+    
+    //Setup Player
+    func setupPlayer() {
+        player = SKSpriteNode(imageNamed: "player")
+        player.position = CGPoint(x: self.frame.size.width/4, y: self.frame.size.height/2)
+        player.xScale = 1
+        player.yScale = 1
+        
+        player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.height/2)
+        player.physicsBody?.dynamic = true
+        player.physicsBody?.categoryBitMask = PhysicsCategory.Character //What category the projectile belongs to
+        player.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile //What category it interacts with
+        player.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
+        
+        self.addChild(player)
     }
     
     
@@ -140,14 +146,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Adds projectile to the scene
         addChild(projectile)
         
-        
         //Add back when figuring out collision physics
-        /*projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.height/2)
+        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.height/2)
         projectile.physicsBody?.dynamic = true
         projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile //What category the projectile belongs to
         projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Character //What category it interacts with
         projectile.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
-        projectile.physicsBody?.usesPreciseCollisionDetection = true*/
+        projectile.physicsBody?.usesPreciseCollisionDetection = true
         
         //let actionMove = SKAction.moveTo(CGPoint(x: -projectile.size.width/2, y: endY), duration: projectileSpeed)
         let actionMoveDone = SKAction.removeFromParent()
@@ -155,7 +160,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]), completion: {
             self.incrementScoreDiff() //Increment the score - score only increases once the projectile has passed by the entire screen
         })
-        
         
         
         /*let lowerX = Int(projectile.size.width)
@@ -256,5 +260,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         print("Score: " + String(score))
     }
+    
+    //Called when the player is hit by a projectile
+    func playerHitByProjectile(projectile:SKSpriteNode, character:SKSpriteNode) {
+        print("Hit")
+        projectile.removeFromParent()
+        character.removeFromParent()
+        self.removeAllChildren()
+        self.removeActionForKey("projectileAction")
+    }
+    
+    //Called when two physics bodies contact eachother
+    func didBeginContact(contact: SKPhysicsContact) {
+        
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        //Checks to see if 2 physics bodies collided
+        if ((firstBody.categoryBitMask & PhysicsCategory.Character != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
+            playerHitByProjectile(firstBody.node as! SKSpriteNode, character: secondBody.node as! SKSpriteNode)
+        }
+        
+    }
+    
     
 }
