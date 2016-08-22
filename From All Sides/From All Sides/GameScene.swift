@@ -29,7 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var difficulty = 0.5 //The smaller the value, the more often a projectile is spawned
     var difficCounter = 0 //Counter for difficulty method
-    var minProjSpeed:CGFloat = 3.0 //maximum time in seconds for projectile to travel across the screen
+    var minProjSpeed:CGFloat = 3.5 //maximum time in seconds for projectile to travel across the screen
     
     //Device Attitude Vars
     var attitudeX:CGFloat = CGFloat()
@@ -77,13 +77,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Add Projectiles
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "projectileAction")
-        
-
     }
     
     //Make background black with stars
     func makeBackground(){
-        self.view!.backgroundColor = SKColor.blackColor() //sets background to black like the night sky
+        backgroundColor = UIColor(red:0.00, green:0.00, blue:0.00, alpha:1.0)//sets background to black like the night sky
         
         runAction(SKAction.repeatAction(SKAction.runBlock(addStars), count: numOfStars), withKey: "addStars")
     }
@@ -203,12 +201,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func projectileFlightCalc() {
         
         //Initialize projectile
-        let projectile = SKSpriteNode(imageNamed: "projectile")
+        let projectile = SKSpriteNode(imageNamed: "asteroid")
         
         projectile.xScale = 0.5
         projectile.yScale = 0.5
         
-        let projectileSpeed = NSTimeInterval(random(1.0, max: minProjSpeed)) //Chooses speed of projectile from 1
+        let projectileSpeed = NSTimeInterval(random(2.0, max: minProjSpeed)) //Chooses speed of projectile from 1
         
         //Value for size of projectile
         let projSize = projectile.size.height
