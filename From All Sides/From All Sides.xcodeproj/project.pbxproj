@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		241AAD1F1D6B4EA200116717 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 241AAD1E1D6B4EA200116717 /* MenuScene.sks */; };
+		241AAD211D6B52A400116717 /* earth.png in Resources */ = {isa = PBXBuildFile; fileRef = 241AAD201D6B52A400116717 /* earth.png */; };
 		245B20B31D6A0D3E00C803B8 /* locationIndicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */; };
 		245B20B51D6A6DB400C803B8 /* pausebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B41D6A6DB400C803B8 /* pausebutton.png */; };
 		245B20B71D6A872B00C803B8 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B61D6A872B00C803B8 /* star.png */; };
 		245B20BB1D6AB9A100C803B8 /* asteroid.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20BA1D6AB9A100C803B8 /* asteroid.png */; };
-		245B20BF1D6AC23900C803B8 /* earth.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20BE1D6AC23900C803B8 /* earth.png */; };
 		2465CE461D68243A0047B63E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE451D68243A0047B63E /* AppDelegate.swift */; };
-		2465CE481D68243A0047B63E /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2465CE471D68243A0047B63E /* MenuScene.sks */; };
 		2465CE4A1D68243A0047B63E /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE491D68243A0047B63E /* MenuScene.swift */; };
 		2465CE4C1D68243A0047B63E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE4B1D68243A0047B63E /* GameViewController.swift */; };
 		2465CE4F1D68243A0047B63E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2465CE4D1D68243A0047B63E /* Main.storyboard */; };
@@ -45,14 +45,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		241AAD1E1D6B4EA200116717 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
+		241AAD201D6B52A400116717 /* earth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earth.png; sourceTree = "<group>"; };
 		245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locationIndicator@2x.png"; sourceTree = "<group>"; };
 		245B20B41D6A6DB400C803B8 /* pausebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pausebutton.png; sourceTree = "<group>"; };
 		245B20B61D6A872B00C803B8 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		245B20BA1D6AB9A100C803B8 /* asteroid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid.png; sourceTree = "<group>"; };
-		245B20BE1D6AC23900C803B8 /* earth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earth.png; sourceTree = "<group>"; };
 		2465CE421D68243A0047B63E /* From All Sides.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "From All Sides.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2465CE451D68243A0047B63E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2465CE471D68243A0047B63E /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		2465CE491D68243A0047B63E /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		2465CE4B1D68243A0047B63E /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		2465CE4E1D68243A0047B63E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 				245B20B41D6A6DB400C803B8 /* pausebutton.png */,
 				245B20B61D6A872B00C803B8 /* star.png */,
 				245B20BA1D6AB9A100C803B8 /* asteroid.png */,
-				245B20BE1D6AC23900C803B8 /* earth.png */,
+				241AAD201D6B52A400116717 /* earth.png */,
 			);
 			sourceTree = "<group>";
 		};
@@ -128,7 +128,7 @@
 			children = (
 				2465CE451D68243A0047B63E /* AppDelegate.swift */,
 				2465CE4B1D68243A0047B63E /* GameViewController.swift */,
-				2465CE471D68243A0047B63E /* MenuScene.sks */,
+				241AAD1E1D6B4EA200116717 /* MenuScene.sks */,
 				2465CE491D68243A0047B63E /* MenuScene.swift */,
 				24D1A5081D68D1BB002B7E63 /* GameScene.sks */,
 				2465CE771D6826F90047B63E /* GameScene.swift */,
@@ -264,13 +264,13 @@
 			files = (
 				24D1A50D1D68D5F1002B7E63 /* player.png in Resources */,
 				245B20B71D6A872B00C803B8 /* star.png in Resources */,
-				2465CE481D68243A0047B63E /* MenuScene.sks in Resources */,
 				245B20B51D6A6DB400C803B8 /* pausebutton.png in Resources */,
 				245B20BB1D6AB9A100C803B8 /* asteroid.png in Resources */,
 				24D1A5091D68D1BB002B7E63 /* GameScene.sks in Resources */,
 				245B20B31D6A0D3E00C803B8 /* locationIndicator@2x.png in Resources */,
 				2465CE541D68243A0047B63E /* LaunchScreen.storyboard in Resources */,
-				245B20BF1D6AC23900C803B8 /* earth.png in Resources */,
+				241AAD1F1D6B4EA200116717 /* MenuScene.sks in Resources */,
+				241AAD211D6B52A400116717 /* earth.png in Resources */,
 				24D1A50F1D68E053002B7E63 /* projectile.png in Resources */,
 				2465CE511D68243A0047B63E /* Assets.xcassets in Resources */,
 				2465CE4F1D68243A0047B63E /* Main.storyboard in Resources */,

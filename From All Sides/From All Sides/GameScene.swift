@@ -107,6 +107,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupPlayer() {
         player = SKSpriteNode(imageNamed: "earth")
         player.position = CGPoint(x: size.width/2, y: size.height/2)
+        player.xScale = 2
+        player.yScale = 2
         
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.height/2)
         player.physicsBody?.dynamic = true
@@ -218,6 +220,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Chooses side projectile is launched from randomly
         whatSide = Int(random(0, max: 4))
         
+        switch whatSide {
+        case 0: //Right
+            beginY = random(projSize, max: size.height - projSize)
+            endY = random(projSize, max: size.height - projSize)            
+            projectile.position = CGPoint(x: size.width + projSize, y: beginY)
+            actionMove = SKAction.moveTo(CGPoint(x: -projSize, y: endY), duration: projectileSpeed)
+            break
+        case 1: //Top
+            beginX = random(projSize, max: size.width - projSize)
+            endX = random(projSize, max: size.width - projSize)
+            projectile.position = CGPoint(x: beginX, y: size.height + projSize)
+            actionMove = SKAction.moveTo(CGPoint(x: endX, y: -projSize), duration: projectileSpeed)
+            break
+        case 2: //Left
+            beginY = random(projSize, max: size.height - projSize)
+            endY = random(projSize, max: size.height - projSize)
+            projectile.position = CGPoint(x: -projSize, y: beginY)
+            actionMove = SKAction.moveTo(CGPoint(x: size.width + projSize, y: endY), duration: projectileSpeed)
+            break
+        case 3: //Bottom
+            beginX = random(projSize, max: size.width - projSize)
+            endX = random(projSize, max: size.width - projSize)
+            projectile.position = CGPoint(x: beginX, y: -projSize)
+            actionMove = SKAction.moveTo(CGPoint(x: endX, y: size.height + projSize), duration: projectileSpeed)
+            break
+        default:
+            print("There was an error in projectile selection - restart the game")
+        }
+        
+        /*
         if whatSide == 0{ //Right
             beginY = random(projSize, max: size.height - projSize)
             endY = random(projSize, max: size.height - projSize)
@@ -246,7 +278,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             projectile.position = CGPoint(x: beginX, y: -projSize)
             actionMove = SKAction.moveTo(CGPoint(x: endX, y: size.height + projSize), duration: projectileSpeed)
 
-        }
+        }*/
         
         //Adds projectile to the scene
         addChild(projectile)
