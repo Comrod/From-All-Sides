@@ -23,6 +23,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Initialize MotionManager
     let motionManager: CMMotionManager = CMMotionManager()
     
+    //NSUserDefaults to store data like high score
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
     //Initialize Player
     var player = SKSpriteNode()
     var playerSpeed:CGFloat = 30
@@ -132,7 +135,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("Attitude X: " + String(self.attitudeX))
                 
                 self.movePlayer()
-                
             })
         }
     }
@@ -349,6 +351,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         NSOperationQueue.currentQueue()!.cancelAllOperations() //May or may not need
         print(motionManager.deviceMotionActive)
         
+        defaults.setInteger(score, forKey: "score") //Save the score
+        if score > defaults.integerForKey("highScore") { //Saving new high score
+            defaults.setInteger(score, forKey: "highScore")
+        }
+        
+        
         NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: #selector(goToGameOver), userInfo: nil, repeats: false)
 
     }
@@ -361,7 +369,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scene?.view?.presentScene(nextScene, transition: transition) //transitions to menuscene
         print("Went to GameOverScene")
     }
-    
+
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         /* Called when a touch begins */
         

@@ -14,32 +14,39 @@ class GameOverScene: SKScene {
     var starY = CGFloat()
     let numOfStars = 20
     
+    //NSUserDefaults to store data like high score
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
+    var recentScore = String()
+    
     override func didMoveToView(view: SKView) {
         
         //Make Background
         makeBackground()
      
-        //Game Over Label
-        let gameOverLabel = SKLabelNode(fontNamed:"AlNile-Bold")
-        gameOverLabel.text = "Game Over"
-        gameOverLabel.fontSize = 60
-        gameOverLabel.position = CGPoint(x: size.width/2, y: (3/4)*size.height)
+        recentScore = String(defaults.integerForKey("score"))
+        
+        //Score Label
+        let scoreLabel = SKLabelNode(fontNamed:"ArialMT")
+        scoreLabel.text = "Final Score — " + recentScore //do not be mistaken, the dash is actually an em dash
+        scoreLabel.fontSize = 70
+        scoreLabel.position = CGPoint(x: size.width/2, y: (3/4)*size.height)
        
         //Play Again Label
-        let playAgainLabel = SKLabelNode(fontNamed: "AlNile-Bold")
+        let playAgainLabel = SKLabelNode(fontNamed: "ArialMT")
         playAgainLabel.name = "playAgainLabel"
         playAgainLabel.text = "Play Again"
-        playAgainLabel.fontSize = 40
+        playAgainLabel.fontSize = 50
         playAgainLabel.position = CGPoint(x: size.width/2, y: (1/2)*size.height)
         
         //Menu Label
-        let menuLabel = SKLabelNode(fontNamed: "AlNile-Bold")
+        let menuLabel = SKLabelNode(fontNamed: "ArialMT")
         menuLabel.name = "menuLabel"
         menuLabel.text = "Main Menu"
-        menuLabel.fontSize = 40
+        menuLabel.fontSize = 50
         menuLabel.position = CGPoint(x: size.width/2, y: (1/4)*size.height)
         
-        self.addChild(gameOverLabel)
+        self.addChild(scoreLabel)
         self.addChild(playAgainLabel)
         self.addChild(menuLabel)
         

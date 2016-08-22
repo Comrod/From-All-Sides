@@ -14,25 +14,34 @@ class MenuScene: SKScene {
     var starY = CGFloat()
     let numOfStars = 20
     
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
         //Make Background
         makeBackground()
         
-        let titleLabel = SKLabelNode(fontNamed:"AlNile-Bold")
+        let titleLabel = SKLabelNode(fontNamed:"ArialMT")
         titleLabel.text = "Avoid The Asteroids!"
         titleLabel.fontSize = 60
+        
         titleLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
         
-        let playLabel = SKLabelNode(fontNamed: "AlNile-Bold")
+        let playLabel = SKLabelNode(fontNamed: "ArialMT")
         playLabel.name = "playLabel"
         playLabel.text = "Play"
         playLabel.fontSize = 45
         playLabel.position = CGPoint(x:size.width/2, y:size.height/2)
         
+        let highScoreLabel = SKLabelNode(fontNamed: "ArialMT")
+        highScoreLabel.text = "High Score - " + String(defaults.integerForKey("highScore")) //That dash is an em dash
+        highScoreLabel.fontSize = 35
+        highScoreLabel.position = CGPoint(x: size.width/2, y: (1/4)*size.height)
+        
         self.addChild(titleLabel)
         self.addChild(playLabel)
+        self.addChild(highScoreLabel)
     }
     
     //Make background black with stars
