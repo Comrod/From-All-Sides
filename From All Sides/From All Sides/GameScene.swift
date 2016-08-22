@@ -44,6 +44,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var endX = CGFloat()
     var endY = CGFloat()
     
+    
+    //Star Locations
+    var starX = CGFloat()
+    var starY = CGFloat()
+    
+    //Number of Stars
+    let numOfStars = 20
+    
     //Score
     var score = 0 //Counter that is incremented
     var scoreLabel: SKLabelNode!
@@ -53,11 +61,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMoveToView(view: SKView) {
+        
         //Physics World
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         
-        
+        makeBackground()//Make the Background
         setupScoreLabel()//Score Label Setup
         setupPauseButton()//Pause Button Setup
         setupPlayer()//Player setup
@@ -69,7 +78,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Add Projectiles
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "projectileAction")
         
+
     }
+    
+    //Make background black with stars
+    func makeBackground(){
+        self.view!.backgroundColor = SKColor.blackColor() //sets background to black like the night sky
+        
+        runAction(SKAction.repeatAction(SKAction.runBlock(addStars), count: numOfStars), withKey: "addStars")
+    }
+    
+    //Add stars to the background
+    func addStars() {
+        
+        let star = SKSpriteNode(imageNamed: "star")
+        star.xScale = 0.5
+        star.yScale = 0.5
+        let starSize = star.size.height
+        starX = random(starSize, max: size.width - starSize)
+        starY = random(starSize, max: size.height - starSize)
+        
+        star.position = CGPoint(x: starX, y: starY)
+        star.zPosition = -1.0
+
+        self.addChild(star)
+    }
+    
     
     //Setup Player
     func setupPlayer() {
