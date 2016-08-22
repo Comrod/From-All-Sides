@@ -105,8 +105,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Setup Player
     func setupPlayer() {
-        player = SKSpriteNode(imageNamed: "player")
-        player.position = CGPoint(x: size.width/4, y: size.height/2)
+        player = SKSpriteNode(imageNamed: "earth")
+        player.position = CGPoint(x: size.width/2, y: size.height/2)
         
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.height/2)
         player.physicsBody?.dynamic = true
