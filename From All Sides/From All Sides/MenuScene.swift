@@ -21,7 +21,7 @@ class MenuScene: SKScene {
         makeBackground()
         
         let titleLabel = SKLabelNode(fontNamed:"AlNile-Bold")
-        titleLabel.text = "From All Sides"
+        titleLabel.text = "Avoid The Asteroids!"
         titleLabel.fontSize = 60
         titleLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
         

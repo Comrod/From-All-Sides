@@ -71,8 +71,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupPauseButton()//Pause Button Setup
         setupPlayer()//Player setup
         print("player setup")
-        getDeviceAttitude()//Gets attitude of device and moves player
-        //NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(getDeviceAttitude), userInfo: nil, repeats: false) //Delays player movement so scene has enough time to load
+        //getDeviceAttitude()//Gets attitude of device and moves player
+        NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(getDeviceAttitude), userInfo: nil, repeats: false) //Delays player movement so scene has enough time to load
         
         
         //Add Projectiles
@@ -156,6 +156,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupPauseButton() {
         pauseButton = SKSpriteNode(imageNamed: "pausebutton")
         pauseButton.position = CGPoint(x:size.width/2, y:(4/5)*size.height)
+        pauseButton.zPosition = -0.5
         pauseButton.name = "pauseButton"
         self.addChild(pauseButton)
     }
