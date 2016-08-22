@@ -84,25 +84,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Make background black with stars
     func makeBackground(){
-        backgroundColor = UIColor(red:0.00, green:0.00, blue:0.00, alpha:1.0)//sets background to black like the night sky
+        
+        func addStars() {
+            
+            let star = SKSpriteNode(imageNamed: "star")
+            star.xScale = 0.5
+            star.yScale = 0.5
+            let starSize = star.size.height
+            starX = random(starSize, max: size.width - starSize)
+            starY = random(starSize, max: size.height - starSize)
+            
+            star.position = CGPoint(x: starX, y: starY)
+            star.zPosition = -1.0
+            
+            self.addChild(star)
+        }
+        
+        backgroundColor = SKColor.blackColor()//sets background to black like the night sky
         
         runAction(SKAction.repeatAction(SKAction.runBlock(addStars), count: numOfStars), withKey: "addStars")
-    }
-    
-    //Add stars to the background
-    func addStars() {
-        
-        let star = SKSpriteNode(imageNamed: "star")
-        star.xScale = 0.5
-        star.yScale = 0.5
-        let starSize = star.size.height
-        starX = random(starSize, max: size.width - starSize)
-        starY = random(starSize, max: size.height - starSize)
-        
-        star.position = CGPoint(x: starX, y: starY)
-        star.zPosition = -1.0
-
-        self.addChild(star)
     }
     
     

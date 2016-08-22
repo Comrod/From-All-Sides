@@ -10,6 +10,7 @@
 		241AAD1F1D6B4EA200116717 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 241AAD1E1D6B4EA200116717 /* MenuScene.sks */; };
 		241AAD211D6B52A400116717 /* earth.png in Resources */ = {isa = PBXBuildFile; fileRef = 241AAD201D6B52A400116717 /* earth.png */; };
 		241AAD231D6B534B00116717 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241AAD221D6B534B00116717 /* GameOverScene.swift */; };
+		241AAD251D6B650000116717 /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241AAD241D6B650000116717 /* SettingsScene.swift */; };
 		245B20B31D6A0D3E00C803B8 /* locationIndicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */; };
 		245B20B51D6A6DB400C803B8 /* pausebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B41D6A6DB400C803B8 /* pausebutton.png */; };
 		245B20B71D6A872B00C803B8 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B61D6A872B00C803B8 /* star.png */; };
@@ -49,6 +50,7 @@
 		241AAD1E1D6B4EA200116717 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		241AAD201D6B52A400116717 /* earth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earth.png; sourceTree = "<group>"; };
 		241AAD221D6B534B00116717 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		241AAD241D6B650000116717 /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locationIndicator@2x.png"; sourceTree = "<group>"; };
 		245B20B41D6A6DB400C803B8 /* pausebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pausebutton.png; sourceTree = "<group>"; };
 		245B20B61D6A872B00C803B8 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				2465CE4B1D68243A0047B63E /* GameViewController.swift */,
 				241AAD1E1D6B4EA200116717 /* MenuScene.sks */,
 				2465CE491D68243A0047B63E /* MenuScene.swift */,
+				241AAD241D6B650000116717 /* SettingsScene.swift */,
 				24D1A5081D68D1BB002B7E63 /* GameScene.sks */,
 				2465CE771D6826F90047B63E /* GameScene.swift */,
 				241AAD221D6B534B00116717 /* GameOverScene.swift */,
@@ -304,6 +307,7 @@
 				241AAD231D6B534B00116717 /* GameOverScene.swift in Sources */,
 				2465CE4A1D68243A0047B63E /* MenuScene.swift in Sources */,
 				2465CE4C1D68243A0047B63E /* GameViewController.swift in Sources */,
+				241AAD251D6B650000116717 /* SettingsScene.swift in Sources */,
 				2465CE781D6826F90047B63E /* GameScene.swift in Sources */,
 				2465CE461D68243A0047B63E /* AppDelegate.swift in Sources */,
 			);

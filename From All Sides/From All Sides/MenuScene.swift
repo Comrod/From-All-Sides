@@ -23,49 +23,59 @@ class MenuScene: SKScene {
         makeBackground()
         
         let titleLabel = SKLabelNode(fontNamed:"ArialMT")
-        titleLabel.text = "Avoid The Asteroids!"
-        titleLabel.fontSize = 60
+        titleLabel.text = "Avoid The Asteroids"
+        titleLabel.fontSize = 80
         
         titleLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
         
         let playLabel = SKLabelNode(fontNamed: "ArialMT")
         playLabel.name = "playLabel"
         playLabel.text = "Play"
-        playLabel.fontSize = 45
-        playLabel.position = CGPoint(x:size.width/2, y:size.height/2)
+        playLabel.fontSize = 55
+        playLabel.position = CGPoint(x:size.width/2, y:(3/5)*size.height)
+        
+        let settingsLabel = SKLabelNode(fontNamed: "ArialMT")
+        settingsLabel.name = "settingsLabel"
+        settingsLabel.text = "Settings"
+        settingsLabel.fontSize = 55
+        settingsLabel.position = CGPoint(x:size.width/2, y:(2/5)*size.height)
         
         let highScoreLabel = SKLabelNode(fontNamed: "ArialMT")
         highScoreLabel.text = "High Score - " + String(defaults.integerForKey("highScore")) //That dash is an em dash
         highScoreLabel.fontSize = 35
-        highScoreLabel.position = CGPoint(x: size.width/2, y: (1/4)*size.height)
+        highScoreLabel.position = CGPoint(x: size.width/2, y: (1/5)*size.height)
+        
         
         self.addChild(titleLabel)
         self.addChild(playLabel)
+        self.addChild(settingsLabel)
         self.addChild(highScoreLabel)
     }
     
-    //Make background black with stars
     func makeBackground(){
+        
+        func addStars() {
+            
+            let star = SKSpriteNode(imageNamed: "star")
+            star.xScale = 0.5
+            star.yScale = 0.5
+            let starSize = star.size.height
+            starX = random(starSize, max: size.width - starSize)
+            starY = random(starSize, max: size.height - starSize)
+            
+            star.position = CGPoint(x: starX, y: starY)
+            star.zPosition = -1.0
+            
+            self.addChild(star)
+        }
+        
         backgroundColor = SKColor.blackColor()//sets background to black like the night sky
         
         runAction(SKAction.repeatAction(SKAction.runBlock(addStars), count: numOfStars), withKey: "addStars")
     }
     
     //Add stars to the background
-    func addStars() {
-        
-        let star = SKSpriteNode(imageNamed: "star")
-        star.xScale = 0.5
-        star.yScale = 0.5
-        let starSize = star.size.height
-        starX = random(starSize, max: size.width - starSize)
-        starY = random(starSize, max: size.height - starSize)
-        
-        star.position = CGPoint(x: starX, y: starY)
-        star.zPosition = -1.0
-        
-        self.addChild(star)
-    }
+
 
     //Create random number
     func randNum() -> CGFloat {
@@ -95,6 +105,15 @@ class MenuScene: SKScene {
                     nextScene.scaleMode = .AspectFill
        
                     scene?.view?.presentScene(nextScene, transition: transition) //transitions to gamescene
+                }
+                else if name == "settingsLabel" {
+                    print("Tapped Settings")
+                    
+                    let transition = SKTransition.fadeWithDuration(1.0)
+                    let nextScene = SettingScene(size: scene!.size)
+                    nextScene.scaleMode = .AspectFill
+                    
+                    scene?.view?.presentScene(nextScene, transition: transition) //transitions to settingsscene
                 }
             }
         }

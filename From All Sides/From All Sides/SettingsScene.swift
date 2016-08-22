@@ -1,5 +1,5 @@
 //
-//  GameOverScene.swift
+//  SettingsScene.swift
 //  From All Sides
 //
 //  Created by Cormac Chester on 8/22/16.
@@ -8,50 +8,34 @@
 
 import SpriteKit
 
-class GameOverScene: SKScene {
+class SettingScene: SKScene {
     
     var starX = CGFloat()
     var starY = CGFloat()
     let numOfStars = 20
     
-    //NSUserDefaults to store data like high score
-    let defaults = NSUserDefaults.standardUserDefaults()
-    
-    var recentScore = String()
-    
     override func didMoveToView(view: SKView) {
         
+        //Make background
         makeBackground()
-     
-        recentScore = String(defaults.integerForKey("score"))
         
-        //Score Label
-        let scoreLabel = SKLabelNode(fontNamed:"ArialMT")
-        scoreLabel.text = "Final Score — " + recentScore //do not be mistaken, the dash is actually an em dash
-        scoreLabel.fontSize = 70
-        scoreLabel.position = CGPoint(x: size.width/2, y: (3/4)*size.height)
-       
-        //Play Again Label
-        let playAgainLabel = SKLabelNode(fontNamed: "ArialMT")
-        playAgainLabel.name = "playAgainLabel"
-        playAgainLabel.text = "Play Again"
-        playAgainLabel.fontSize = 50
-        playAgainLabel.position = CGPoint(x: size.width/2, y: (1/2)*size.height)
+        //Settings Label
+        let settingsLabel = SKLabelNode(fontNamed: "ArialMT")
+        settingsLabel.text = "Settings"
+        settingsLabel.fontSize = 80
+        settingsLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
         
-        //Menu Label
-        let menuLabel = SKLabelNode(fontNamed: "ArialMT")
-        menuLabel.name = "menuLabel"
-        menuLabel.text = "Main Menu"
-        menuLabel.fontSize = 50
-        menuLabel.position = CGPoint(x: size.width/2, y: (1/4)*size.height)
+        //Back to menu Label
+        let backLabel = SKLabelNode(fontNamed: "ArialMT")
+        backLabel.name = "backLabel"
+        backLabel.text = "Back"
+        backLabel.fontSize = 55
+        backLabel.position = CGPoint(x:size.width/2, y:(1/5)*size.height)
         
-        self.addChild(scoreLabel)
-        self.addChild(playAgainLabel)
-        self.addChild(menuLabel)
-        
+        self.addChild(settingsLabel)
+        self.addChild(backLabel)
     }
     
-    //Make background black with stars
     func makeBackground(){
         
         func addStars() {
@@ -94,26 +78,17 @@ class GameOverScene: SKScene {
             let touchedNode = self.nodeAtPoint(location)
             
             if let name = touchedNode.name {
-                if name == "playAgainLabel" { //if play label is tapped
-                    print("Tapped Play Again")
-                    
-                    let transition = SKTransition.fadeWithDuration(1.0)
-                    let nextScene = GameScene(size: scene!.size)
-                    nextScene.scaleMode = .AspectFill
- 
-                    scene?.view?.presentScene(nextScene, transition: transition) //transitions to gamescene
-    
-                }
-                else if name == "menuLabel" {
+                if name == "backLabel" { //if play label is tapped
+                    print("Tapped Back")
                     
                     let transition = SKTransition.fadeWithDuration(1.0)
                     let nextScene = MenuScene(size: scene!.size)
                     nextScene.scaleMode = .AspectFill
                     
-                    scene?.view?.presentScene(nextScene, transition: transition) //transition to menuscene
+                    scene?.view?.presentScene(nextScene, transition: transition) //transitions to menuscene
+                    
                 }
             }
         }
     }
-    
 }
