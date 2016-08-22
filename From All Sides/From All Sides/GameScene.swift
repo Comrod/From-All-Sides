@@ -349,17 +349,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         NSOperationQueue.currentQueue()!.cancelAllOperations() //May or may not need
         print(motionManager.deviceMotionActive)
         
-        NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: #selector(goToMenu), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: #selector(goToGameOver), userInfo: nil, repeats: false)
 
     }
     
     //Transition back to main menu
-    func goToMenu() {
+    func goToGameOver() {
         let transition = SKTransition.fadeWithDuration(0.25)
-        let nextScene = MenuScene(size: scene!.size)
+        let nextScene = GameOverScene(size: scene!.size)
         nextScene.scaleMode = .AspectFill
         scene?.view?.presentScene(nextScene, transition: transition) //transitions to menuscene
-        print("Went back to MenuScene")
+        print("Went to GameOverScene")
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

@@ -1,38 +1,48 @@
 //
-//  MenuScene.swift
+//  GameOverScene.swift
 //  From All Sides
 //
-//  Created by Cormac Chester on 8/20/16.
-//  Copyright (c) 2016 Cormac Chester. All rights reserved.
+//  Created by Cormac Chester on 8/22/16.
+//  Copyright © 2016 Cormac Chester. All rights reserved.
 //
 
 import SpriteKit
 
-class MenuScene: SKScene {
+class GameOverScene: SKScene {
     
     var starX = CGFloat()
     var starY = CGFloat()
     let numOfStars = 20
     
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
         
         //Make Background
         makeBackground()
+     
+        //Game Over Label
+        let gameOverLabel = SKLabelNode(fontNamed:"AlNile-Bold")
+        gameOverLabel.text = "Game Over"
+        gameOverLabel.fontSize = 60
+        gameOverLabel.position = CGPoint(x: size.width/2, y: (3/4)*size.height)
+       
+        //Play Again Label
+        let playAgainLabel = SKLabelNode(fontNamed: "AlNile-Bold")
+        playAgainLabel.name = "playAgainLabel"
+        playAgainLabel.text = "Play Again"
+        playAgainLabel.fontSize = 40
+        playAgainLabel.position = CGPoint(x: size.width/2, y: (1/2)*size.height)
         
-        let titleLabel = SKLabelNode(fontNamed:"AlNile-Bold")
-        titleLabel.text = "Avoid The Asteroids!"
-        titleLabel.fontSize = 60
-        titleLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
+        //Menu Label
+        let menuLabel = SKLabelNode(fontNamed: "AlNile-Bold")
+        menuLabel.name = "menuLabel"
+        menuLabel.text = "Main Menu"
+        menuLabel.fontSize = 40
+        menuLabel.position = CGPoint(x: size.width/2, y: (1/4)*size.height)
         
-        let playLabel = SKLabelNode(fontNamed: "AlNile-Bold")
-        playLabel.name = "playLabel"
-        playLabel.text = "Play"
-        playLabel.fontSize = 45
-        playLabel.position = CGPoint(x:size.width/2, y:size.height/2)
+        self.addChild(gameOverLabel)
+        self.addChild(playAgainLabel)
+        self.addChild(menuLabel)
         
-        self.addChild(titleLabel)
-        self.addChild(playLabel)
     }
     
     //Make background black with stars
@@ -57,7 +67,7 @@ class MenuScene: SKScene {
         
         self.addChild(star)
     }
-
+    
     //Create random number
     func randNum() -> CGFloat {
         return CGFloat(Float(arc4random())/0xFFFFFFFF)
@@ -70,7 +80,7 @@ class MenuScene: SKScene {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-       /* Called when a touch begins */
+        /* Called when a touch begins */
         
         for touch in touches {
             let location = touch.locationInNode(self)
@@ -78,20 +88,26 @@ class MenuScene: SKScene {
             let touchedNode = self.nodeAtPoint(location)
             
             if let name = touchedNode.name {
-                if name == "playLabel" { //if play label is tapped
-                    print("Tapped Play")
+                if name == "playAgainLabel" { //if play label is tapped
+                    print("Tapped Play Again")
                     
                     let transition = SKTransition.fadeWithDuration(1.0)
                     let nextScene = GameScene(size: scene!.size)
                     nextScene.scaleMode = .AspectFill
-       
+ 
                     scene?.view?.presentScene(nextScene, transition: transition) //transitions to gamescene
+    
+                }
+                else if name == "menuLabel" {
+                    
+                    let transition = SKTransition.fadeWithDuration(1.0)
+                    let nextScene = MenuScene(size: scene!.size)
+                    nextScene.scaleMode = .AspectFill
+                    
+                    scene?.view?.presentScene(nextScene, transition: transition) //transition to menuscene
                 }
             }
         }
     }
-   
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
-    }
+    
 }
