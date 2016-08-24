@@ -117,6 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Setup Player
     func setupPlayer() {
         player = SKSpriteNode(imageNamed: "earth")
+        player.name = "player"
         player.position = CGPoint(x: size.width/2, y: size.height/2)
         player.xScale = 2
         player.yScale = 2
@@ -333,6 +334,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Called when the player is hit by a projectile
     func playerHitByProjectile(projectile:SKSpriteNode, character:SKSpriteNode) {
         print("Hit")
+        killScene()
+    }
+    
+    func killScene() {
         self.removeAllChildren() //deletes all children from the scene (projectiles, player, scorelabel)
         self.removeAllActions()
         motionManager.stopDeviceMotionUpdates()
@@ -344,9 +349,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             defaults.setInteger(score, forKey: "highScore")
         }
         
-        
         NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: #selector(goToGameOver), userInfo: nil, repeats: false)
-
+        
     }
     
     //Transition back to main menu
@@ -365,10 +369,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if (node is SKSpriteNode) {
                 let sprite = node as! SKSpriteNode
                 // Check if the node is not in the scene
-                if (sprite.position.x < (-2)*sprite.size.width || sprite.position.x > self.size.width + (2)*sprite.size.width
-                    || sprite.position.y < (-2)*sprite.size.height || sprite.position.y > self.size.height + (2)*sprite.size.height) {
+                if (sprite.position.x < (-1.5)*sprite.size.width || sprite.position.x > self.size.width + (1.5)*sprite.size.width
+                    || sprite.position.y < (-1.5)*sprite.size.height || sprite.position.y > self.size.height + (1.5)*sprite.size.height) {
                     sprite.removeFromParent()
-                    self.incrementScoreDiff() //increment the score and the difficulty
+                    
+                    if sprite.name == "projectile" {
+                        self.incrementScoreDiff() //increment the score and the difficulty
+                    }
+                    
+                    if sprite.name == "player" { //player dies when he/she goes offscreen
+                        self.killScene()
+                    }
                 }
             }
         }

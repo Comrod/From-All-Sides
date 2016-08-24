@@ -15,7 +15,7 @@ class ProjectileNode: SKSpriteNode {
     class func projectile() -> ProjectileNode {
 
         let projectile = ProjectileNode(imageNamed: "asteroid")
-        
+        projectile.name = "projectile"
         projectile.xScale = 0.5
         projectile.yScale = 0.5
         
