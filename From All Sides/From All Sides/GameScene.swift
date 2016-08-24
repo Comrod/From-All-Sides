@@ -34,7 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Player Radial Gravity Field
     var playerGravityField = SKFieldNode()
     
-    var difficulty = 0.5 //The smaller the value, the more often a projectile is spawned
+    var difficulty = 1.5 //The smaller the value, the more often a projectile is spawned
     var difficCounter = 0 //Counter for difficulty method
     var minProjSpeed:CGFloat = 3.5 //maximum time in seconds for projectile to travel across the screen
     
@@ -132,11 +132,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(player)
     }
     
-    func setupPlayerGravityField () {
+    //Setup the Gravity Field that surrounds the player
+    func setupPlayerGravityField() {
         playerGravityField = SKFieldNode.radialGravityField()
         playerGravityField.enabled = true
         playerGravityField.position = player.position
-        playerGravityField.strength = 5
+        playerGravityField.strength = 3
         playerGravityField.falloff = 1.0
         playerGravityField.region = SKRegion(size: size) //gravity affects the entire scene
         playerGravityField.categoryBitMask = PhysicsCategory.PlayerGravity
@@ -193,23 +194,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if scene!.view!.paused { //if the scene is paused
             scene!.view!.paused = false
-            
             getDeviceAttitude() //Restart getting device attitutde
-            
-            
             print("Scene is resumed")
         }
         else { //if the scene isn't paused
             scene!.view!.paused = true
-            
             motionManager.stopDeviceMotionUpdates()
             NSOperationQueue.currentQueue()!.cancelAllOperations() //May or may not need
-            
-            /*if let action = projectile.actionForKey("projectileAction") {
-                
-                action.speed = 0
-            }*/
-            
             print("Scene is paused")
         }
     }
@@ -238,11 +229,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         projectile.physicsBody?.friction = 0
         
         addChild(projectile)
-        
-        //projectile.physicsBody?.applyImpulse(CGVectorMake(-500, 0))
-        
-        //Initialize projectile
-        //let projectileSpeed = NSTimeInterval(random(2.0, max: minProjSpeed)) //Chooses speed of projectile from 1
         
         //Chooses side projectile is launched from randomly
         whatSide = Int(random(0, max: 2))
@@ -370,6 +356,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         nextScene.scaleMode = .AspectFill
         scene?.view?.presentScene(nextScene, transition: transition) //transitions to menuscene
         print("Went to GameOverScene")
+    }
+    
+    override func update(currentTime: NSTimeInterval) {
+        // Loop over all nodes in the scene
+        self.enumerateChildNodesWithName("*") {
+            node, stop in
+            if (node is SKSpriteNode) {
+                let sprite = node as! SKSpriteNode
+                // Check if the node is not in the scene
+                if (sprite.position.x < (-2)*sprite.size.width || sprite.position.x > self.size.width + (2)*sprite.size.width
+                    || sprite.position.y < (-2)*sprite.size.height || sprite.position.y > self.size.height + (2)*sprite.size.height) {
+                    sprite.removeFromParent()
+                    self.incrementScoreDiff() //increment the score and the difficulty
+                }
+            }
+        }
     }
 
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
