@@ -48,8 +48,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Projectile Locations
     var beginX = CGFloat()
     var beginY = CGFloat()
-    var endX = CGFloat()
-    var endY = CGFloat()
+    var impulseX = CGFloat()
+    var impulseY = CGFloat()
     
     //Star Locations
     var starX = CGFloat()
@@ -72,6 +72,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Physics World
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
+        self.physicsBody?.friction = 0
+        
         
         makeBackground()//Make the Background
         setupScoreLabel()//Score Label Setup
@@ -134,7 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerGravityField = SKFieldNode.radialGravityField()
         playerGravityField.enabled = true
         playerGravityField.position = player.position
-        playerGravityField.strength = 0.3
+        playerGravityField.strength = 5
         playerGravityField.falloff = 1.0
         playerGravityField.region = SKRegion(size: size) //gravity affects the entire scene
         playerGravityField.categoryBitMask = PhysicsCategory.PlayerGravity
@@ -226,57 +228,62 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Add Projectiles - method run for every projectile spawned
     func projectileFlightCalc() {
         
-        //Initialize projectile
-        let projectile = SKSpriteNode(imageNamed: "asteroid")
-        
-        projectile.xScale = 0.5
-        projectile.yScale = 0.5
-        
-        let projectileSpeed = NSTimeInterval(random(2.0, max: minProjSpeed)) //Chooses speed of projectile from 1
+        let projectile = ProjectileNode.projectile()
         
         //Value for size of projectile
         let projSize = projectile.size.height
         
-        //Move Projectile Action
-        var actionMove = SKAction()
+        projectile.position = CGPoint (x: size.width - projSize, y: (1/2)*size.height)
+        
+        projectile.physicsBody?.friction = 0
+        
+        addChild(projectile)
+        
+        //projectile.physicsBody?.applyImpulse(CGVectorMake(-500, 0))
+        
+        //Initialize projectile
+        //let projectileSpeed = NSTimeInterval(random(2.0, max: minProjSpeed)) //Chooses speed of projectile from 1
         
         //Chooses side projectile is launched from randomly
-        whatSide = Int(random(0, max: 4))
-        
+        whatSide = Int(random(0, max: 2))
+    
         switch whatSide {
         case 0: //Right
             beginY = random(projSize, max: size.height - projSize)
-            endY = random(projSize, max: size.height - projSize)            
             projectile.position = CGPoint(x: size.width + projSize, y: beginY)
-            actionMove = SKAction.moveTo(CGPoint(x: -projSize, y: endY), duration: projectileSpeed)
+            impulseX = random(-50, max: -500)
+            impulseY = random(-100, max: 100)
             break
         case 1: //Top
             beginX = random(projSize, max: size.width - projSize)
-            endX = random(projSize, max: size.width - projSize)
+            
             projectile.position = CGPoint(x: beginX, y: size.height + projSize)
-            actionMove = SKAction.moveTo(CGPoint(x: endX, y: -projSize), duration: projectileSpeed)
+            impulseX = random(-100, max: 100)
+            impulseY = random(-50, max: -500)
+            //actionMove = SKAction.moveTo(CGPoint(x: endX, y: -projSize), duration: projectileSpeed)
             break
         case 2: //Left
             beginY = random(projSize, max: size.height - projSize)
-            endY = random(projSize, max: size.height - projSize)
+            
             projectile.position = CGPoint(x: -projSize, y: beginY)
-            actionMove = SKAction.moveTo(CGPoint(x: size.width + projSize, y: endY), duration: projectileSpeed)
+            impulseX = random(50, max: 500)
+            impulseY = random(-100, max: 100)
             break
         case 3: //Bottom
             beginX = random(projSize, max: size.width - projSize)
-            endX = random(projSize, max: size.width - projSize)
+            
             projectile.position = CGPoint(x: beginX, y: -projSize)
-            actionMove = SKAction.moveTo(CGPoint(x: endX, y: size.height + projSize), duration: projectileSpeed)
+            impulseX = random(-100, max: 100)
+            impulseY = random(50, max: 500)
             break
         default:
             print("There was an error in projectile selection - restart the game")
         }
-        
-        //Adds projectile to the scene
-        addChild(projectile)
+
+        projectile.physicsBody?.applyImpulse(CGVectorMake(impulseX, impulseY))
         
         //Add back when figuring out collision physics
-        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.height/2)
+        /*projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.height/2)
         projectile.physicsBody?.dynamic = true
         projectile.physicsBody?.affectedByGravity = true
         projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile //What category the projectile belongs to
@@ -285,13 +292,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         projectile.physicsBody?.fieldBitMask = PhysicsCategory.PlayerGravity //What category of fields it interacts with
         projectile.physicsBody?.usesPreciseCollisionDetection = false
         projectile.physicsBody?.restitution = 0.7 //bounciness of projectile
-        projectile.physicsBody?.mass = 15
+        projectile.physicsBody?.mass = 15*/
         
         
-        let actionMoveDone = SKAction.removeFromParent()
+        /*let actionMoveDone = SKAction.removeFromParent()
         projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]), completion: {
             self.incrementScoreDiff() //Increment the score - score only increases once the projectile has passed by the entire screen
-        })
+        })*/
     }
     
     //Called when two physics bodies contact eachother
