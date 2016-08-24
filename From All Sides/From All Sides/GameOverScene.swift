@@ -98,7 +98,6 @@ class GameOverScene: SKScene {
             
             if let name = touchedNode.name {
                 if name == "playAgainLabel" { //if play label is tapped
-                    print("Tapped Play Again")
                 }
                 else if name == "menuLabel" {
 

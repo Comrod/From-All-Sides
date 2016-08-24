@@ -46,11 +46,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Incremental variable for indicating what side a projectile will spawned
     var whatSide = 0
     
-    //Projectile Locations
+    //Projectile and Irregular Asteroid Data
     var beginX = CGFloat()
     var beginY = CGFloat()
     var impulseX = CGFloat()
     var impulseY = CGFloat()
+    var angularImpulse = CGFloat()
+    
     
     //Star Locations
     var starX = CGFloat()
@@ -270,6 +272,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("There was an error in projectile selection - restart the game")
         }
 
+        //Makes the projectile rotate in a random direction
+        angularImpulse = random(-0.1, max: 0.1)
+        projectile.physicsBody?.applyAngularImpulse(angularImpulse)
+        
         projectile.physicsBody?.applyImpulse(CGVectorMake(impulseX, impulseY))
     }
     
@@ -295,8 +301,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             irregAsteroid.position = CGPoint(x: size.width + irregASize, y: beginY)
             impulseX = random(-50, max: -500)
             impulseY = random(-100, max: 100)
-            
-            print("generating irregular asteroid")
+
             
             break
         case 1: //Top
@@ -323,6 +328,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("There was an error in irregular asteroid selection - restart the game")
         }
         
+        //Makes the irregular asteroid rotate in a random direction
+        angularImpulse = random(-0.1, max: 0.1)
+        irregAsteroid.physicsBody?.applyAngularImpulse(angularImpulse)
+        
         irregAsteroid.physicsBody?.applyImpulse(CGVectorMake(impulseX, impulseY))
     }
     
@@ -331,6 +340,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
+        
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
             firstBody = contact.bodyA
             secondBody = contact.bodyB
@@ -342,7 +352,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Checks to see if 2 physics bodies collided
         if ((firstBody.categoryBitMask & PhysicsCategory.Player != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Projectile | PhysicsCategory.IrregularAsteroid != 0)) {
-            playerHitByProjectile(firstBody.node as! SKSpriteNode, character: secondBody.node as! SKSpriteNode)
+            
+            print("Hit")
+            killScene()
+            
+            //playerHitByProjectile(firstBody.node as! SKSpriteNode, character: secondBody.node as! SKSpriteNode)
         }
         
     }

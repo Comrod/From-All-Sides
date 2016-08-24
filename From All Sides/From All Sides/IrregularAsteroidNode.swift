@@ -68,12 +68,12 @@ class IrregularAsteroidNode: SKSpriteNode {
             
             physics.dynamic = true
             physics.affectedByGravity = false
-            physics.categoryBitMask = PhysicsCategory.IrregularAsteroid //What category the projectile belongs to
+            physics.categoryBitMask = PhysicsCategory.IrregularAsteroid //What category the irregular asteroid belongs to
             physics.contactTestBitMask = PhysicsCategory.Player //What category it interacts with
             physics.collisionBitMask = PhysicsCategory.IrregularAsteroid | PhysicsCategory.Projectile //What category bounces off of it
             physics.fieldBitMask = PhysicsCategory.PlayerGravity //What category of fields it interacts with
             physics.usesPreciseCollisionDetection = true
-            physics.restitution = 0.7 //bounciness of projectile
+            physics.restitution = 0.7 //bounciness of irregular asteroid
             physics.mass = 1
         }
         
