@@ -14,25 +14,55 @@ class SettingScene: SKScene {
     var starY = CGFloat()
     let numOfStars = 20
     
+    var defaults = NSUserDefaults.standardUserDefaults()
+    
+    var playerSpeed = Float()
+    
+    let settingsLabel = SKLabelNode(fontNamed: "ArialMT")
+    let senseLabel = SKLabelNode(fontNamed: "ArialMT")
+    let decreaseSenseLabel = SKLabelNode(fontNamed: "ArialMT")
+    let increaseSenseLabel = SKLabelNode(fontNamed: "ArialMT")
+    let backLabel = SKLabelNode(fontNamed: "ArialMT")
+    
     override func didMoveToView(view: SKView) {
         
         //Make background
         makeBackground()
         
+        playerSpeed = defaults.floatForKey("playerSpeed")
+        
         //Settings Label
-        let settingsLabel = SKLabelNode(fontNamed: "ArialMT")
         settingsLabel.text = "Settings"
         settingsLabel.fontSize = 80
-        settingsLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
+        settingsLabel.position = CGPoint(x:size.width/2, y:(4/5)*size.height)
+        
+        //Sensitivity Label
+        senseLabel.text = "Tilt Sensitivity: " + String(playerSpeed)
+        senseLabel.fontSize = 55
+        senseLabel.position = CGPoint(x:(1/2)*size.width, y: (4/7)*size.height)
+
+        //Decrease Sensitivity Label
+        decreaseSenseLabel.name = "decSense"
+        decreaseSenseLabel.text = "<—" //is actually an em dash
+        decreaseSenseLabel.fontSize = 50
+        decreaseSenseLabel.position = CGPoint(x:(1/3)*size.width, y: size.height/2)
+        
+        //Increase Sensitivity Label
+        increaseSenseLabel.name = "incSense"
+        increaseSenseLabel.text = "—>" //is actually an em dash
+        increaseSenseLabel.fontSize = 50
+        increaseSenseLabel.position = CGPoint(x:(2/3)*size.width, y: size.height/2)
         
         //Back to menu Label
-        let backLabel = SKLabelNode(fontNamed: "ArialMT")
         backLabel.name = "backLabel"
         backLabel.text = "Back"
         backLabel.fontSize = 55
         backLabel.position = CGPoint(x:size.width/2, y:(1/5)*size.height)
         
         self.addChild(settingsLabel)
+        self.addChild(senseLabel)
+        self.addChild(decreaseSenseLabel)
+        self.addChild(increaseSenseLabel)
         self.addChild(backLabel)
     }
     
@@ -87,6 +117,18 @@ class SettingScene: SKScene {
                     
                     scene?.view?.presentScene(nextScene, transition: transition) //transitions to menuscene
                     
+                }
+                else if name == "decSense" { //decrease sensitivity label is tapped
+                    playerSpeed -= 2
+                    defaults.setFloat(playerSpeed, forKey: "playerSpeed")
+                    senseLabel.text = "Tilt Sensitivity: " + String(playerSpeed)
+                    print(playerSpeed)
+                }
+                else if name == "incSense" { //increase sensitivity label is tapped
+                    playerSpeed += 2
+                    defaults.setFloat(playerSpeed, forKey: "playerSpeed")
+                    senseLabel.text = "Tilt Sensitivity: " + String(playerSpeed)
+                    print(playerSpeed)
                 }
             }
         }

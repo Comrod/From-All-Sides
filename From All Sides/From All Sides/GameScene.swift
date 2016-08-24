@@ -47,7 +47,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var endX = CGFloat()
     var endY = CGFloat()
     
-    
     //Star Locations
     var starX = CGFloat()
     var starY = CGFloat()
@@ -62,8 +61,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Pause Button
     var pauseButton: SKSpriteNode!
     
-    
     override func didMoveToView(view: SKView) {
+        
+        playerSpeed = CGFloat(defaults.floatForKey("playerSpeed"))
         
         //Physics World
         physicsWorld.gravity = CGVectorMake(0, 0)
@@ -125,7 +125,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Gets attitude of device
     func getDeviceAttitude() {
         if motionManager.deviceMotionAvailable {
-            motionManager.deviceMotionUpdateInterval = 0.014
+            motionManager.deviceMotionUpdateInterval = 0.02
+            //motionManager.deviceMotionUpdateInterval = 0.014
             motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler: { (deviceMotionData, error) in
                 if (error != nil) {
                     print("\(error)")
@@ -250,37 +251,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         default:
             print("There was an error in projectile selection - restart the game")
         }
-        
-        /*
-        if whatSide == 0{ //Right
-            beginY = random(projSize, max: size.height - projSize)
-            endY = random(projSize, max: size.height - projSize)
-            
-            projectile.position = CGPoint(x: size.width + projSize, y: beginY)
-            actionMove = SKAction.moveTo(CGPoint(x: -projSize, y: endY), duration: projectileSpeed)
-        }
-        else if whatSide == 1{ //Top
-            beginX = random(projSize, max: size.width - projSize)
-            endX = random(projSize, max: size.width - projSize)
-            
-            projectile.position = CGPoint(x: beginX, y: size.height + projSize)
-            actionMove = SKAction.moveTo(CGPoint(x: endX, y: -projSize), duration: projectileSpeed)
-        }
-        else if whatSide == 2{ //Left
-            beginY = random(projSize, max: size.height - projSize)
-            endY = random(projSize, max: size.height - projSize)
-            
-            projectile.position = CGPoint(x: -projSize, y: beginY)
-            actionMove = SKAction.moveTo(CGPoint(x: size.width + projSize, y: endY), duration: projectileSpeed)
-        }
-        else if whatSide == 3{ //Bottom
-            beginX = random(projSize, max: size.width - projSize)
-            endX = random(projSize, max: size.width - projSize)
-            
-            projectile.position = CGPoint(x: beginX, y: -projSize)
-            actionMove = SKAction.moveTo(CGPoint(x: endX, y: size.height + projSize), duration: projectileSpeed)
-
-        }*/
         
         //Adds projectile to the scene
         addChild(projectile)

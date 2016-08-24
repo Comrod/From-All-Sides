@@ -10,8 +10,9 @@ import UIKit
 import SpriteKit
 
 class GameViewController: UIViewController {
-
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
         if let scene = MenuScene(fileNamed:"MenuScene") {

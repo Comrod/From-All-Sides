@@ -19,6 +19,10 @@ class GameOverScene: SKScene {
     
     var recentScore = String()
     
+    let scoreLabel = SKLabelNode(fontNamed:"ArialMT")
+    let playAgainLabel = SKLabelNode(fontNamed: "ArialMT")
+    let menuLabel = SKLabelNode(fontNamed: "ArialMT")
+    
     override func didMoveToView(view: SKView) {
         
         makeBackground()
@@ -26,20 +30,20 @@ class GameOverScene: SKScene {
         recentScore = String(defaults.integerForKey("score"))
         
         //Score Label
-        let scoreLabel = SKLabelNode(fontNamed:"ArialMT")
+        
         scoreLabel.text = "Final Score — " + recentScore //do not be mistaken, the dash is actually an em dash
         scoreLabel.fontSize = 70
         scoreLabel.position = CGPoint(x: size.width/2, y: (3/4)*size.height)
        
         //Play Again Label
-        let playAgainLabel = SKLabelNode(fontNamed: "ArialMT")
+        
         playAgainLabel.name = "playAgainLabel"
         playAgainLabel.text = "Play Again"
         playAgainLabel.fontSize = 50
         playAgainLabel.position = CGPoint(x: size.width/2, y: (1/2)*size.height)
         
         //Menu Label
-        let menuLabel = SKLabelNode(fontNamed: "ArialMT")
+        
         menuLabel.name = "menuLabel"
         menuLabel.text = "Main Menu"
         menuLabel.fontSize = 50
@@ -77,17 +81,34 @@ class GameOverScene: SKScene {
     //Create random number
     func randNum() -> CGFloat {
         return CGFloat(Float(arc4random())/0xFFFFFFFF)
-    }
-    
+    }    
     
     //Create random range
     func random(min: CGFloat , max: CGFloat) -> CGFloat {
         return randNum()*(max-min)+min
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) { //when the touch has began
         /* Called when a touch begins */
         
+        for touch in touches {
+            let location = touch.locationInNode(self)
+            
+            let touchedNode = self.nodeAtPoint(location)
+            
+            if let name = touchedNode.name {
+                if name == "playAgainLabel" { //if play label is tapped
+                    print("Tapped Play Again")
+                }
+                else if name == "menuLabel" {
+
+                }
+            }
+        }
+    }
+    
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) { //when the touch has ended
         for touch in touches {
             let location = touch.locationInNode(self)
             
@@ -100,9 +121,9 @@ class GameOverScene: SKScene {
                     let transition = SKTransition.fadeWithDuration(1.0)
                     let nextScene = GameScene(size: scene!.size)
                     nextScene.scaleMode = .AspectFill
- 
+                    
                     scene?.view?.presentScene(nextScene, transition: transition) //transitions to gamescene
-    
+                    
                 }
                 else if name == "menuLabel" {
                     
@@ -113,6 +134,7 @@ class GameOverScene: SKScene {
                     scene?.view?.presentScene(nextScene, transition: transition) //transition to menuscene
                 }
             }
+
         }
     }
     
