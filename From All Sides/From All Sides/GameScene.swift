@@ -16,7 +16,8 @@ struct PhysicsCategory {
     static let All       : UInt32 = UInt32.max
     static let Player : UInt32 = 0b1
     static let Projectile: UInt32 = 0b10
-    static let PlayerGravity: UInt32 = 0b11
+    static let IrregularAsteroid: UInt32 = 0b11
+    static let PlayerGravity: UInt32 = 0b100
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -34,7 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Player Radial Gravity Field
     var playerGravityField = SKFieldNode()
     
-    var difficulty = 1.5 //The smaller the value, the more often a projectile is spawned
+    var difficulty = 2.25 //The smaller the value, the more often a projectile is spawned
     var difficCounter = 0 //Counter for difficulty method
     var minProjSpeed:CGFloat = 3.5 //maximum time in seconds for projectile to travel across the screen
     
@@ -79,15 +80,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupScoreLabel()//Score Label Setup
         setupPauseButton()//Pause Button Setup
         setupPlayer()//Player setup
+        setupPlayerGravityField() //Setup the gravity field of the player
         print("player setup")
-        //getDeviceAttitude()//Gets attitude of device and moves player
         NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(getDeviceAttitude), userInfo: nil, repeats: false) //Delays player movement so scene has enough time to load
         
         
         //Add Projectiles
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "projectileAction")
         
-        setupPlayerGravityField() //Setup the gravity field of the player
+        //Add Irregular Asteroids
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(irregAsteroidFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "irregularAsteroidAction")
+        
     }
     
     //Make background black with stars
@@ -126,7 +129,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.affectedByGravity = false
         player.physicsBody?.mass = 200000
         player.physicsBody?.categoryBitMask = PhysicsCategory.Player //What category the projectile belongs to
-        player.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile //What category it interacts with
+        player.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile | PhysicsCategory.IrregularAsteroid //What category it interacts with
         player.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
         player.physicsBody?.fieldBitMask = PhysicsCategory.None
         
@@ -156,7 +159,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 self.attitudeX = CGFloat(self.motionManager.deviceMotion!.attitude.pitch)
                 self.attitudeY = CGFloat(self.motionManager.deviceMotion!.attitude.roll)
-                print("Attitude X: " + String(self.attitudeX))
+                //print("Attitude X: " + String(self.attitudeX))
                 
                 self.movePlayer()
             })
@@ -268,24 +271,59 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
 
         projectile.physicsBody?.applyImpulse(CGVectorMake(impulseX, impulseY))
+    }
+    
+    //Add irregular asteroids - method run for every irregular asteroid
+    func irregAsteroidFlightCalc() {
+        let irregAsteroid = IrregularAsteroidNode.irregularAsteroid()
         
-        //Add back when figuring out collision physics
-        /*projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.height/2)
-        projectile.physicsBody?.dynamic = true
-        projectile.physicsBody?.affectedByGravity = true
-        projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile //What category the projectile belongs to
-        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Player //What category it interacts with
-        projectile.physicsBody?.collisionBitMask = PhysicsCategory.Projectile //What category bounces off of it
-        projectile.physicsBody?.fieldBitMask = PhysicsCategory.PlayerGravity //What category of fields it interacts with
-        projectile.physicsBody?.usesPreciseCollisionDetection = false
-        projectile.physicsBody?.restitution = 0.7 //bounciness of projectile
-        projectile.physicsBody?.mass = 15*/
+        //Value for size of projectile
+        let irregASize = irregAsteroid.size.height
         
+        irregAsteroid.position = CGPoint (x: size.width - irregASize, y: (1/2)*size.height)
         
-        /*let actionMoveDone = SKAction.removeFromParent()
-        projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]), completion: {
-            self.incrementScoreDiff() //Increment the score - score only increases once the projectile has passed by the entire screen
-        })*/
+        irregAsteroid.physicsBody?.friction = 0
+        
+        addChild(irregAsteroid)
+        
+        //Chooses side projectile is launched from randomly
+        whatSide = Int(random(0, max: 2))
+        
+        switch whatSide {
+        case 0: //Right
+            beginY = random(irregASize, max: size.height - irregASize)
+            irregAsteroid.position = CGPoint(x: size.width + irregASize, y: beginY)
+            impulseX = random(-50, max: -500)
+            impulseY = random(-100, max: 100)
+            
+            print("generating irregular asteroid")
+            
+            break
+        case 1: //Top
+            beginX = random(irregASize, max: size.width - irregASize)
+            irregAsteroid.position = CGPoint(x: beginX, y: size.height + irregASize)
+            impulseX = random(-100, max: 100)
+            impulseY = random(-50, max: -500)
+            break
+        case 2: //Left
+            beginY = random(irregASize, max: size.height - irregASize)
+            
+            irregAsteroid.position = CGPoint(x: -irregASize, y: beginY)
+            impulseX = random(50, max: 500)
+            impulseY = random(-100, max: 100)
+            break
+        case 3: //Bottom
+            beginX = random(irregASize, max: size.width - irregASize)
+            
+            irregAsteroid.position = CGPoint(x: beginX, y: -irregASize)
+            impulseX = random(-100, max: 100)
+            impulseY = random(50, max: 500)
+            break
+        default:
+            print("There was an error in irregular asteroid selection - restart the game")
+        }
+        
+        irregAsteroid.physicsBody?.applyImpulse(CGVectorMake(impulseX, impulseY))
     }
     
     //Called when two physics bodies contact eachother
@@ -303,7 +341,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Checks to see if 2 physics bodies collided
         if ((firstBody.categoryBitMask & PhysicsCategory.Player != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
+            (secondBody.categoryBitMask & PhysicsCategory.Projectile | PhysicsCategory.IrregularAsteroid != 0)) {
             playerHitByProjectile(firstBody.node as! SKSpriteNode, character: secondBody.node as! SKSpriteNode)
         }
         
@@ -373,7 +411,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     || sprite.position.y < (-1.5)*sprite.size.height || sprite.position.y > self.size.height + (1.5)*sprite.size.height) {
                     sprite.removeFromParent()
                     
-                    if sprite.name == "projectile" {
+                    if sprite.name == "projectile" || sprite.name == "irregularAsteroid" {
                         self.incrementScoreDiff() //increment the score and the difficulty
                     }
                     

@@ -16,11 +16,27 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="30" minValue="5" maxValue="55" translatesAutoresizingMaskIntoConstraints="NO" id="jQf-bL-pcz">
+                                <rect key="frame" x="208" y="285" width="185" height="31"/>
+                                <color key="minimumTrackTintColor" red="1" green="0.081942766769999995" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <variation key="heightClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="249" y="220" width="118" height="31"/>
+                                </variation>
+                                <connections>
+                                    <action selector="tiltSenseSliderVC:" destination="BV1-FR-VrT" eventType="valueChanged" id="3lS-dm-jji"/>
+                                </connections>
+                            </slider>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="tiltSenseSlider" destination="jQf-bL-pcz" id="A9J-4O-IOs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="220" y="349"/>
         </scene>
     </scenes>
 </document>

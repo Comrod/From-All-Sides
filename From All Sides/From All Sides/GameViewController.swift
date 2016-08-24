@@ -11,10 +11,15 @@ import SpriteKit
 
 class GameViewController: UIViewController {
     
+    @IBOutlet weak var tiltSenseSlider: UISlider!
+    
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
 
+        tiltSenseSlider.hidden = true //the slider should be hidden when the game first loads
+        
         if let scene = MenuScene(fileNamed:"MenuScene") {
             // Configure the view.
             let skView = self.view as! SKView
@@ -32,7 +37,12 @@ class GameViewController: UIViewController {
             skView.presentScene(scene)
         }
     }
+    
 
+    @IBAction func tiltSenseSliderVC(sender: AnyObject) {
+    }
+    
+    
     override func shouldAutorotate() -> Bool {
         return false
     }

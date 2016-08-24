@@ -8,6 +8,7 @@
 
 import SpriteKit
 
+
 class SettingScene: SKScene {
     
     var starX = CGFloat()
@@ -23,6 +24,8 @@ class SettingScene: SKScene {
     let decreaseSenseLabel = SKLabelNode(fontNamed: "ArialMT")
     let increaseSenseLabel = SKLabelNode(fontNamed: "ArialMT")
     let backLabel = SKLabelNode(fontNamed: "ArialMT")
+    
+    weak var gameVC = GameViewController()
     
     override func didMoveToView(view: SKView) {
         
@@ -64,6 +67,8 @@ class SettingScene: SKScene {
         self.addChild(decreaseSenseLabel)
         self.addChild(increaseSenseLabel)
         self.addChild(backLabel)
+        
+        view.addSubview((gameVC?.tiltSenseSlider)!)
     }
     
     func makeBackground(){
