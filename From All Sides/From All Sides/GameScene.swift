@@ -14,8 +14,9 @@ import CoreMotion
 struct PhysicsCategory {
     static let None      : UInt32 = 0
     static let All       : UInt32 = UInt32.max
-    static let Character : UInt32 = 0b1
+    static let Player : UInt32 = 0b1
     static let Projectile: UInt32 = 0b10
+    static let PlayerGravity: UInt32 = 0b11
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -29,6 +30,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Initialize Player
     var player = SKSpriteNode()
     var playerSpeed:CGFloat = 30
+    
+    //Player Radial Gravity Field
+    var playerGravityField = SKFieldNode()
     
     var difficulty = 0.5 //The smaller the value, the more often a projectile is spawned
     var difficCounter = 0 //Counter for difficulty method
@@ -80,6 +84,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Add Projectiles
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "projectileAction")
+        
+        setupPlayerGravityField() //Setup the gravity field of the player
     }
     
     //Make background black with stars
@@ -112,14 +118,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.position = CGPoint(x: size.width/2, y: size.height/2)
         player.xScale = 2
         player.yScale = 2
-        
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.height/2)
         player.physicsBody?.dynamic = true
-        player.physicsBody?.categoryBitMask = PhysicsCategory.Character //What category the projectile belongs to
+        player.physicsBody?.affectedByGravity = false
+        player.physicsBody?.mass = 200000
+        player.physicsBody?.categoryBitMask = PhysicsCategory.Player //What category the projectile belongs to
         player.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile //What category it interacts with
         player.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
+        player.physicsBody?.fieldBitMask = PhysicsCategory.None
         
         self.addChild(player)
+    }
+    
+    func setupPlayerGravityField () {
+        playerGravityField = SKFieldNode.radialGravityField()
+        playerGravityField.enabled = true
+        playerGravityField.position = player.position
+        playerGravityField.strength = 0.3
+        playerGravityField.falloff = 1.0
+        playerGravityField.region = SKRegion(size: size) //gravity affects the entire scene
+        playerGravityField.categoryBitMask = PhysicsCategory.PlayerGravity
+        addChild(playerGravityField)
     }
     
     //Gets attitude of device
@@ -144,6 +163,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func movePlayer() {
         let movePlayerAction = SKAction.moveBy(CGVectorMake(self.attitudeX*playerSpeed, self.attitudeY*playerSpeed), duration: 0.1)
         player.runAction(movePlayerAction)
+        playerGravityField.position = player.position
     }
     
     
@@ -258,10 +278,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Add back when figuring out collision physics
         projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.height/2)
         projectile.physicsBody?.dynamic = true
+        projectile.physicsBody?.affectedByGravity = true
         projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile //What category the projectile belongs to
-        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Character //What category it interacts with
-        projectile.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
-        projectile.physicsBody?.usesPreciseCollisionDetection = true
+        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Player //What category it interacts with
+        projectile.physicsBody?.collisionBitMask = PhysicsCategory.Projectile //What category bounces off of it
+        projectile.physicsBody?.fieldBitMask = PhysicsCategory.PlayerGravity //What category of fields it interacts with
+        projectile.physicsBody?.usesPreciseCollisionDetection = false
+        projectile.physicsBody?.restitution = 0.7 //bounciness of projectile
+        projectile.physicsBody?.mass = 15
+        
         
         let actionMoveDone = SKAction.removeFromParent()
         projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]), completion: {
@@ -283,7 +308,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         //Checks to see if 2 physics bodies collided
-        if ((firstBody.categoryBitMask & PhysicsCategory.Character != 0) &&
+        if ((firstBody.categoryBitMask & PhysicsCategory.Player != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
             playerHitByProjectile(firstBody.node as! SKSpriteNode, character: secondBody.node as! SKSpriteNode)
         }
