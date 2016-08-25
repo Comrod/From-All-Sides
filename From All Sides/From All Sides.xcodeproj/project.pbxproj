@@ -10,6 +10,7 @@
 		241AAD211D6B52A400116717 /* earth.png in Resources */ = {isa = PBXBuildFile; fileRef = 241AAD201D6B52A400116717 /* earth.png */; };
 		241AAD231D6B534B00116717 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241AAD221D6B534B00116717 /* GameOverScene.swift */; };
 		241AAD251D6B650000116717 /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241AAD241D6B650000116717 /* SettingsScene.swift */; };
+		24572EAF1D6F93BF00483D24 /* StarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24572EAE1D6F93BF00483D24 /* StarNode.swift */; };
 		245B20B31D6A0D3E00C803B8 /* locationIndicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */; };
 		245B20B51D6A6DB400C803B8 /* pausebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B41D6A6DB400C803B8 /* pausebutton.png */; };
 		245B20B71D6A872B00C803B8 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B61D6A872B00C803B8 /* star.png */; };
@@ -57,6 +58,7 @@
 		241AAD201D6B52A400116717 /* earth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earth.png; sourceTree = "<group>"; };
 		241AAD221D6B534B00116717 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		241AAD241D6B650000116717 /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
+		24572EAE1D6F93BF00483D24 /* StarNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarNode.swift; sourceTree = "<group>"; };
 		245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locationIndicator@2x.png"; sourceTree = "<group>"; };
 		245B20B41D6A6DB400C803B8 /* pausebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pausebutton.png; sourceTree = "<group>"; };
 		245B20B61D6A872B00C803B8 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
@@ -152,8 +154,9 @@
 				2465CE491D68243A0047B63E /* MenuScene.swift */,
 				241AAD241D6B650000116717 /* SettingsScene.swift */,
 				2465CE771D6826F90047B63E /* GameScene.swift */,
-				2486C29B1D6DF6F7000B2C93 /* ProjectileNode.swift */,
 				241AAD221D6B534B00116717 /* GameOverScene.swift */,
+				2486C29B1D6DF6F7000B2C93 /* ProjectileNode.swift */,
+				24572EAE1D6F93BF00483D24 /* StarNode.swift */,
 				2465CE4D1D68243A0047B63E /* Main.storyboard */,
 				2465CE501D68243A0047B63E /* Assets.xcassets */,
 				2465CE521D68243A0047B63E /* LaunchScreen.storyboard */,
@@ -341,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2486C29C1D6DF6F7000B2C93 /* ProjectileNode.swift in Sources */,
+				24572EAF1D6F93BF00483D24 /* StarNode.swift in Sources */,
 				241AAD231D6B534B00116717 /* GameOverScene.swift in Sources */,
 				2465CE4A1D68243A0047B63E /* MenuScene.swift in Sources */,
 				2465CE4C1D68243A0047B63E /* GameViewController.swift in Sources */,

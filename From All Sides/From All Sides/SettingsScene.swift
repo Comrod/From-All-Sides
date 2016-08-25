@@ -74,15 +74,11 @@ class SettingScene: SKScene {
         
         func addStars() {
             
-            let star = SKSpriteNode(imageNamed: "star")
-            star.xScale = 0.5
-            star.yScale = 0.5
+            let star = StarNode.star()
             let starSize = star.size.height
             starX = random(starSize, max: size.width - starSize)
             starY = random(starSize, max: size.height - starSize)
-            
             star.position = CGPoint(x: starX, y: starY)
-            star.zPosition = -1.0
             
             self.addChild(star)
         }
