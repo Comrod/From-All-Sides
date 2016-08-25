@@ -35,6 +35,8 @@ class ProjectileNode: SKSpriteNode {
         projectile.xScale = 0.5
         projectile.yScale = 0.5
         
+        projectile.zPosition = 1.5
+        
         projectile.physicsBody = SKPhysicsBody(texture: projectile.texture!, alphaThreshold: 0.8, size: projectile.size)
         if let physics = projectile.physicsBody {
             
@@ -46,6 +48,8 @@ class ProjectileNode: SKSpriteNode {
             physics.fieldBitMask = PhysicsCategory.PlayerGravity //What category of fields it interacts with
             physics.usesPreciseCollisionDetection = true
             physics.restitution = 0.7 //bounciness of projectile
+            physics.linearDamping = 0
+            physics.angularDamping = 0
             physics.mass = 1.3
         }        
         return projectile

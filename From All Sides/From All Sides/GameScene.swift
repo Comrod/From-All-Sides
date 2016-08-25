@@ -33,7 +33,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Player Radial Gravity Field
     var playerGravityField = SKFieldNode()
-    var playerGravityFieldStrengh: Float!
+    var playerGravityFieldStrength: Float!
     
     var projSpawnRate: Double = 1.0 //The smaller the value, the more often a projectile is spawned
     var difficCounter = 0 //Counter for difficulty method
@@ -69,8 +69,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Pause Button
     var pauseButton: SKSpriteNode!
     
+    var hasBeenHit = Bool()
+    
     override func didMoveToView(view: SKView) {
         
+        hasBeenHit = false
         
         playerSpeed = CGFloat(defaults.floatForKey("playerSpeed"))
         
@@ -86,19 +89,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupPlayer()//Player setup
         
         if defaults.stringForKey("easyOpt") == "easytapped" { //if easy has been selected, no gravity and pretty slow projectile speeds
+            playerGravityFieldStrength = 0.0
             projSpawnRate = 1.0
             mainProjImpulseMin = 300
             mainProjImpulseMax = 500
             
         } else if defaults.stringForKey("medOpt") == "mediumtapped" { //if medium has been selected, gravity and regular projectile speeds
             projSpawnRate = 0.75
-            playerGravityFieldStrengh = 3.0
+            playerGravityFieldStrength = 3.0
             setupPlayerGravityField()
             mainProjImpulseMin = 300
             mainProjImpulseMax = 600
         } else if defaults.stringForKey("hardOpt") == "lightspeedtapped" { //if lightspeed has been selected, gravity and high projectile speeds
             projSpawnRate = 0.5
-            playerGravityFieldStrengh = 6.0
+            playerGravityFieldStrength = 6.0
             setupPlayerGravityField()
             mainProjImpulseMin = 600
             mainProjImpulseMax = 800
@@ -138,6 +142,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.position = CGPoint(x: size.width/2, y: size.height/2)
         player.xScale = 2
         player.yScale = 2
+        player.zPosition = 1.0
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.height/2)
         player.physicsBody?.dynamic = true
         player.physicsBody?.affectedByGravity = false
@@ -146,6 +151,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile//What category it interacts with
         player.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
         player.physicsBody?.fieldBitMask = PhysicsCategory.None
+        player.physicsBody?.linearDamping = 0
         
         self.addChild(player)
     }
@@ -155,7 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerGravityField = SKFieldNode.radialGravityField()
         playerGravityField.enabled = true
         playerGravityField.position = player.position
-        playerGravityField.strength = playerGravityFieldStrengh
+        playerGravityField.strength = playerGravityFieldStrength
         playerGravityField.falloff = 2.0
         playerGravityField.region = SKRegion(size: size) //gravity affects the entire scene
         playerGravityField.categoryBitMask = PhysicsCategory.PlayerGravity
@@ -294,7 +300,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
         
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask { //assigns player to firstBody and projectile to secondBody
             firstBody = contact.bodyA
             secondBody = contact.bodyB
         } else {
@@ -306,10 +312,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if ((firstBody.categoryBitMask & PhysicsCategory.Player != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
             
-            print("Hit")
-            killScene()
+            if hasBeenHit {
+                
+            }
+            else {
+                print("Hit")
+                hasBeenHit = true
+                
+                killScene()
+                explosion(player.position) //Explosion from the collision of the asteroid and the player
+            }
+            
+            
         }
         
+    }
+    
+    //Explosion for when player and projectile hit each other
+    func explosion(position: CGPoint) {
+        let explosionNode = SKEmitterNode(fileNamed: "ExplosionParticle.sks")
+        explosionNode?.position = position
+        self.addChild(explosionNode!)
+        self.runAction(SKAction.waitForDuration(1), completion: { explosionNode!.removeFromParent() })
     }
     
     //Score Counter
@@ -344,9 +368,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if score > defaults.integerForKey("highScore") { //Saving new high score
             defaults.setInteger(score, forKey: "highScore")
         }
-        
-        NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: #selector(goToGameOver), userInfo: nil, repeats: false)
-        
+        NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(goToGameOver), userInfo: nil, repeats: false)
     }
     
     //Transition back to main menu
