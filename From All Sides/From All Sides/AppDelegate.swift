@@ -29,9 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("first launch")
             defaults.setBool(true, forKey: "isntFirstLaunch")
             //Setting initial difficulty values
-            defaults.setObject(easyInitial, forKey: "easyOptTxtStr")
-            defaults.setObject(medInitial, forKey: "medOptTxtStr")
-            defaults.setObject(hardInitial, forKey: "hardOptTxtStr")
+            defaults.setObject(easyInitial, forKey: "easyOpt")
+            defaults.setObject(medInitial, forKey: "medOpt")
+            defaults.setObject(hardInitial, forKey: "hardOpt")
             defaults.setFloat(25, forKey: "playerSpeed")
         }
     

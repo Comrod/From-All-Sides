@@ -33,8 +33,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Player Radial Gravity Field
     var playerGravityField = SKFieldNode()
+    var playerGravityFieldStrengh: Float!
     
-    var difficulty = 1.0 //The smaller the value, the more often a projectile is spawned
+    var projSpawnRate: Double = 1.0 //The smaller the value, the more often a projectile is spawned
     var difficCounter = 0 //Counter for difficulty method
     var minProjSpeed:CGFloat = 3.5 //maximum time in seconds for projectile to travel across the screen
     
@@ -51,7 +52,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var impulseX = CGFloat()
     var impulseY = CGFloat()
     var angularImpulse = CGFloat()
-    
+    var mainProjImpulseMin = CGFloat()
+    var mainProjImpulseMax = CGFloat()
     
     //Star Locations
     var starX = CGFloat()
@@ -69,6 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         
+        
         playerSpeed = CGFloat(defaults.floatForKey("playerSpeed"))
         
         //Physics World
@@ -81,12 +84,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupScoreLabel()//Score Label Setup
         setupPauseButton()//Pause Button Setup
         setupPlayer()//Player setup
-        setupPlayerGravityField() //Setup the gravity field of the player
+        
+        if defaults.stringForKey("easyOpt") == "easytapped" { //if easy has been selected, no gravity and pretty slow projectile speeds
+            projSpawnRate = 1.0
+            mainProjImpulseMin = 300
+            mainProjImpulseMax = 500
+            
+        } else if defaults.stringForKey("medOpt") == "mediumtapped" { //if medium has been selected, gravity and regular projectile speeds
+            projSpawnRate = 0.75
+            playerGravityFieldStrengh = 3.0
+            setupPlayerGravityField()
+            mainProjImpulseMin = 300
+            mainProjImpulseMax = 600
+        } else if defaults.stringForKey("hardOpt") == "lightspeedtapped" { //if lightspeed has been selected, gravity and high projectile speeds
+            projSpawnRate = 0.5
+            playerGravityFieldStrengh = 6.0
+            setupPlayerGravityField()
+            mainProjImpulseMin = 600
+            mainProjImpulseMax = 800
+        }
+        
         print("player setup")
         NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(getDeviceAttitude), userInfo: nil, repeats: false) //Delays player movement so scene has enough time to load
         
         //Add Projectiles
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "projectileAction")
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(projSpawnRate)])), withKey: "projectileAction")
     }
     
     //Make background black with stars
@@ -136,7 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerGravityField = SKFieldNode.radialGravityField()
         playerGravityField.enabled = true
         playerGravityField.position = player.position
-        playerGravityField.strength = 3
+        playerGravityField.strength = playerGravityFieldStrengh
         playerGravityField.falloff = 2.0
         playerGravityField.region = SKRegion(size: size) //gravity affects the entire scene
         playerGravityField.categoryBitMask = PhysicsCategory.PlayerGravity
@@ -167,7 +189,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let movePlayerAction = SKAction.moveBy(CGVectorMake(self.attitudeX*playerSpeed, self.attitudeY*playerSpeed), duration: 0.1)
         player.runAction(movePlayerAction)
         playerGravityField.position = player.position
-        print("moving player")
     }
     
     
@@ -238,26 +259,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 0: //Right
             beginY = random(projSize, max: size.height - projSize)
             projectile.position = CGPoint(x: size.width + projSize, y: beginY)
-            impulseX = random(-300, max: -600)
+            impulseX = random(-mainProjImpulseMin, max: -mainProjImpulseMax)
             impulseY = random(-100, max: 100)
             break
         case 1: //Top
             beginX = random(projSize, max: size.width - projSize)
             projectile.position = CGPoint(x: beginX, y: size.height + projSize)
             impulseX = random(-100, max: 100)
-            impulseY = random(-300, max: -600)
+            impulseY = random(-mainProjImpulseMin, max: -mainProjImpulseMax)
             break
         case 2: //Left
             beginY = random(projSize, max: size.height - projSize)
             projectile.position = CGPoint(x: -projSize, y: beginY)
-            impulseX = random(300, max: 600)
+            impulseX = random(mainProjImpulseMin, max: mainProjImpulseMax)
             impulseY = random(-100, max: 100)
             break
         case 3: //Bottom
             beginX = random(projSize, max: size.width - projSize)
             projectile.position = CGPoint(x: beginX, y: -projSize)
             impulseX = random(-100, max: 100)
-            impulseY = random(300, max: 600)
+            impulseY = random(mainProjImpulseMin, max: mainProjImpulseMax)
             break
         default:
             print("There was an error in projectile selection - restart the game")
@@ -303,10 +324,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         difficCounter += 1
         
         //Increase difficulty by decreasing the time inbetween each projectile spawn every time the score increases by 20
-        if difficulty > 0.1 { //Maxes out the difficulty so that it can't be decreased to zero
+        if projSpawnRate > 0.1 { //Maxes out the difficulty so that it can't be decreased to zero
             if difficCounter > 20 {
                 difficCounter = 0 //Reset counter
-                difficulty -= 0.1 //Decrease difficulty
+                projSpawnRate -= 0.1 //Decrease difficulty
                 print("Difficulty decreased")
                 
                 if minProjSpeed > 1.5 {

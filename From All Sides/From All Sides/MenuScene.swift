@@ -42,9 +42,7 @@ class MenuScene: SKScene {
         titleLabel.fontSize = 80
         titleLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
         
-        getDiffOptTxtStrs()
-        
-        print("Easy option: " + easyOptTxtStr)
+        getDiffOptTxtStrs() //Get the texture that has been selected from NSUserDefaults
         
         //Medium Option
         medOpt = SKSpriteNode(imageNamed: medOptTxtStr)
@@ -85,15 +83,13 @@ class MenuScene: SKScene {
         highScoreLabel.fontSize = 35
         highScoreLabel.position = CGPoint(x: size.width/2, y: (1/5)*size.height)
         
-        
-        
-        self.addChild(titleLabel)
-        
         //Difficulty Options
         self.addChild(easyOpt)
         self.addChild(medOpt)
         self.addChild(hardOpt)
         
+        //Label
+        self.addChild(titleLabel)
         self.addChild(playLabel)
         self.addChild(settingsLabel)
         self.addChild(highScoreLabel)
@@ -125,10 +121,9 @@ class MenuScene: SKScene {
     
     func getDiffOptTxtStrs() {
         
-        easyOptTxtStr = defaults.stringForKey("easyOptTxtStr")!
-        medOptTxtStr = defaults.stringForKey("medOptTxtStr")!
-        hardOptTxtStr = defaults.stringForKey("hardOptTxtStr")!
-        //print("Easy opt" + easyOptTxtStr)
+        easyOptTxtStr = defaults.stringForKey("easyOpt")!
+        medOptTxtStr = defaults.stringForKey("medOpt")!
+        hardOptTxtStr = defaults.stringForKey("hardOpt")!
     }
     
     func setDiffOptTextures(easy: String, med: String, hard: String) {
@@ -136,9 +131,9 @@ class MenuScene: SKScene {
         medOpt.texture = SKTexture(imageNamed: med)
         hardOpt.texture = SKTexture(imageNamed: hard)
         
-        defaults.setObject(easy, forKey: "easyOptTxtStr")
-        defaults.setObject(med, forKey: "medOptTxtStr")
-        defaults.setObject(hard, forKey: "hardOptTxtStr")
+        defaults.setObject(easy, forKey: "easyOpt")
+        defaults.setObject(med, forKey: "medOpt")
+        defaults.setObject(hard, forKey: "hardOpt")
     }
     
     
