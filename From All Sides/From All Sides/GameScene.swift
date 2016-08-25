@@ -333,7 +333,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let explosionNode = SKEmitterNode(fileNamed: "ExplosionParticle.sks")
         explosionNode?.position = position
         self.addChild(explosionNode!)
-        self.runAction(SKAction.waitForDuration(1), completion: { explosionNode!.removeFromParent() })
+        self.runAction(SKAction.waitForDuration(1.5), completion: { explosionNode!.removeFromParent() })
+        self.runAction(SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)) //sound effect attribution: http://soundbible.com/1983-Atomic-Bomb.html note: the sound effect was reduced to 1.5 seconds in length
     }
     
     //Score Counter
@@ -368,7 +369,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if score > defaults.integerForKey("highScore") { //Saving new high score
             defaults.setInteger(score, forKey: "highScore")
         }
-        NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(goToGameOver), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(1.7, target: self, selector: #selector(goToGameOver), userInfo: nil, repeats: false)
     }
     
     //Transition back to main menu
