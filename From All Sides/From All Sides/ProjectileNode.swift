@@ -44,16 +44,12 @@ class ProjectileNode: SKSpriteNode {
             physics.affectedByGravity = false
             physics.categoryBitMask = PhysicsCategory.Projectile //What category the projectile belongs to
             physics.contactTestBitMask = PhysicsCategory.Player //What category it interacts with
-            physics.collisionBitMask = PhysicsCategory.Projectile | PhysicsCategory.IrregularAsteroid //What category bounces off of it
+            physics.collisionBitMask = PhysicsCategory.Projectile //What category bounces off of it
             physics.fieldBitMask = PhysicsCategory.PlayerGravity //What category of fields it interacts with
             physics.usesPreciseCollisionDetection = true
             physics.restitution = 0.7 //bounciness of projectile
             physics.mass = 1.3
-        }
-        
+        }        
         return projectile
     }
-    
-    
-    
 }

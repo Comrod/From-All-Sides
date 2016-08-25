@@ -16,8 +16,7 @@ struct PhysicsCategory {
     static let All       : UInt32 = UInt32.max
     static let Player : UInt32 = 0b1
     static let Projectile: UInt32 = 0b10
-    static let IrregularAsteroid: UInt32 = 0b11
-    static let PlayerGravity: UInt32 = 0b100
+    static let PlayerGravity: UInt32 = 0b11
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -35,7 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Player Radial Gravity Field
     var playerGravityField = SKFieldNode()
     
-    var difficulty = 1.5 //The smaller the value, the more often a projectile is spawned
+    var difficulty = 1.0 //The smaller the value, the more often a projectile is spawned
     var difficCounter = 0 //Counter for difficulty method
     var minProjSpeed:CGFloat = 3.5 //maximum time in seconds for projectile to travel across the screen
     
@@ -86,13 +85,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("player setup")
         NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(getDeviceAttitude), userInfo: nil, repeats: false) //Delays player movement so scene has enough time to load
         
-        
         //Add Projectiles
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "projectileAction")
-        
-        //Add Irregular Asteroids
-        //runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(irregAsteroidFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "irregularAsteroidAction")
-        
     }
     
     //Make background black with stars
@@ -106,7 +100,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let starSize = star.size.height
             starX = random(starSize, max: size.width - starSize)
             starY = random(starSize, max: size.height - starSize)
-            
             star.position = CGPoint(x: starX, y: starY)
             star.zPosition = -1.0
             
@@ -131,7 +124,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.affectedByGravity = false
         player.physicsBody?.mass = 200000
         player.physicsBody?.categoryBitMask = PhysicsCategory.Player //What category the projectile belongs to
-        player.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile | PhysicsCategory.IrregularAsteroid //What category it interacts with
+        player.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile//What category it interacts with
         player.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
         player.physicsBody?.fieldBitMask = PhysicsCategory.None
         
@@ -144,11 +137,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerGravityField.enabled = true
         playerGravityField.position = player.position
         playerGravityField.strength = 3
-        playerGravityField.falloff = 1.0
+        playerGravityField.falloff = 2.0
         playerGravityField.region = SKRegion(size: size) //gravity affects the entire scene
         playerGravityField.categoryBitMask = PhysicsCategory.PlayerGravity
         addChild(playerGravityField)
     }
+    
     
     //Gets attitude of device
     func getDeviceAttitude() {
@@ -243,31 +237,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 0: //Right
             beginY = random(projSize, max: size.height - projSize)
             projectile.position = CGPoint(x: size.width + projSize, y: beginY)
-            impulseX = random(-50, max: -500)
+            impulseX = random(-300, max: -600)
             impulseY = random(-100, max: 100)
             break
         case 1: //Top
             beginX = random(projSize, max: size.width - projSize)
-            
             projectile.position = CGPoint(x: beginX, y: size.height + projSize)
             impulseX = random(-100, max: 100)
-            impulseY = random(-50, max: -500)
-            //actionMove = SKAction.moveTo(CGPoint(x: endX, y: -projSize), duration: projectileSpeed)
+            impulseY = random(-300, max: -600)
             break
         case 2: //Left
             beginY = random(projSize, max: size.height - projSize)
-            
             projectile.position = CGPoint(x: -projSize, y: beginY)
-            impulseX = random(50, max: 500)
+            impulseX = random(300, max: 600)
             impulseY = random(-100, max: 100)
             print("from the left")
             break
         case 3: //Bottom
             beginX = random(projSize, max: size.width - projSize)
-            
             projectile.position = CGPoint(x: beginX, y: -projSize)
             impulseX = random(-100, max: 100)
-            impulseY = random(50, max: 500)
+            impulseY = random(300, max: 600)
             break
         default:
             print("There was an error in projectile selection - restart the game")
@@ -276,65 +266,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Makes the projectile rotate in a random direction
         angularImpulse = random(-0.1, max: 0.1)
         projectile.physicsBody?.applyAngularImpulse(angularImpulse)
-        
         projectile.physicsBody?.applyImpulse(CGVectorMake(impulseX, impulseY))
     }
     
-    //Add irregular asteroids - method run for every irregular asteroid
-    func irregAsteroidFlightCalc() {
-        let irregAsteroid = IrregularAsteroidNode.irregularAsteroid()
-        
-        //Value for size of projectile
-        let irregASize = irregAsteroid.size.height
-        
-        irregAsteroid.position = CGPoint (x: size.width - irregASize, y: (1/2)*size.height)
-        
-        irregAsteroid.physicsBody?.friction = 0
-        
-        addChild(irregAsteroid)
-        
-        //Chooses side projectile is launched from randomly
-        whatSide = arc4random_uniform(4)
-        
-        switch whatSide {
-        case 0: //Right
-            beginY = random(irregASize, max: size.height - irregASize)
-            irregAsteroid.position = CGPoint(x: size.width + irregASize, y: beginY)
-            impulseX = random(-50, max: -500)
-            impulseY = random(-100, max: 100)
-
-            
-            break
-        case 1: //Top
-            beginX = random(irregASize, max: size.width - irregASize)
-            irregAsteroid.position = CGPoint(x: beginX, y: size.height + irregASize)
-            impulseX = random(-100, max: 100)
-            impulseY = random(-50, max: -500)
-            break
-        case 2: //Left
-            beginY = random(irregASize, max: size.height - irregASize)
-            
-            irregAsteroid.position = CGPoint(x: -irregASize, y: beginY)
-            impulseX = random(50, max: 500)
-            impulseY = random(-100, max: 100)
-            break
-        case 3: //Bottom
-            beginX = random(irregASize, max: size.width - irregASize)
-            
-            irregAsteroid.position = CGPoint(x: beginX, y: -irregASize)
-            impulseX = random(-100, max: 100)
-            impulseY = random(50, max: 500)
-            break
-        default:
-            print("There was an error in irregular asteroid selection - restart the game")
-        }
-        
-        //Makes the irregular asteroid rotate in a random direction
-        angularImpulse = random(-0.1, max: 0.1)
-        irregAsteroid.physicsBody?.applyAngularImpulse(angularImpulse)
-        
-        irregAsteroid.physicsBody?.applyImpulse(CGVectorMake(impulseX, impulseY))
-    }
     
     //Called when two physics bodies contact eachother
     func didBeginContact(contact: SKPhysicsContact) {
@@ -352,12 +286,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Checks to see if 2 physics bodies collided
         if ((firstBody.categoryBitMask & PhysicsCategory.Player != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Projectile /*| PhysicsCategory.IrregularAsteroid*/ != 0)) {
+            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
             
             print("Hit")
             killScene()
-            
-            //playerHitByProjectile(firstBody.node as! SKSpriteNode, character: secondBody.node as! SKSpriteNode)
         }
         
     }
@@ -383,13 +315,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
-    //Called when the player is hit by a projectile
-    func playerHitByProjectile(projectile:SKSpriteNode, character:SKSpriteNode) {
-        print("Hit")
-        killScene()
-    }
-    
+
     func killScene() {
         self.removeAllChildren() //deletes all children from the scene (projectiles, player, scorelabel)
         self.removeAllActions()
