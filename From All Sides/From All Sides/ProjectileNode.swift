@@ -11,18 +11,33 @@ import SpriteKit
 
 class ProjectileNode: SKSpriteNode {
     
-    
     class func projectile() -> ProjectileNode {
 
-        let projectile = ProjectileNode(imageNamed: "asteroid")
+
+        let whichProjectile = arc4random_uniform(2)
+        var projectileImageStr = String()
+        
+        print(whichProjectile)
+        
+        switch whichProjectile {
+        case 0:
+            projectileImageStr = "asteroid"
+        break
+        case 1:
+            projectileImageStr = "irregularasteroid"
+        break
+        default:
+            print("There was a problem with the image selection. The image will be the default projectile")
+            projectileImageStr = "asteroid"
+        }
+        
+        let projectile = ProjectileNode(imageNamed: projectileImageStr)
         projectile.name = "projectile"
+        
         projectile.xScale = 0.5
         projectile.yScale = 0.5
         
-        //Value for size of projectile
-        let projSize = projectile.size.height
-
-        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projSize/2)
+        projectile.physicsBody = SKPhysicsBody(texture: projectile.texture!, alphaThreshold: 0.8, size: projectile.size)
         if let physics = projectile.physicsBody {
             
             physics.dynamic = true
@@ -38,5 +53,7 @@ class ProjectileNode: SKSpriteNode {
         
         return projectile
     }
+    
+    
     
 }

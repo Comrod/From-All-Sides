@@ -35,7 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Player Radial Gravity Field
     var playerGravityField = SKFieldNode()
     
-    var difficulty = 2.25 //The smaller the value, the more often a projectile is spawned
+    var difficulty = 1.5 //The smaller the value, the more often a projectile is spawned
     var difficCounter = 0 //Counter for difficulty method
     var minProjSpeed:CGFloat = 3.5 //maximum time in seconds for projectile to travel across the screen
     
@@ -44,7 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var attitudeY:CGFloat = CGFloat()
 
     //Incremental variable for indicating what side a projectile will spawned
-    var whatSide = 0
+    var whatSide:UInt32 = 0
     
     //Projectile and Irregular Asteroid Data
     var beginX = CGFloat()
@@ -91,7 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "projectileAction")
         
         //Add Irregular Asteroids
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(irregAsteroidFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "irregularAsteroidAction")
+        //runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(irregAsteroidFlightCalc), SKAction.waitForDuration(difficulty)])), withKey: "irregularAsteroidAction")
         
     }
     
@@ -237,7 +237,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(projectile)
         
         //Chooses side projectile is launched from randomly
-        whatSide = Int(random(0, max: 2))
+        whatSide = arc4random_uniform(4)
     
         switch whatSide {
         case 0: //Right
@@ -260,6 +260,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             projectile.position = CGPoint(x: -projSize, y: beginY)
             impulseX = random(50, max: 500)
             impulseY = random(-100, max: 100)
+            print("from the left")
             break
         case 3: //Bottom
             beginX = random(projSize, max: size.width - projSize)
@@ -293,7 +294,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(irregAsteroid)
         
         //Chooses side projectile is launched from randomly
-        whatSide = Int(random(0, max: 2))
+        whatSide = arc4random_uniform(4)
         
         switch whatSide {
         case 0: //Right
@@ -351,7 +352,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Checks to see if 2 physics bodies collided
         if ((firstBody.categoryBitMask & PhysicsCategory.Player != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Projectile | PhysicsCategory.IrregularAsteroid != 0)) {
+            (secondBody.categoryBitMask & PhysicsCategory.Projectile /*| PhysicsCategory.IrregularAsteroid*/ != 0)) {
             
             print("Hit")
             killScene()
@@ -425,7 +426,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     || sprite.position.y < (-1.5)*sprite.size.height || sprite.position.y > self.size.height + (1.5)*sprite.size.height) {
                     sprite.removeFromParent()
                     
-                    if sprite.name == "projectile" || sprite.name == "irregularAsteroid" {
+                    if sprite.name == "projectile" {//|| sprite.name == "irregularAsteroid" {
                         self.incrementScoreDiff() //increment the score and the difficulty
                     }
                     
