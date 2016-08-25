@@ -155,7 +155,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 self.attitudeX = CGFloat(self.motionManager.deviceMotion!.attitude.pitch)
                 self.attitudeY = CGFloat(self.motionManager.deviceMotion!.attitude.roll)
-                //print("Attitude X: " + String(self.attitudeX))
+                print("Attitude X: " + String(self.attitudeX))
                 
                 self.movePlayer()
             })
@@ -167,6 +167,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let movePlayerAction = SKAction.moveBy(CGVectorMake(self.attitudeX*playerSpeed, self.attitudeY*playerSpeed), duration: 0.1)
         player.runAction(movePlayerAction)
         playerGravityField.position = player.position
+        print("moving player")
     }
     
     
@@ -251,7 +252,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             projectile.position = CGPoint(x: -projSize, y: beginY)
             impulseX = random(300, max: 600)
             impulseY = random(-100, max: 100)
-            print("from the left")
             break
         case 3: //Bottom
             beginX = random(projSize, max: size.width - projSize)
@@ -321,7 +321,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.removeAllActions()
         motionManager.stopDeviceMotionUpdates()
         NSOperationQueue.currentQueue()!.cancelAllOperations() //May or may not need
-        print(motionManager.deviceMotionActive)
         
         defaults.setInteger(score, forKey: "score") //Save the score
         if score > defaults.integerForKey("highScore") { //Saving new high score

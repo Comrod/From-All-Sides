@@ -11,14 +11,26 @@ import SpriteKit
 
 class GameViewController: UIViewController {
     
-    @IBOutlet weak var tiltSenseSlider: UISlider!
+    var diffSegControl: UISegmentedControl!
     
+    var menuScene: MenuScene!
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        diffSegControl = UISegmentedControl(items: ["Easy","Medium", "Lightspeed"])
+        
+        let diffSegX = (1/2)*self.view.frame.size.width - 200
+        let diffSegY = (1/4)*self.view.frame.size.height
+        
+        diffSegControl.frame = CGRectMake(diffSegX, diffSegY, 400, 30)
+        diffSegControl.selectedSegmentIndex = 1 //the middle one is selected (medium)
+        diffSegControl.tintColor = UIColor.redColor()
+        diffSegControl.addTarget(self, action: #selector(segmentedValueChanged), forControlEvents: .ValueChanged)
 
-        tiltSenseSlider.hidden = true //the slider should be hidden when the game first loads
+        //self.view.addSubview(diffSegControl)
+        
         
         if let scene = MenuScene(fileNamed:"MenuScene") {
             // Configure the view.
@@ -35,13 +47,16 @@ class GameViewController: UIViewController {
             scene.scaleMode = .AspectFill
             
             skView.presentScene(scene)
+            
+            menuScene = scene
+            scene.gameVC = self
         }
     }
     
-
-    @IBAction func tiltSenseSliderVC(sender: AnyObject) {
+    func segmentedValueChanged(sender:UISegmentedControl!)
+    {
+        print("It Works, Value is \(sender.selectedSegmentIndex)")
     }
-    
     
     override func shouldAutorotate() -> Bool {
         return false

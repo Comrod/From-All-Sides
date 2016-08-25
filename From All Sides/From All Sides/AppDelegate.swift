@@ -13,9 +13,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let easyInitial = "easyuntapped"
+        let medInitial = "mediumtapped"
+        let hardInitial = "lightspeeduntapped"
+        
+        if defaults.boolForKey("isntFirstLaunch") { //isn't first launch
+            
+        }
+        else { //is first launch
+            print("first launch")
+            defaults.setBool(true, forKey: "isntFirstLaunch")
+            //Setting initial difficulty values
+            defaults.setObject(easyInitial, forKey: "easyOptTxtStr")
+            defaults.setObject(medInitial, forKey: "medOptTxtStr")
+            defaults.setObject(hardInitial, forKey: "hardOptTxtStr")
+            defaults.setFloat(25, forKey: "playerSpeed")
+        }
+    
+        
+        
+        
         return true
     }
 

@@ -17,8 +17,6 @@ class ProjectileNode: SKSpriteNode {
         let whichProjectile = arc4random_uniform(2)
         var projectileImageStr = String()
         
-        print(whichProjectile)
-        
         switch whichProjectile {
         case 0:
             projectileImageStr = "asteroid"

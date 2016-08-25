@@ -67,8 +67,7 @@ class SettingScene: SKScene {
         self.addChild(decreaseSenseLabel)
         self.addChild(increaseSenseLabel)
         self.addChild(backLabel)
-        
-        view.addSubview((gameVC?.tiltSenseSlider)!)
+    
     }
     
     func makeBackground(){
