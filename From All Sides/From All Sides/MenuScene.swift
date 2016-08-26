@@ -49,7 +49,7 @@ class MenuScene: SKScene {
         
         //Medium Option
         medOpt = SKSpriteNode(imageNamed: medOptTxtStr)
-        medOpt.position = CGPoint(x:size.width/2, y: (2/3)*size.height)
+        medOpt.position = CGPoint(x:size.width/2, y: (21/32)*size.height)
         medOpt.name = "medOpt"
         medOpt.xScale = 0.25
         medOpt.yScale = 0.25
@@ -57,14 +57,14 @@ class MenuScene: SKScene {
         //Easy Option
         easyOpt = SKSpriteNode(imageNamed: easyOptTxtStr)
         easyOpt.name = "easyOpt"
-        easyOpt.position = CGPoint(x:size.width/2 - medOpt.size.width, y: (2/3)*size.height)
+        easyOpt.position = CGPoint(x:size.width/2 - medOpt.size.width, y: (21/32)*size.height)
         easyOpt.xScale = 0.25
         easyOpt.yScale = 0.25
 
         //Hard Option
         hardOpt = SKSpriteNode(imageNamed: hardOptTxtStr)
         hardOpt.name = "hardOpt"
-        hardOpt.position = CGPoint(x:size.width/2 + medOpt.size.width, y: (2/3)*size.height)
+        hardOpt.position = CGPoint(x:size.width/2 + medOpt.size.width, y: (21/32)*size.height)
         hardOpt.xScale = 0.25
         hardOpt.yScale = 0.25
         
