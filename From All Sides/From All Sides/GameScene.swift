@@ -228,7 +228,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 self.attitudeX = CGFloat(self.motionManager.deviceMotion!.attitude.pitch)
                 self.attitudeY = CGFloat(self.motionManager.deviceMotion!.attitude.roll)
-                print("Attitude X: " + String(self.attitudeX))
+                //print("Attitude X: " + String(self.attitudeX))
                 
                 self.movePlayer()
             })
@@ -387,6 +387,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Score Counter
     func incrementScoreDiff() {
         
+        print ("score increased")
+        
         score += 1 //Increase score
         scoreLabel.text = String(score) //Set score label to the newly increased score
         
@@ -440,9 +442,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     || sprite.position.y < (-1.5)*sprite.size.height || sprite.position.y > self.size.height + (1.5)*sprite.size.height) {
                     sprite.removeFromParent()
                     
-                    if sprite.name == "projectile" {//|| sprite.name == "irregularAsteroid" {
-                        self.incrementScoreDiff() //increment the score and the difficulty
-                    }
+                    print ("player gone off screen")
                     
                     if sprite.name == "player" { //player dies when he/she goes offscreen
                         self.killScene()
@@ -450,6 +450,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        
+        projectileNode.enumerateChildNodesWithName("*") {
+            node, stop in
+            if (node is SKSpriteNode) {
+                let sprite = node as! SKSpriteNode
+                // Check if the node is not in the scene
+                if (sprite.position.x < (-1.5)*sprite.size.width || sprite.position.x > self.size.width + (1.5)*sprite.size.width
+                    || sprite.position.y < (-1.5)*sprite.size.height || sprite.position.y > self.size.height + (1.5)*sprite.size.height) {
+                    sprite.removeFromParent()
+                    
+                    print ("projectile gone off screen")
+                    
+                    if sprite.name == "projectile" {
+                        self.incrementScoreDiff() //increment the score and the difficulty
+                    }
+                }
+            }
+        }
+        
     }
 
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
