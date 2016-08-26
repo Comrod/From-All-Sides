@@ -341,7 +341,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         explosionNode?.position = position
         self.addChild(explosionNode!)
         
-        self.runAction(SKAction.waitForDuration(1.5), completion: { explosionNode!.removeFromParent() })
+        self.runAction(SKAction.waitForDuration(2.4), completion: { explosionNode!.removeFromParent() })
         self.runAction(SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)) //https://www.freesoundeffects.com/free-sounds/explosion-10070/ - explosion 3
     }
     
