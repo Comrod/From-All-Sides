@@ -11,9 +11,7 @@ import SpriteKit
 
 class SettingScene: SKScene {
     
-    var starX = CGFloat()
-    var starY = CGFloat()
-    let numOfStars = 20
+    var starENode = StarEmitterNode()
     
     var defaults = NSUserDefaults.standardUserDefaults()
     
@@ -30,13 +28,14 @@ class SettingScene: SKScene {
     override func didMoveToView(view: SKView) {
         
         backgroundColor = SKColor.blackColor()//sets background to black like the night sky
+        createStars()
         
         playerSpeed = defaults.floatForKey("playerSpeed")
         
         //Settings Label
         settingsLabel.text = "Settings"
         settingsLabel.fontSize = 80
-        settingsLabel.position = CGPoint(x:size.width/2, y:(4/5)*size.height)
+        settingsLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
         
         //Sensitivity Label
         senseLabel.text = "Tilt Sensitivity: " + String(playerSpeed)
@@ -69,15 +68,23 @@ class SettingScene: SKScene {
     
     }
     
-    //Create random number
-    func randNum() -> CGFloat {
-        return CGFloat(Float(arc4random())/0xFFFFFFFF)
-    }
-    
-    
-    //Create random range
-    func random(min: CGFloat , max: CGFloat) -> CGFloat {
-        return randNum()*(max-min)+min
+    func createStars() {
+        // Add Starfield with 3 emitterNodes for a parallax effect
+        // – Stars in top layer: light, fast, big
+        // – …sss
+        // – Stars in back layer: dark, slow, small
+        
+        var starEmitterNode = starENode.makeStarfield(SKColor.lightGrayColor(), starSpeedY: 50, starsPerSecond: 0.25, starScaleFactor: 0.75, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -10
+        self.addChild(starEmitterNode)
+        
+        starEmitterNode = starENode.makeStarfield(SKColor.grayColor(), starSpeedY: 30, starsPerSecond: 0.75, starScaleFactor: 0.5, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -11
+        self.addChild(starEmitterNode)
+        
+        starEmitterNode = starENode.makeStarfield(SKColor.darkGrayColor(), starSpeedY: 15, starsPerSecond: 1.25, starScaleFactor: 0.25, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -12
+        self.addChild(starEmitterNode)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

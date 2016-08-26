@@ -10,9 +10,7 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     
-    var starX = CGFloat()
-    var starY = CGFloat()
-    let numOfStars = 20
+    var starENode = StarEmitterNode()
     
     //NSUserDefaults to store data like high score
     let defaults = NSUserDefaults.standardUserDefaults()
@@ -26,7 +24,8 @@ class GameOverScene: SKScene {
     override func didMoveToView(view: SKView) {
         
         backgroundColor = SKColor.blackColor()
-     
+        createStars()
+        
         recentScore = String(defaults.integerForKey("score"))
         
         //Score Label
@@ -55,14 +54,23 @@ class GameOverScene: SKScene {
         
     }
     
-    //Create random number
-    func randNum() -> CGFloat {
-        return CGFloat(Float(arc4random())/0xFFFFFFFF)
-    }    
-    
-    //Create random range
-    func random(min: CGFloat , max: CGFloat) -> CGFloat {
-        return randNum()*(max-min)+min
+    func createStars() {
+        // Add Starfield with 3 emitterNodes for a parallax effect
+        // – Stars in top layer: light, fast, big
+        // – …sss
+        // – Stars in back layer: dark, slow, small
+        
+        var starEmitterNode = starENode.makeStarfield(SKColor.lightGrayColor(), starSpeedY: 50, starsPerSecond: 0.25, starScaleFactor: 0.75, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -10
+        self.addChild(starEmitterNode)
+        
+        starEmitterNode = starENode.makeStarfield(SKColor.grayColor(), starSpeedY: 30, starsPerSecond: 0.75, starScaleFactor: 0.5, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -11
+        self.addChild(starEmitterNode)
+        
+        starEmitterNode = starENode.makeStarfield(SKColor.darkGrayColor(), starSpeedY: 15, starsPerSecond: 1.25, starScaleFactor: 0.25, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -12
+        self.addChild(starEmitterNode)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) { //when the touch has began
@@ -82,7 +90,6 @@ class GameOverScene: SKScene {
             }
         }
     }
-    
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) { //when the touch has ended
         for touch in touches {

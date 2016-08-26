@@ -16,6 +16,7 @@ class MenuScene: SKScene {
     
     let defaults = NSUserDefaults.standardUserDefaults()
     
+    var starENode = StarEmitterNode()
     
     //Difficulty Options
     var easyOpt: SKSpriteNode!
@@ -35,6 +36,8 @@ class MenuScene: SKScene {
         /* Setup your scene here */
         
         backgroundColor = SKColor.blackColor()//sets background to black like the night sky
+        createStars()
+        
         
         let titleLabel = SKLabelNode(fontNamed:"ArialMT")
         titleLabel.text = "Avoid The Asteroids"
@@ -42,6 +45,7 @@ class MenuScene: SKScene {
         titleLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
         
         getDiffOptTxtStrs() //Get the texture that has been selected from NSUserDefaults
+        
         
         //Medium Option
         medOpt = SKSpriteNode(imageNamed: medOptTxtStr)
@@ -94,6 +98,25 @@ class MenuScene: SKScene {
         self.addChild(highScoreLabel)
     }
     
+    
+    func createStars() {
+        // Add Starfield with 3 emitterNodes for a parallax effect
+        // – Stars in top layer: light, fast, big
+        // – …sss
+        // – Stars in back layer: dark, slow, small
+        
+        var starEmitterNode = starENode.makeStarfield(SKColor.lightGrayColor(), starSpeedY: 50, starsPerSecond: 0.25, starScaleFactor: 0.75, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -10
+        self.addChild(starEmitterNode)
+        
+        starEmitterNode = starENode.makeStarfield(SKColor.grayColor(), starSpeedY: 30, starsPerSecond: 0.75, starScaleFactor: 0.5, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -11
+        self.addChild(starEmitterNode)
+        
+        starEmitterNode = starENode.makeStarfield(SKColor.darkGrayColor(), starSpeedY: 15, starsPerSecond: 1.25, starScaleFactor: 0.25, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -12
+        self.addChild(starEmitterNode)
+    }
     
     func getDiffOptTxtStrs() {
         

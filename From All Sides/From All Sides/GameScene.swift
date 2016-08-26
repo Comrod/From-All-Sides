@@ -33,7 +33,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerSpeed:CGFloat = 30
     
     var starENode = StarEmitterNode()
-    
+
     //Player Radial Gravity Field
     var playerGravityField = SKFieldNode()
     var playerGravityFieldStrength: Float!
@@ -142,25 +142,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(starEmitterNode)
     }
     
-    /*func makeStarfield(color: SKColor, starSpeedY: CGFloat, starsPerSecond: CGFloat, starScaleFactor: CGFloat, frameHeight: CGFloat, frameWidth: CGFloat, screenScale: CGFloat) -> SKEmitterNode {
-        let lifetime =  frameHeight * screenScale / starSpeedY
-        
-        // Create the emitter node
-        let starEmitterNode = StarEmitterNode.starEmitter()
-        starEmitterNode.particleBirthRate = starsPerSecond
-        starEmitterNode.particleSpeed = starSpeedY * -1
-        starEmitterNode.particleScale = starScaleFactor
-        starEmitterNode.particleLifetime = lifetime
-        
-        // Position in the middle at top of the screen
-        starEmitterNode.position = CGPoint(x: frameWidth/2, y: frameHeight)
-        starEmitterNode.particlePositionRange = CGVector(dx: frameWidth, dy: 0)
-        
-        // Fast forward the effect to start with a filled screen
-        starEmitterNode.advanceSimulationTime(NSTimeInterval(lifetime))
-        
-        return starEmitterNode
-    }*/
     
     //Setup Player
     func setupPlayer() {
