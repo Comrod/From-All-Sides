@@ -11,6 +11,7 @@
 import SpriteKit
 import CoreMotion
 import UIKit
+import AVFoundation
 
 struct PhysicsCategory {
     static let None      : UInt32 = 0
@@ -59,6 +60,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var mainProjImpulseMax = CGFloat()
     var projectileNode: SKNode!
     
+    //var explosionSoundAction = SKAction()
+    
     
     //Score
     var score = 0 //Counter that is incremented
@@ -70,6 +73,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var hasBeenHit = Bool()
     
     override func didMoveToView(view: SKView) {
+        
+        //explosionSoundAction = SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)
         
         //Prevent screen from dimming
         UIApplication.sharedApplication().idleTimerDisabled = true
