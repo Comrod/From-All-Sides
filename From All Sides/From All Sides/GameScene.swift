@@ -82,8 +82,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         self.physicsBody?.friction = 0
         
+        backgroundColor = SKColor.blackColor()//sets background to black like the night sky
         
-        makeBackground()//Make the Background
+        //makeBackground()//Make the Background
         setupScoreLabel()//Score Label Setup
         setupPauseButton()//Pause Button Setup
         setupPlayer()//Player setup
@@ -107,6 +108,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             mainProjImpulseMin = 600
             mainProjImpulseMax = 800
         }
+        
+        // Add Starfield with 3 emitterNodes for a parallax effect
+        // – Stars in top layer: light, fast, big
+        // – …sss
+        // – Stars in back layer: dark, slow, small
+        var starEmitterNode = makeStarfield(SKColor.lightGrayColor(), starSpeedY: 50, starsPerSecond: 0.25, starScaleFactor: 0.75)
+        starEmitterNode.zPosition = -10
+        self.addChild(starEmitterNode)
+        
+        starEmitterNode = makeStarfield(SKColor.grayColor(), starSpeedY: 30, starsPerSecond: 0.75, starScaleFactor: 0.5)
+        starEmitterNode.zPosition = -11
+        self.addChild(starEmitterNode)
+        
+        starEmitterNode = makeStarfield(SKColor.darkGrayColor(), starSpeedY: 15, starsPerSecond: 1.25, starScaleFactor: 0.25)
+        starEmitterNode.zPosition = -12
+        self.addChild(starEmitterNode)
         
         print("player setup")
         NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(getDeviceAttitude), userInfo: nil, repeats: false) //Delays player movement so scene has enough time to load
@@ -134,6 +151,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         runAction(SKAction.repeatAction(SKAction.runBlock(addStars), count: numOfStars), withKey: "addStars")
     }
     
+    
+    func makeStarfield(color: SKColor, starSpeedY: CGFloat, starsPerSecond: CGFloat, starScaleFactor: CGFloat) -> SKEmitterNode {
+        let lifetime =  frame.size.height * UIScreen.mainScreen().scale / starSpeedY
+        
+        // Create the emitter node
+        let starEmitterNode = SKEmitterNode()
+        starEmitterNode.particleTexture = SKTexture(imageNamed: "star")
+        starEmitterNode.particleBirthRate = starsPerSecond
+        starEmitterNode.particleColor = SKColor.lightGrayColor()
+        starEmitterNode.particleSpeed = starSpeedY * -1
+        starEmitterNode.particleScale = starScaleFactor
+        starEmitterNode.particleColorBlendFactor = 1
+        starEmitterNode.particleLifetime = lifetime
+        
+        // Position in the middle at top of the screen
+        starEmitterNode.position = CGPoint(x: frame.size.width/2, y: frame.size.height)
+        starEmitterNode.particlePositionRange = CGVector(dx: frame.size.width, dy: 0)
+        
+        // Fast forward the effect to start with a filled screen
+        starEmitterNode.advanceSimulationTime(NSTimeInterval(lifetime))
+        
+        return starEmitterNode
+    }
     
     //Setup Player
     func setupPlayer() {
@@ -322,8 +362,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 killScene()
                 explosion(player.position) //Explosion from the collision of the asteroid and the player
             }
-            
-            
         }
         
     }
@@ -334,7 +372,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         explosionNode?.position = position
         self.addChild(explosionNode!)
         self.runAction(SKAction.waitForDuration(1.5), completion: { explosionNode!.removeFromParent() })
-        self.runAction(SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)) //sound effect attribution: http://soundbible.com/1983-Atomic-Bomb.html note: the sound effect was reduced to 1.5 seconds in length
+        self.runAction(SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)) //https://www.freesoundeffects.com/free-sounds/explosion-10070/ - explosion 3
     }
     
     //Score Counter

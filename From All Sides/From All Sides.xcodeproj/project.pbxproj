@@ -13,7 +13,6 @@
 		24572EAF1D6F93BF00483D24 /* StarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24572EAE1D6F93BF00483D24 /* StarNode.swift */; };
 		24572EB21D6F97E600483D24 /* ExplosionParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 24572EB01D6F97E600483D24 /* ExplosionParticle.sks */; };
 		24572EB31D6F97E600483D24 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 24572EB11D6F97E600483D24 /* spark.png */; };
-		24572EB51D6FA91500483D24 /* explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 24572EB41D6FA91500483D24 /* explosion.wav */; };
 		245B20B31D6A0D3E00C803B8 /* locationIndicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */; };
 		245B20B51D6A6DB400C803B8 /* pausebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B41D6A6DB400C803B8 /* pausebutton.png */; };
 		245B20B71D6A872B00C803B8 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B61D6A872B00C803B8 /* star.png */; };
@@ -30,6 +29,7 @@
 		2486C2981D6D65FA000B2C93 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2486C2971D6D65FA000B2C93 /* MenuScene.sks */; };
 		2486C29C1D6DF6F7000B2C93 /* ProjectileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2486C29B1D6DF6F7000B2C93 /* ProjectileNode.swift */; };
 		2486C2A21D6E5ECC000B2C93 /* irregularasteroid.png in Resources */ = {isa = PBXBuildFile; fileRef = 2486C2A11D6E5ECC000B2C93 /* irregularasteroid.png */; };
+		249752BA1D6FF33F00BA3C18 /* explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 249752B91D6FF33F00BA3C18 /* explosion.wav */; };
 		24D1A50D1D68D5F1002B7E63 /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = 24D1A50C1D68D5F1002B7E63 /* player.png */; };
 		24D1A50F1D68E053002B7E63 /* projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = 24D1A50E1D68E053002B7E63 /* projectile.png */; };
 		24DCF67C1D6EB91300742153 /* easyuntapped.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DCF6761D6EB91300742153 /* easyuntapped.png */; };
@@ -64,7 +64,6 @@
 		24572EAE1D6F93BF00483D24 /* StarNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarNode.swift; sourceTree = "<group>"; };
 		24572EB01D6F97E600483D24 /* ExplosionParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ExplosionParticle.sks; sourceTree = "<group>"; };
 		24572EB11D6F97E600483D24 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
-		24572EB41D6FA91500483D24 /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion.wav; sourceTree = "<group>"; };
 		245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locationIndicator@2x.png"; sourceTree = "<group>"; };
 		245B20B41D6A6DB400C803B8 /* pausebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pausebutton.png; sourceTree = "<group>"; };
 		245B20B61D6A872B00C803B8 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
@@ -87,6 +86,7 @@
 		2486C2971D6D65FA000B2C93 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		2486C29B1D6DF6F7000B2C93 /* ProjectileNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectileNode.swift; sourceTree = "<group>"; };
 		2486C2A11D6E5ECC000B2C93 /* irregularasteroid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = irregularasteroid.png; sourceTree = "<group>"; };
+		249752B91D6FF33F00BA3C18 /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion.wav; sourceTree = "<group>"; };
 		24D1A50C1D68D5F1002B7E63 /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
 		24D1A50E1D68E053002B7E63 /* projectile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = projectile.png; sourceTree = "<group>"; };
 		24DCF6761D6EB91300742153 /* easyuntapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = easyuntapped.png; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 				2465CE5D1D68243A0047B63E /* From All SidesTests */,
 				2465CE681D68243A0047B63E /* From All SidesUITests */,
 				2465CE431D68243A0047B63E /* Products */,
-				24572EB41D6FA91500483D24 /* explosion.wav */,
+				249752B91D6FF33F00BA3C18 /* explosion.wav */,
 				24D1A50C1D68D5F1002B7E63 /* player.png */,
 				24D1A50E1D68E053002B7E63 /* projectile.png */,
 				245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */,
@@ -319,7 +319,7 @@
 				245B20B71D6A872B00C803B8 /* star.png in Resources */,
 				245B20B51D6A6DB400C803B8 /* pausebutton.png in Resources */,
 				24DCF6821D6EC61B00742153 /* easytapped.png in Resources */,
-				24572EB51D6FA91500483D24 /* explosion.wav in Resources */,
+				249752BA1D6FF33F00BA3C18 /* explosion.wav in Resources */,
 				245B20BB1D6AB9A100C803B8 /* asteroid.png in Resources */,
 				245B20B31D6A0D3E00C803B8 /* locationIndicator@2x.png in Resources */,
 				2465CE541D68243A0047B63E /* LaunchScreen.storyboard in Resources */,
