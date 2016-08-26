@@ -10,6 +10,7 @@
 
 import SpriteKit
 import CoreMotion
+import UIKit
 
 struct PhysicsCategory {
     static let None      : UInt32 = 0
@@ -31,6 +32,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player = SKSpriteNode()
     var playerSpeed:CGFloat = 30
     
+    var starENode = StarEmitterNode()
+    
     //Player Radial Gravity Field
     var playerGravityField = SKFieldNode()
     var playerGravityFieldStrength: Float!
@@ -46,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Incremental variable for indicating what side a projectile will spawned
     var whatSide:UInt32 = 0
     
-    //Projectile and Irregular Asteroid Data
+    //Projectile Data
     var beginX = CGFloat()
     var beginY = CGFloat()
     var impulseX = CGFloat()
@@ -56,13 +59,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var mainProjImpulseMax = CGFloat()
     var projectileNode: SKNode!
     
-    
-    //Star Locations
-    var starX = CGFloat()
-    var starY = CGFloat()
-    
-    //Number of Stars
-    let numOfStars = 20
     
     //Score
     var score = 0 //Counter that is incremented
@@ -74,6 +70,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var hasBeenHit = Bool()
     
     override func didMoveToView(view: SKView) {
+        
+        //Prevent screen from dimming
+        UIApplication.sharedApplication().idleTimerDisabled = true
         
         hasBeenHit = false
         
@@ -91,8 +90,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.friction = 0
         
         backgroundColor = SKColor.blackColor()//sets background to black like the night sky
+        createStars()
         
-        //makeBackground()//Make the Background
         setupScoreLabel()//Score Label Setup
         setupPauseButton()//Pause Button Setup
         setupPlayer()//Player setup
@@ -117,22 +116,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             mainProjImpulseMax = 800
         }
         
-        // Add Starfield with 3 emitterNodes for a parallax effect
-        // – Stars in top layer: light, fast, big
-        // – …sss
-        // – Stars in back layer: dark, slow, small
-        var starEmitterNode = makeStarfield(SKColor.lightGrayColor(), starSpeedY: 50, starsPerSecond: 0.25, starScaleFactor: 0.75)
-        starEmitterNode.zPosition = -10
-        self.addChild(starEmitterNode)
-        
-        starEmitterNode = makeStarfield(SKColor.grayColor(), starSpeedY: 30, starsPerSecond: 0.75, starScaleFactor: 0.5)
-        starEmitterNode.zPosition = -11
-        self.addChild(starEmitterNode)
-        
-        starEmitterNode = makeStarfield(SKColor.darkGrayColor(), starSpeedY: 15, starsPerSecond: 1.25, starScaleFactor: 0.25)
-        starEmitterNode.zPosition = -12
-        self.addChild(starEmitterNode)
-        
         print("player setup")
         NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(getDeviceAttitude), userInfo: nil, repeats: false) //Delays player movement so scene has enough time to load
         
@@ -140,48 +123,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(projSpawnRate)])), withKey: "projectileAction")
     }
     
-    //Make background black with stars
-    func makeBackground(){
+    func createStars() {
+        // Add Starfield with 3 emitterNodes for a parallax effect
+        // – Stars in top layer: light, fast, big
+        // – …sss
+        // – Stars in back layer: dark, slow, small
         
-        func addStars() {
-            
-            let star = StarNode.star()
-            let starSize = star.size.height
-            starX = random(starSize, max: size.width - starSize)
-            starY = random(starSize, max: size.height - starSize)
-            star.position = CGPoint(x: starX, y: starY)
-            
-            self.addChild(star)
-        }
+        var starEmitterNode = starENode.makeStarfield(SKColor.lightGrayColor(), starSpeedY: 50, starsPerSecond: 0.25, starScaleFactor: 0.75, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -10
+        self.addChild(starEmitterNode)
         
-        backgroundColor = SKColor.blackColor()//sets background to black like the night sky
+        starEmitterNode = starENode.makeStarfield(SKColor.grayColor(), starSpeedY: 30, starsPerSecond: 0.75, starScaleFactor: 0.5, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -11
+        self.addChild(starEmitterNode)
         
-        runAction(SKAction.repeatAction(SKAction.runBlock(addStars), count: numOfStars), withKey: "addStars")
+        starEmitterNode = starENode.makeStarfield(SKColor.darkGrayColor(), starSpeedY: 15, starsPerSecond: 1.25, starScaleFactor: 0.25, frameHeight: frame.size.height, frameWidth: frame.size.width, screenScale: UIScreen.mainScreen().scale)
+        starEmitterNode.zPosition = -12
+        self.addChild(starEmitterNode)
     }
     
-    
-    func makeStarfield(color: SKColor, starSpeedY: CGFloat, starsPerSecond: CGFloat, starScaleFactor: CGFloat) -> SKEmitterNode {
-        let lifetime =  frame.size.height * UIScreen.mainScreen().scale / starSpeedY
+    /*func makeStarfield(color: SKColor, starSpeedY: CGFloat, starsPerSecond: CGFloat, starScaleFactor: CGFloat, frameHeight: CGFloat, frameWidth: CGFloat, screenScale: CGFloat) -> SKEmitterNode {
+        let lifetime =  frameHeight * screenScale / starSpeedY
         
         // Create the emitter node
-        let starEmitterNode = SKEmitterNode()
-        starEmitterNode.particleTexture = SKTexture(imageNamed: "star")
+        let starEmitterNode = StarEmitterNode.starEmitter()
         starEmitterNode.particleBirthRate = starsPerSecond
-        starEmitterNode.particleColor = SKColor.lightGrayColor()
         starEmitterNode.particleSpeed = starSpeedY * -1
         starEmitterNode.particleScale = starScaleFactor
-        starEmitterNode.particleColorBlendFactor = 1
         starEmitterNode.particleLifetime = lifetime
         
         // Position in the middle at top of the screen
-        starEmitterNode.position = CGPoint(x: frame.size.width/2, y: frame.size.height)
-        starEmitterNode.particlePositionRange = CGVector(dx: frame.size.width, dy: 0)
+        starEmitterNode.position = CGPoint(x: frameWidth/2, y: frameHeight)
+        starEmitterNode.particlePositionRange = CGVector(dx: frameWidth, dy: 0)
         
         // Fast forward the effect to start with a filled screen
         starEmitterNode.advanceSimulationTime(NSTimeInterval(lifetime))
         
         return starEmitterNode
-    }
+    }*/
     
     //Setup Player
     func setupPlayer() {
@@ -273,6 +252,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else { //if the scene isn't paused
             scene!.view!.paused = true
             motionManager.stopDeviceMotionUpdates()
+            
             NSOperationQueue.currentQueue()!.cancelAllOperations() //May or may not need
             print("Scene is paused")
         }
@@ -419,11 +399,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if score > defaults.integerForKey("highScore") { //Saving new high score
             defaults.setInteger(score, forKey: "highScore")
         }
-        NSTimer.scheduledTimerWithTimeInterval(1.7, target: self, selector: #selector(goToGameOver), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(goToGameOver), userInfo: nil, repeats: false)
     }
     
     //Transition back to main menu
     func goToGameOver() {
+        UIApplication.sharedApplication().idleTimerDisabled = false //Allow screen to dim when not in gamescene
         let transition = SKTransition.fadeWithDuration(0.25)
         let nextScene = GameOverScene(size: scene!.size)
         nextScene.scaleMode = .AspectFill

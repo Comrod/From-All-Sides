@@ -34,8 +34,7 @@ class MenuScene: SKScene {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
-        //Make Background
-        makeBackground()
+        backgroundColor = SKColor.blackColor()//sets background to black like the night sky
         
         let titleLabel = SKLabelNode(fontNamed:"ArialMT")
         titleLabel.text = "Avoid The Asteroids"
@@ -93,24 +92,6 @@ class MenuScene: SKScene {
         self.addChild(playLabel)
         self.addChild(settingsLabel)
         self.addChild(highScoreLabel)
-    }
-    
-    func makeBackground(){
-        
-        func addStars() {
-            
-            let star = StarNode.star()
-            let starSize = star.size.height
-            starX = random(starSize, max: size.width - starSize)
-            starY = random(starSize, max: size.height - starSize)
-            star.position = CGPoint(x: starX, y: starY)
-            
-            self.addChild(star)
-        }
-        
-        backgroundColor = SKColor.blackColor()//sets background to black like the night sky
-        
-        runAction(SKAction.repeatAction(SKAction.runBlock(addStars), count: numOfStars), withKey: "addStars")
     }
     
     

@@ -29,8 +29,7 @@ class SettingScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
-        //Make background
-        makeBackground()
+        backgroundColor = SKColor.blackColor()//sets background to black like the night sky
         
         playerSpeed = defaults.floatForKey("playerSpeed")
         
@@ -68,24 +67,6 @@ class SettingScene: SKScene {
         self.addChild(increaseSenseLabel)
         self.addChild(backLabel)
     
-    }
-    
-    func makeBackground(){
-        
-        func addStars() {
-            
-            let star = StarNode.star()
-            let starSize = star.size.height
-            starX = random(starSize, max: size.width - starSize)
-            starY = random(starSize, max: size.height - starSize)
-            star.position = CGPoint(x: starX, y: starY)
-            
-            self.addChild(star)
-        }
-        
-        backgroundColor = SKColor.blackColor()//sets background to black like the night sky
-        
-        runAction(SKAction.repeatAction(SKAction.runBlock(addStars), count: numOfStars), withKey: "addStars")
     }
     
     //Create random number

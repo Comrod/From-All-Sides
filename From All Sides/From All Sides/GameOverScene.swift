@@ -25,7 +25,7 @@ class GameOverScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
-        makeBackground()
+        backgroundColor = SKColor.blackColor()
      
         recentScore = String(defaults.integerForKey("score"))
         
@@ -53,25 +53,6 @@ class GameOverScene: SKScene {
         self.addChild(playAgainLabel)
         self.addChild(menuLabel)
         
-    }
-    
-    //Make background black with stars
-    func makeBackground(){
-        
-        func addStars() {
-            
-            let star = StarNode.star()
-            let starSize = star.size.height
-            starX = random(starSize, max: size.width - starSize)
-            starY = random(starSize, max: size.height - starSize)
-            star.position = CGPoint(x: starX, y: starY)
-            
-            self.addChild(star)
-        }
-        
-        backgroundColor = SKColor.blackColor()//sets background to black like the night sky
-        
-        runAction(SKAction.repeatAction(SKAction.runBlock(addStars), count: numOfStars), withKey: "addStars")
     }
     
     //Create random number
