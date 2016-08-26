@@ -54,6 +54,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var angularImpulse = CGFloat()
     var mainProjImpulseMin = CGFloat()
     var mainProjImpulseMax = CGFloat()
+    var projectileNode: SKNode!
+    
     
     //Star Locations
     var starX = CGFloat()
@@ -75,7 +77,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         hasBeenHit = false
         
+        //Updating player speed from settings
         playerSpeed = CGFloat(defaults.floatForKey("playerSpeed"))
+        
+        //Projectile Node
+        projectileNode = SKNode()
+        self.addChild(projectileNode)
+        
         
         //Physics World
         physicsWorld.gravity = CGVectorMake(0, 0)
@@ -293,7 +301,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         projectile.physicsBody?.friction = 0
         
-        addChild(projectile)
+        projectileNode.addChild(projectile)
         
         //Chooses side projectile is launched from randomly
         whatSide = arc4random_uniform(4)
@@ -371,6 +379,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let explosionNode = SKEmitterNode(fileNamed: "ExplosionParticle.sks")
         explosionNode?.position = position
         self.addChild(explosionNode!)
+        
         self.runAction(SKAction.waitForDuration(1.5), completion: { explosionNode!.removeFromParent() })
         self.runAction(SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)) //https://www.freesoundeffects.com/free-sounds/explosion-10070/ - explosion 3
     }
@@ -398,7 +407,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func killScene() {
-        self.removeAllChildren() //deletes all children from the scene (projectiles, player, scorelabel)
+        projectileNode.removeAllChildren() //deletes all projectiles from scene
+        //self.removeAllChildren() //deletes all children from the scene (projectiles, player, scorelabel)
         self.removeAllActions()
         motionManager.stopDeviceMotionUpdates()
         NSOperationQueue.currentQueue()!.cancelAllOperations() //May or may not need
