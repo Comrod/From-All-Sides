@@ -18,7 +18,8 @@ struct PhysicsCategory {
     static let All       : UInt32 = UInt32.max
     static let Player : UInt32 = 0b1
     static let Projectile: UInt32 = 0b10
-    static let PlayerGravity: UInt32 = 0b11
+    static let Comet: UInt32 = 0b11
+    static let PlayerGravity: UInt32 = 0b101
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -40,6 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerGravityFieldStrength: Float!
     
     var projSpawnRate: Double = 1.0 //The smaller the value, the more often a projectile is spawned
+    var cometSpawnRate: Double = 10.0
     var difficCounter = 0 //Counter for difficulty method
     var minProjSpeed:CGFloat = 3.5 //maximum time in seconds for projectile to travel across the screen
     
@@ -58,10 +60,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var angularImpulse = CGFloat()
     var mainProjImpulseMin = CGFloat()
     var mainProjImpulseMax = CGFloat()
-    var projectileNode: SKNode!
+    var projectileSpawnNode: SKNode!
     
-    //var explosionSoundAction = SKAction()
-    
+    //Comet Stuff
+    var cometSpawnNode: SKNode!
+    var cometTuples: [(CometNode, SKEmitterNode)]!
     
     //Score
     var score = 0 //Counter that is incremented
@@ -74,8 +77,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         
-        //explosionSoundAction = SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)
-        
         //Prevent screen from dimming
         UIApplication.sharedApplication().idleTimerDisabled = true
         
@@ -85,8 +86,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerSpeed = CGFloat(defaults.floatForKey("playerSpeed"))
         
         //Projectile Node
-        projectileNode = SKNode()
-        self.addChild(projectileNode)
+        projectileSpawnNode = SKNode()
+        self.addChild(projectileSpawnNode)
+        
+        //Comet Node
+        cometSpawnNode = SKNode()
+        self.addChild(cometSpawnNode)
         
         
         //Physics World
@@ -121,11 +126,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             mainProjImpulseMax = 800
         }
         
+        cometTuples = []
+        
         print("player setup")
         NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(getDeviceAttitude), userInfo: nil, repeats: false) //Delays player movement so scene has enough time to load
         
         //Add Projectiles
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(projectileFlightCalc), SKAction.waitForDuration(projSpawnRate)])), withKey: "projectileAction")
+        
+        //Add Comets
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(cometFlightCalc), SKAction.waitForDuration(cometSpawnRate)])), withKey: "cometAction")
+        
+        
     }
     
     func createStars() {
@@ -161,7 +173,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.affectedByGravity = false
         player.physicsBody?.mass = 200000
         player.physicsBody?.categoryBitMask = PhysicsCategory.Player //What category the projectile belongs to
-        player.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile//What category it interacts with
+        player.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile | PhysicsCategory.Comet//What category it interacts with
         player.physicsBody?.collisionBitMask = PhysicsCategory.None //What category bounces off of it
         player.physicsBody?.fieldBitMask = PhysicsCategory.None
         player.physicsBody?.linearDamping = 0
@@ -267,7 +279,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         projectile.physicsBody?.friction = 0
         
-        projectileNode.addChild(projectile)
+        projectileSpawnNode.addChild(projectile)
         
         //Chooses side projectile is launched from randomly
         whatSide = arc4random_uniform(4)
@@ -307,6 +319,67 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         projectile.physicsBody?.applyImpulse(CGVectorMake(impulseX, impulseY))
     }
     
+    //Add Projectiles - method run for every projectile spawned
+    func cometFlightCalc() {
+        
+        let comet = CometNode.comet()
+        
+        //Link CometTrail.sks to cometTrail
+        let cometTrailPath = NSBundle.mainBundle().pathForResource("CometTrail", ofType: "sks")
+        var cometTrail = NSKeyedUnarchiver.unarchiveObjectWithFile(cometTrailPath!) as! SKEmitterNode
+        cometTrail.targetNode = self
+        
+        //Value for size of projectile
+        let cometSize = comet.size.height
+        
+        comet.position = CGPoint (x: size.width - cometSize, y: (1/2)*size.height)
+        
+        comet.physicsBody?.friction = 0
+        
+        cometSpawnNode.addChild(comet)
+        cometSpawnNode.addChild(cometTrail)
+        
+        //Chooses side projectile is launched from randomly
+        whatSide = arc4random_uniform(4)
+        
+        switch whatSide {
+        case 0: //Right
+            beginY = random(cometSize, max: size.height - cometSize)
+            comet.position = CGPoint(x: size.width + cometSize, y: beginY)
+            impulseX = random(-mainProjImpulseMin, max: -mainProjImpulseMax)
+            impulseY = random(-100, max: 100)
+            break
+        case 1: //Top
+            beginX = random(cometSize, max: size.width - cometSize)
+            comet.position = CGPoint(x: beginX, y: size.height + cometSize)
+            impulseX = random(-100, max: 100)
+            impulseY = random(-mainProjImpulseMin, max: -mainProjImpulseMax)
+            break
+        case 2: //Left
+            beginY = random(cometSize, max: size.height - cometSize)
+            comet.position = CGPoint(x: -cometSize, y: beginY)
+            impulseX = random(mainProjImpulseMin, max: mainProjImpulseMax)
+            impulseY = random(-100, max: 100)
+            break
+        case 3: //Bottom
+            beginX = random(cometSize, max: size.width - cometSize)
+            comet.position = CGPoint(x: beginX, y: -cometSize)
+            impulseX = random(-100, max: 100)
+            impulseY = random(mainProjImpulseMin, max: mainProjImpulseMax)
+            break
+        default:
+            print("There was an error in comet selection - restart the game")
+        }
+        
+        let cometTuple = (comet, cometTrail)
+        cometTuples.append(cometTuple)
+        
+        //Makes the projectile rotate in a random direction
+        angularImpulse = random(-0.1, max: 0.1)
+        comet.physicsBody?.applyAngularImpulse(angularImpulse)
+        comet.physicsBody?.applyImpulse(CGVectorMake(impulseX, impulseY))
+    }
+    
     
     //Called when two physics bodies contact eachother
     func didBeginContact(contact: SKPhysicsContact) {
@@ -324,9 +397,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Checks to see if 2 physics bodies collided
         if ((firstBody.categoryBitMask & PhysicsCategory.Player != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
+            (secondBody.categoryBitMask & PhysicsCategory.Projectile | PhysicsCategory.Comet != 0)) {
             
-            if hasBeenHit {
+            if hasBeenHit { //Prevents an explosion from happening twice if two projectiles/comets hit in quick succession
                 
             }
             else {
@@ -373,7 +446,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func killScene() {
-        projectileNode.removeAllChildren() //deletes all projectiles from scene
+        projectileSpawnNode.removeAllChildren() //deletes all projectiles from scene
+        cometSpawnNode.removeAllChildren() //deletes everything associated with comets from scene
         pauseButton.removeFromParent() //remove pause button to prevent bug
         //self.removeAllChildren() //deletes all children from the scene (projectiles, player, scorelabel)
         self.removeAllActions()
@@ -399,6 +473,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(currentTime: NSTimeInterval) {
         // Loop over all nodes in the scene
+        
+        //Sets position of comet trail to comet
+        for (comet, cometTrail) in cometTuples {
+            cometTrail.position = comet.position
+        }
+        
+        
         self.enumerateChildNodesWithName("*") {
             node, stop in
             if (node is SKSpriteNode) {
@@ -417,7 +498,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        projectileNode.enumerateChildNodesWithName("*") {
+        projectileSpawnNode.enumerateChildNodesWithName("*") {
             node, stop in
             if (node is SKSpriteNode) {
                 let sprite = node as! SKSpriteNode
@@ -427,7 +508,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     sprite.removeFromParent()
                     
                     
-                    if sprite.name == "projectile" {
+                    if sprite.name == "projectile"{
+                        self.incrementScoreDiff() //increment the score and the difficulty
+                    }
+                }
+            }
+        }
+        
+        cometSpawnNode.enumerateChildNodesWithName("*") {
+            node, stop in
+            if (node is SKSpriteNode) {
+                let sprite = node as! SKSpriteNode
+                // Check if the node is not in the scene
+                if (sprite.position.x < (-1.5)*sprite.size.width || sprite.position.x > self.size.width + (1.5)*sprite.size.width
+                    || sprite.position.y < (-1.5)*sprite.size.height || sprite.position.y > self.size.height + (1.5)*sprite.size.height) {
+                    sprite.removeFromParent()
+                    
+                    
+                    if sprite.name == "comet"{
                         self.incrementScoreDiff() //increment the score and the difficulty
                     }
                 }

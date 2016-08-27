@@ -41,6 +41,9 @@
 		24DFEC0D1D721D10000636C4 /* asteroid1.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC0C1D721D10000636C4 /* asteroid1.png */; };
 		24DFEC0F1D721D8D000636C4 /* asteroid4.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC0E1D721D8D000636C4 /* asteroid4.png */; };
 		24DFEC131D721F30000636C4 /* asteroid5.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC121D721F30000636C4 /* asteroid5.png */; };
+		24DFEC151D7220C2000636C4 /* CometNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DFEC141D7220C2000636C4 /* CometNode.swift */; };
+		24DFEC171D722289000636C4 /* comet.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC161D722289000636C4 /* comet.png */; };
+		24DFEC191D72240F000636C4 /* CometTrail.sks in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC181D72240F000636C4 /* CometTrail.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +104,9 @@
 		24DFEC0C1D721D10000636C4 /* asteroid1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid1.png; sourceTree = "<group>"; };
 		24DFEC0E1D721D8D000636C4 /* asteroid4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid4.png; sourceTree = "<group>"; };
 		24DFEC121D721F30000636C4 /* asteroid5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid5.png; sourceTree = "<group>"; };
+		24DFEC141D7220C2000636C4 /* CometNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CometNode.swift; sourceTree = "<group>"; };
+		24DFEC161D722289000636C4 /* comet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comet.png; sourceTree = "<group>"; };
+		24DFEC181D72240F000636C4 /* CometTrail.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CometTrail.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +137,7 @@
 		2465CE391D68243A0047B63E = {
 			isa = PBXGroup;
 			children = (
+				24DFEC181D72240F000636C4 /* CometTrail.sks */,
 				24572EB01D6F97E600483D24 /* ExplosionParticle.sks */,
 				24572EB11D6F97E600483D24 /* spark.png */,
 				2465CE441D68243A0047B63E /* From All Sides */,
@@ -148,6 +155,7 @@
 				24DFEC061D721B5C000636C4 /* asteroid3.png */,
 				24DFEC0E1D721D8D000636C4 /* asteroid4.png */,
 				24DFEC121D721F30000636C4 /* asteroid5.png */,
+				24DFEC161D722289000636C4 /* comet.png */,
 				241AAD201D6B52A400116717 /* earth.png */,
 				24DCF6741D6EB91300742153 /* Difficulty Option Selection */,
 			);
@@ -175,6 +183,7 @@
 				241AAD221D6B534B00116717 /* GameOverScene.swift */,
 				24DA08351D70127A00215C97 /* StarEmitterNode.swift */,
 				2486C29B1D6DF6F7000B2C93 /* ProjectileNode.swift */,
+				24DFEC141D7220C2000636C4 /* CometNode.swift */,
 				2465CE4D1D68243A0047B63E /* Main.storyboard */,
 				2465CE501D68243A0047B63E /* Assets.xcassets */,
 				2465CE521D68243A0047B63E /* LaunchScreen.storyboard */,
@@ -322,9 +331,11 @@
 				24DFEC131D721F30000636C4 /* asteroid5.png in Resources */,
 				24D1A50D1D68D5F1002B7E63 /* player.png in Resources */,
 				24DCF67F1D6EB91300742153 /* mediumtapped.png in Resources */,
+				24DFEC171D722289000636C4 /* comet.png in Resources */,
 				24DCF67C1D6EB91300742153 /* easyuntapped.png in Resources */,
 				24DCF67E1D6EB91300742153 /* lightspeeduntapped.png in Resources */,
 				24DFEC0B1D721CB2000636C4 /* asteroid2.png in Resources */,
+				24DFEC191D72240F000636C4 /* CometTrail.sks in Resources */,
 				24572EB31D6F97E600483D24 /* spark.png in Resources */,
 				245B20B71D6A872B00C803B8 /* star.png in Resources */,
 				245B20B51D6A6DB400C803B8 /* pausebutton.png in Resources */,
@@ -371,6 +382,7 @@
 				241AAD231D6B534B00116717 /* GameOverScene.swift in Sources */,
 				24DA08361D70127A00215C97 /* StarEmitterNode.swift in Sources */,
 				2465CE4A1D68243A0047B63E /* MenuScene.swift in Sources */,
+				24DFEC151D7220C2000636C4 /* CometNode.swift in Sources */,
 				2465CE4C1D68243A0047B63E /* GameViewController.swift in Sources */,
 				241AAD251D6B650000116717 /* SettingsScene.swift in Sources */,
 				2465CE781D6826F90047B63E /* GameScene.swift in Sources */,
