@@ -40,6 +40,7 @@
 		24DFEC0B1D721CB2000636C4 /* asteroid2.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC0A1D721CB2000636C4 /* asteroid2.png */; };
 		24DFEC0D1D721D10000636C4 /* asteroid1.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC0C1D721D10000636C4 /* asteroid1.png */; };
 		24DFEC0F1D721D8D000636C4 /* asteroid4.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC0E1D721D8D000636C4 /* asteroid4.png */; };
+		24DFEC131D721F30000636C4 /* asteroid5.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC121D721F30000636C4 /* asteroid5.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		24DFEC0A1D721CB2000636C4 /* asteroid2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid2.png; sourceTree = "<group>"; };
 		24DFEC0C1D721D10000636C4 /* asteroid1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid1.png; sourceTree = "<group>"; };
 		24DFEC0E1D721D8D000636C4 /* asteroid4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid4.png; sourceTree = "<group>"; };
+		24DFEC121D721F30000636C4 /* asteroid5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid5.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 				24DFEC0A1D721CB2000636C4 /* asteroid2.png */,
 				24DFEC061D721B5C000636C4 /* asteroid3.png */,
 				24DFEC0E1D721D8D000636C4 /* asteroid4.png */,
+				24DFEC121D721F30000636C4 /* asteroid5.png */,
 				241AAD201D6B52A400116717 /* earth.png */,
 				24DCF6741D6EB91300742153 /* Difficulty Option Selection */,
 			);
@@ -316,6 +319,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24DFEC131D721F30000636C4 /* asteroid5.png in Resources */,
 				24D1A50D1D68D5F1002B7E63 /* player.png in Resources */,
 				24DCF67F1D6EB91300742153 /* mediumtapped.png in Resources */,
 				24DCF67C1D6EB91300742153 /* easyuntapped.png in Resources */,

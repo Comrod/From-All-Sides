@@ -352,9 +352,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Score Counter
     func incrementScoreDiff() {
-        
-        print ("score increased")
-        
+
         score += 1 //Increase score
         scoreLabel.text = String(score) //Set score label to the newly increased score
         
@@ -428,7 +426,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     || sprite.position.y < (-1.5)*sprite.size.height || sprite.position.y > self.size.height + (1.5)*sprite.size.height) {
                     sprite.removeFromParent()
                     
-                    print ("projectile gone off screen")
                     
                     if sprite.name == "projectile" {
                         self.incrementScoreDiff() //increment the score and the difficulty
