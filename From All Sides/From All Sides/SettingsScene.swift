@@ -7,7 +7,7 @@
 //
 
 import SpriteKit
-
+import UIKit
 
 class SettingScene: SKScene {
     
@@ -17,13 +17,14 @@ class SettingScene: SKScene {
     
     var playerSpeed = Float()
     
+    let rawLandscapeLeft = UIInterfaceOrientation.LandscapeLeft.rawValue
+    let rawLandscapeRight = UIInterfaceOrientation.LandscapeRight.rawValue
+    
     let settingsLabel = SKLabelNode(fontNamed: "ArialMT")
     let senseLabel = SKLabelNode(fontNamed: "ArialMT")
     let decreaseSenseLabel = SKLabelNode(fontNamed: "ArialMT")
     let increaseSenseLabel = SKLabelNode(fontNamed: "ArialMT")
     let backLabel = SKLabelNode(fontNamed: "ArialMT")
-    
-    weak var gameVC = GameViewController()
     
     override func didMoveToView(view: SKView) {
         
