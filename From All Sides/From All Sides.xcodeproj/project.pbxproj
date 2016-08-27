@@ -15,7 +15,6 @@
 		245B20B31D6A0D3E00C803B8 /* locationIndicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */; };
 		245B20B51D6A6DB400C803B8 /* pausebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B41D6A6DB400C803B8 /* pausebutton.png */; };
 		245B20B71D6A872B00C803B8 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20B61D6A872B00C803B8 /* star.png */; };
-		245B20BB1D6AB9A100C803B8 /* asteroid.png in Resources */ = {isa = PBXBuildFile; fileRef = 245B20BA1D6AB9A100C803B8 /* asteroid.png */; };
 		2465CE461D68243A0047B63E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE451D68243A0047B63E /* AppDelegate.swift */; };
 		2465CE4A1D68243A0047B63E /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE491D68243A0047B63E /* MenuScene.swift */; };
 		2465CE4C1D68243A0047B63E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE4B1D68243A0047B63E /* GameViewController.swift */; };
@@ -27,7 +26,6 @@
 		2465CE781D6826F90047B63E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CE771D6826F90047B63E /* GameScene.swift */; };
 		2486C2981D6D65FA000B2C93 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2486C2971D6D65FA000B2C93 /* MenuScene.sks */; };
 		2486C29C1D6DF6F7000B2C93 /* ProjectileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2486C29B1D6DF6F7000B2C93 /* ProjectileNode.swift */; };
-		2486C2A21D6E5ECC000B2C93 /* irregularasteroid.png in Resources */ = {isa = PBXBuildFile; fileRef = 2486C2A11D6E5ECC000B2C93 /* irregularasteroid.png */; };
 		249752BA1D6FF33F00BA3C18 /* explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 249752B91D6FF33F00BA3C18 /* explosion.wav */; };
 		24D1A50D1D68D5F1002B7E63 /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = 24D1A50C1D68D5F1002B7E63 /* player.png */; };
 		24D1A50F1D68E053002B7E63 /* projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = 24D1A50E1D68E053002B7E63 /* projectile.png */; };
@@ -38,6 +36,10 @@
 		24DCF67F1D6EB91300742153 /* mediumtapped.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DCF6791D6EB91300742153 /* mediumtapped.png */; };
 		24DCF6801D6EB91300742153 /* mediumuntapped.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DCF67A1D6EB91300742153 /* mediumuntapped.png */; };
 		24DCF6821D6EC61B00742153 /* easytapped.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DCF6811D6EC61B00742153 /* easytapped.png */; };
+		24DFEC071D721B5C000636C4 /* asteroid3.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC061D721B5C000636C4 /* asteroid3.png */; };
+		24DFEC0B1D721CB2000636C4 /* asteroid2.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC0A1D721CB2000636C4 /* asteroid2.png */; };
+		24DFEC0D1D721D10000636C4 /* asteroid1.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC0C1D721D10000636C4 /* asteroid1.png */; };
+		24DFEC0F1D721D8D000636C4 /* asteroid4.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC0E1D721D8D000636C4 /* asteroid4.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +68,6 @@
 		245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locationIndicator@2x.png"; sourceTree = "<group>"; };
 		245B20B41D6A6DB400C803B8 /* pausebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pausebutton.png; sourceTree = "<group>"; };
 		245B20B61D6A872B00C803B8 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
-		245B20BA1D6AB9A100C803B8 /* asteroid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid.png; sourceTree = "<group>"; };
 		2465CE421D68243A0047B63E /* From All Sides.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "From All Sides.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2465CE451D68243A0047B63E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2465CE491D68243A0047B63E /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
@@ -84,7 +85,6 @@
 		2465CE771D6826F90047B63E /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		2486C2971D6D65FA000B2C93 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		2486C29B1D6DF6F7000B2C93 /* ProjectileNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectileNode.swift; sourceTree = "<group>"; };
-		2486C2A11D6E5ECC000B2C93 /* irregularasteroid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = irregularasteroid.png; sourceTree = "<group>"; };
 		249752B91D6FF33F00BA3C18 /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion.wav; sourceTree = "<group>"; };
 		24D1A50C1D68D5F1002B7E63 /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
 		24D1A50E1D68E053002B7E63 /* projectile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = projectile.png; sourceTree = "<group>"; };
@@ -95,6 +95,10 @@
 		24DCF6791D6EB91300742153 /* mediumtapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumtapped.png; sourceTree = "<group>"; };
 		24DCF67A1D6EB91300742153 /* mediumuntapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumuntapped.png; sourceTree = "<group>"; };
 		24DCF6811D6EC61B00742153 /* easytapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = easytapped.png; sourceTree = "<group>"; };
+		24DFEC061D721B5C000636C4 /* asteroid3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid3.png; sourceTree = "<group>"; };
+		24DFEC0A1D721CB2000636C4 /* asteroid2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid2.png; sourceTree = "<group>"; };
+		24DFEC0C1D721D10000636C4 /* asteroid1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid1.png; sourceTree = "<group>"; };
+		24DFEC0E1D721D8D000636C4 /* asteroid4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid4.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,9 +141,11 @@
 				245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */,
 				245B20B41D6A6DB400C803B8 /* pausebutton.png */,
 				245B20B61D6A872B00C803B8 /* star.png */,
-				245B20BA1D6AB9A100C803B8 /* asteroid.png */,
+				24DFEC0C1D721D10000636C4 /* asteroid1.png */,
+				24DFEC0A1D721CB2000636C4 /* asteroid2.png */,
+				24DFEC061D721B5C000636C4 /* asteroid3.png */,
+				24DFEC0E1D721D8D000636C4 /* asteroid4.png */,
 				241AAD201D6B52A400116717 /* earth.png */,
-				2486C2A11D6E5ECC000B2C93 /* irregularasteroid.png */,
 				24DCF6741D6EB91300742153 /* Difficulty Option Selection */,
 			);
 			sourceTree = "<group>";
@@ -310,17 +316,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2486C2A21D6E5ECC000B2C93 /* irregularasteroid.png in Resources */,
 				24D1A50D1D68D5F1002B7E63 /* player.png in Resources */,
 				24DCF67F1D6EB91300742153 /* mediumtapped.png in Resources */,
 				24DCF67C1D6EB91300742153 /* easyuntapped.png in Resources */,
 				24DCF67E1D6EB91300742153 /* lightspeeduntapped.png in Resources */,
+				24DFEC0B1D721CB2000636C4 /* asteroid2.png in Resources */,
 				24572EB31D6F97E600483D24 /* spark.png in Resources */,
 				245B20B71D6A872B00C803B8 /* star.png in Resources */,
 				245B20B51D6A6DB400C803B8 /* pausebutton.png in Resources */,
 				24DCF6821D6EC61B00742153 /* easytapped.png in Resources */,
+				24DFEC071D721B5C000636C4 /* asteroid3.png in Resources */,
 				249752BA1D6FF33F00BA3C18 /* explosion.wav in Resources */,
-				245B20BB1D6AB9A100C803B8 /* asteroid.png in Resources */,
+				24DFEC0F1D721D8D000636C4 /* asteroid4.png in Resources */,
+				24DFEC0D1D721D10000636C4 /* asteroid1.png in Resources */,
 				245B20B31D6A0D3E00C803B8 /* locationIndicator@2x.png in Resources */,
 				2465CE541D68243A0047B63E /* LaunchScreen.storyboard in Resources */,
 				2486C2981D6D65FA000B2C93 /* MenuScene.sks in Resources */,

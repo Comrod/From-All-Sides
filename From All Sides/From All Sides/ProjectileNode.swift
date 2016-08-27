@@ -14,16 +14,21 @@ class ProjectileNode: SKSpriteNode {
     class func projectile() -> ProjectileNode {
 
 
-        let whichProjectile = arc4random_uniform(2)
+        let whichProjectile = arc4random_uniform(4)
         var projectileImageStr = String()
         
         switch whichProjectile {
         case 0:
-            projectileImageStr = "asteroid"
+            projectileImageStr = "asteroid1"
         break
         case 1:
-            projectileImageStr = "irregularasteroid"
+            projectileImageStr = "asteroid2"
         break
+        case 2:
+            projectileImageStr = "asteroid3"
+        break
+        case 3:
+            projectileImageStr = "asteroid4"
         default:
             print("There was a problem with the image selection. The image will be the default projectile")
             projectileImageStr = "asteroid"
