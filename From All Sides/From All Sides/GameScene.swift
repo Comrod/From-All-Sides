@@ -376,6 +376,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func killScene() {
         projectileNode.removeAllChildren() //deletes all projectiles from scene
+        pauseButton.removeFromParent() //remove pause button to prevent bug
         //self.removeAllChildren() //deletes all children from the scene (projectiles, player, scorelabel)
         self.removeAllActions()
         motionManager.stopDeviceMotionUpdates()
