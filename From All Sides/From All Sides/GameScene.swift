@@ -40,7 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerGravityField = SKFieldNode()
     var playerGravityFieldStrength: Float!
     
-    var projSpawnRate: Double = 1.0 //The smaller the value, the more often a projectile is spawned
+    var projSpawnRate: Double = 1 //The smaller the value, the more often a projectile is spawned
     var cometSpawnRate: Double = 10.0
     var difficCounter = 0 //Counter for difficulty method
     var minProjSpeed:CGFloat = 3.5 //maximum time in seconds for projectile to travel across the screen
@@ -69,9 +69,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Score
     var score = 0 //Counter that is incremented
     var scoreLabel: SKLabelNode!
-    
-    //Pause Button
-    var pauseButton: SKSpriteNode!
     
     var hasBeenHit = Bool()
     
@@ -103,23 +100,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createStars()
         
         setupScoreLabel()//Score Label Setup
-        setupPauseButton()//Pause Button Setup
         setupPlayer()//Player setup
         
         if defaults.stringForKey("easyOpt") == "easytapped" { //if easy has been selected, no gravity and pretty slow projectile speeds
             playerGravityFieldStrength = 0.0
-            projSpawnRate = 1.0
+            projSpawnRate = 1.4
             mainProjImpulseMin = 300
             mainProjImpulseMax = 500
             
         } else if defaults.stringForKey("medOpt") == "mediumtapped" { //if medium has been selected, gravity and regular projectile speeds
-            projSpawnRate = 0.75
+            projSpawnRate = 1.0
             playerGravityFieldStrength = 3.0
             setupPlayerGravityField()
             mainProjImpulseMin = 300
             mainProjImpulseMax = 600
         } else if defaults.stringForKey("hardOpt") == "lightspeedtapped" { //if lightspeed has been selected, gravity and high projectile speeds
-            projSpawnRate = 0.5
+            projSpawnRate = 0.7
             playerGravityFieldStrength = 6.0
             setupPlayerGravityField()
             mainProjImpulseMin = 600
@@ -224,36 +220,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupScoreLabel() {
         scoreLabel = SKLabelNode(fontNamed:"ArialMT")
         scoreLabel.text = "0"
-        scoreLabel.position = CGPoint(x: size.width/10, y: (3/4)*size.height)
+        scoreLabel.position = CGPoint(x: size.width/2, y: (3/4)*size.height)
         scoreLabel.fontSize = 60
         scoreLabel.color = SKColor.whiteColor()
         self.addChild(scoreLabel)
-    }
-
-    //Pause Button Setup
-    func setupPauseButton() {
-        pauseButton = SKSpriteNode(imageNamed: "pausebutton")
-        pauseButton.position = CGPoint(x:size.width/2, y:(4/5)*size.height)
-        pauseButton.zPosition = -0.5
-        pauseButton.name = "pauseButton"
-        self.addChild(pauseButton)
-    }
-    
-    //Pause Scene
-    func pauseScene(){
-        
-        if scene!.view!.paused { //if the scene is paused
-            scene!.view!.paused = false
-            getDeviceAttitude() //Restart getting device attitutde
-            print("Scene is resumed")
-        }
-        else { //if the scene isn't paused
-            scene!.view!.paused = true
-            motionManager.stopDeviceMotionUpdates()
-            
-            NSOperationQueue.currentQueue()!.cancelAllOperations() //May or may not need
-            print("Scene is paused")
-        }
     }
     
     //Create random number
@@ -275,7 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Value for size of projectile
         let projSize = projectile.size.height
         
-        projectile.position = CGPoint (x: size.width - projSize, y: (1/2)*size.height)
+        //projectile.position = CGPoint (x: size.width - projSize, y: (1/2)*size.height)
         
         projectile.physicsBody?.friction = 0
         
@@ -322,17 +292,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Add Projectiles - method run for every projectile spawned
     func cometFlightCalc() {
         
+        print("launch comet")
+        
         let comet = CometNode.comet()
         
         //Link CometTrail.sks to cometTrail
         let cometTrailPath = NSBundle.mainBundle().pathForResource("CometTrail", ofType: "sks")
-        var cometTrail = NSKeyedUnarchiver.unarchiveObjectWithFile(cometTrailPath!) as! SKEmitterNode
+        let cometTrail = NSKeyedUnarchiver.unarchiveObjectWithFile(cometTrailPath!) as! SKEmitterNode
         cometTrail.targetNode = self
         
         //Value for size of projectile
         let cometSize = comet.size.height
         
-        comet.position = CGPoint (x: size.width - cometSize, y: (1/2)*size.height)
+        //comet.position = CGPoint (x: size.width - dCometSize, y: (1/2)*size.height)
         
         comet.physicsBody?.friction = 0
         
@@ -341,6 +313,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Chooses side projectile is launched from randomly
         whatSide = arc4random_uniform(4)
+        
+        
         
         switch whatSide {
         case 0: //Right
@@ -448,7 +422,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func killScene() {
         projectileSpawnNode.removeAllChildren() //deletes all projectiles from scene
         cometSpawnNode.removeAllChildren() //deletes everything associated with comets from scene
-        pauseButton.removeFromParent() //remove pause button to prevent bug
         //self.removeAllChildren() //deletes all children from the scene (projectiles, player, scorelabel)
         self.removeAllActions()
         motionManager.stopDeviceMotionUpdates()
@@ -532,22 +505,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-    }
-
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        /* Called when a touch begins */
-        
-        for touch in touches {
-            let location = touch.locationInNode(self)
-            
-            let touchedNode = self.nodeAtPoint(location)
-            
-            if let name = touchedNode.name {
-                if name == "pauseButton" { //if pause button is tapped
-                    pauseScene()
-                }
-            }
-        }
     }
 
 }
