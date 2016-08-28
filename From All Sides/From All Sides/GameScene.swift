@@ -104,18 +104,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if defaults.stringForKey("easyOpt") == "easytapped" { //if easy has been selected, no gravity and pretty slow projectile speeds
             playerGravityFieldStrength = 0.0
-            projSpawnRate = 1.4
+            projSpawnRate = 1.25
             mainProjImpulseMin = 300
             mainProjImpulseMax = 500
             
         } else if defaults.stringForKey("medOpt") == "mediumtapped" { //if medium has been selected, gravity and regular projectile speeds
-            projSpawnRate = 1.0
+            projSpawnRate = 0.9
             playerGravityFieldStrength = 3.0
             setupPlayerGravityField()
             mainProjImpulseMin = 300
             mainProjImpulseMax = 600
         } else if defaults.stringForKey("hardOpt") == "lightspeedtapped" { //if lightspeed has been selected, gravity and high projectile speeds
-            projSpawnRate = 0.7
+            projSpawnRate = 0.6
             playerGravityFieldStrength = 6.0
             setupPlayerGravityField()
             mainProjImpulseMin = 600
@@ -245,8 +245,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Value for size of projectile
         let projSize = projectile.size.height
         
-        //projectile.position = CGPoint (x: size.width - projSize, y: (1/2)*size.height)
-        
         projectile.physicsBody?.friction = 0
         
         projectileSpawnNode.addChild(projectile)
@@ -284,7 +282,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
 
         //Makes the projectile rotate in a random direction
-        angularImpulse = random(-0.1, max: 0.1)
+        angularImpulse = random(-0.05, max: 0.05)
         projectile.physicsBody?.applyAngularImpulse(angularImpulse)
         projectile.physicsBody?.applyImpulse(CGVectorMake(impulseX, impulseY))
     }
@@ -304,8 +302,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Value for size of projectile
         let cometSize = comet.size.height
         
-        //comet.position = CGPoint (x: size.width - dCometSize, y: (1/2)*size.height)
-        
         comet.physicsBody?.friction = 0
         
         cometSpawnNode.addChild(comet)
@@ -317,25 +313,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch whatSide {
         case 0: //Right
-            beginY = random(cometSize, max: size.height - cometSize)
+            beginY = random(2*cometSize, max: size.height - 2*cometSize)
             comet.position = CGPoint(x: size.width + cometSize, y: beginY)
             impulseX = random(-mainProjImpulseMin, max: -mainProjImpulseMax)
             impulseY = random(-100, max: 100)
             break
         case 1: //Top
-            beginX = random(cometSize, max: size.width - cometSize)
+            beginX = random(2*cometSize, max: size.width - 2*cometSize)
             comet.position = CGPoint(x: beginX, y: size.height + cometSize)
             impulseX = random(-100, max: 100)
             impulseY = random(-mainProjImpulseMin, max: -mainProjImpulseMax)
             break
         case 2: //Left
-            beginY = random(cometSize, max: size.height - cometSize)
+            beginY = random(2*cometSize, max: size.height - 2*cometSize)
             comet.position = CGPoint(x: -cometSize, y: beginY)
             impulseX = random(mainProjImpulseMin, max: mainProjImpulseMax)
             impulseY = random(-100, max: 100)
             break
         case 3: //Bottom
-            beginX = random(cometSize, max: size.width - cometSize)
+            beginX = random(2*cometSize, max: size.width - 2*cometSize)
             comet.position = CGPoint(x: beginX, y: -cometSize)
             impulseX = random(-100, max: 100)
             impulseY = random(mainProjImpulseMin, max: mainProjImpulseMax)
@@ -348,8 +344,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cometTuples.append(cometTuple)
         
         //Makes the projectile rotate in a random direction
-        angularImpulse = random(-0.1, max: 0.1)
-        comet.physicsBody?.applyAngularImpulse(angularImpulse)
+        //angularImpulse = random(-0.1, max: 0.1)
+        //comet.physicsBody?.applyAngularImpulse(angularImpulse)
         comet.physicsBody?.applyImpulse(CGVectorMake(impulseX, impulseY))
     }
     

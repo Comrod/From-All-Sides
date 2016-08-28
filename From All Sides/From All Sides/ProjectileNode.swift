@@ -47,8 +47,8 @@ class ProjectileNode: SKSpriteNode {
         let projectile = ProjectileNode(imageNamed: projectileImageStr)
         projectile.name = "projectile"
         
-        let projXScale = random(0.2, max: 0.8)
-        let projYScale = random(0.2, max: 0.8)
+        let projXScale = random(0.3, max: 0.7)
+        let projYScale = random(0.3, max: 0.7)
         
         projectile.xScale = projXScale
         projectile.yScale = projYScale
