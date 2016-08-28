@@ -13,8 +13,18 @@ class ProjectileNode: SKSpriteNode {
     
     class func projectile() -> ProjectileNode {
 
+        //Create random number
+        func randNum() -> CGFloat {
+            return CGFloat(Float(arc4random())/0xFFFFFFFF)
+        }
+        
+        
+        //Create random range
+        func random(min: CGFloat , max: CGFloat) -> CGFloat {
+            return randNum()*(max-min)+min
+        }
 
-        let whichProjectile = arc4random_uniform(5)
+        let whichProjectile = arc4random_uniform(4)
         var projectileImageStr = String()
         
         switch whichProjectile {
@@ -29,8 +39,6 @@ class ProjectileNode: SKSpriteNode {
         break
         case 3:
             projectileImageStr = "asteroid4"
-        case 4:
-            projectileImageStr = "asteroid5"
         default:
             print("There was a problem with the image selection. The image will be the default projectile")
             projectileImageStr = "asteroid"
@@ -39,8 +47,11 @@ class ProjectileNode: SKSpriteNode {
         let projectile = ProjectileNode(imageNamed: projectileImageStr)
         projectile.name = "projectile"
         
-        projectile.xScale = 0.5
-        projectile.yScale = 0.5
+        let projXScale = random(0.2, max: 0.8)
+        let projYScale = random(0.2, max: 0.8)
+        
+        projectile.xScale = projXScale
+        projectile.yScale = projYScale
         
         projectile.zPosition = 1.5
         
@@ -58,7 +69,10 @@ class ProjectileNode: SKSpriteNode {
             physics.linearDamping = 0
             physics.angularDamping = 0
             physics.mass = 1.3
-        }        
+        }
+        
         return projectile
     }
+    
+    
 }

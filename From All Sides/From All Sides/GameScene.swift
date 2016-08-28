@@ -315,7 +315,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         whatSide = arc4random_uniform(4)
         
         
-        
         switch whatSide {
         case 0: //Right
             beginY = random(cometSize, max: size.height - cometSize)
@@ -493,8 +492,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if (node is SKSpriteNode) {
                 let sprite = node as! SKSpriteNode
                 // Check if the node is not in the scene
-                if (sprite.position.x < (-1.5)*sprite.size.width || sprite.position.x > self.size.width + (1.5)*sprite.size.width
-                    || sprite.position.y < (-1.5)*sprite.size.height || sprite.position.y > self.size.height + (1.5)*sprite.size.height) {
+                if (sprite.position.x < (-1.1)*sprite.size.width || sprite.position.x > self.size.width + (1.1)*sprite.size.width
+                    || sprite.position.y < (-1.1)*sprite.size.height || sprite.position.y > self.size.height + (1.1)*sprite.size.height) {
                     sprite.removeFromParent()
                     
                     

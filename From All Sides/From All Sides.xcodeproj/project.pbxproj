@@ -27,7 +27,10 @@
 		2486C2981D6D65FA000B2C93 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2486C2971D6D65FA000B2C93 /* MenuScene.sks */; };
 		2486C29C1D6DF6F7000B2C93 /* ProjectileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2486C29B1D6DF6F7000B2C93 /* ProjectileNode.swift */; };
 		249752BA1D6FF33F00BA3C18 /* explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 249752B91D6FF33F00BA3C18 /* explosion.wav */; };
-		249E724B1D724C4400394DC9 /* asteroid5.png in Resources */ = {isa = PBXBuildFile; fileRef = 249E724A1D724C4400394DC9 /* asteroid5.png */; };
+		249E725B1D7268E800394DC9 /* asteroid1.png in Resources */ = {isa = PBXBuildFile; fileRef = 249E725A1D7268E800394DC9 /* asteroid1.png */; };
+		249E725F1D726ABF00394DC9 /* asteroid2.png in Resources */ = {isa = PBXBuildFile; fileRef = 249E725C1D726ABF00394DC9 /* asteroid2.png */; };
+		249E72601D726ABF00394DC9 /* asteroid3.png in Resources */ = {isa = PBXBuildFile; fileRef = 249E725D1D726ABF00394DC9 /* asteroid3.png */; };
+		249E72611D726ABF00394DC9 /* asteroid4.png in Resources */ = {isa = PBXBuildFile; fileRef = 249E725E1D726ABF00394DC9 /* asteroid4.png */; };
 		24D1A50D1D68D5F1002B7E63 /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = 24D1A50C1D68D5F1002B7E63 /* player.png */; };
 		24D1A50F1D68E053002B7E63 /* projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = 24D1A50E1D68E053002B7E63 /* projectile.png */; };
 		24DA08361D70127A00215C97 /* StarEmitterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DA08351D70127A00215C97 /* StarEmitterNode.swift */; };
@@ -37,10 +40,6 @@
 		24DCF67F1D6EB91300742153 /* mediumtapped.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DCF6791D6EB91300742153 /* mediumtapped.png */; };
 		24DCF6801D6EB91300742153 /* mediumuntapped.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DCF67A1D6EB91300742153 /* mediumuntapped.png */; };
 		24DCF6821D6EC61B00742153 /* easytapped.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DCF6811D6EC61B00742153 /* easytapped.png */; };
-		24DFEC071D721B5C000636C4 /* asteroid3.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC061D721B5C000636C4 /* asteroid3.png */; };
-		24DFEC0B1D721CB2000636C4 /* asteroid2.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC0A1D721CB2000636C4 /* asteroid2.png */; };
-		24DFEC0D1D721D10000636C4 /* asteroid1.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC0C1D721D10000636C4 /* asteroid1.png */; };
-		24DFEC0F1D721D8D000636C4 /* asteroid4.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC0E1D721D8D000636C4 /* asteroid4.png */; };
 		24DFEC151D7220C2000636C4 /* CometNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DFEC141D7220C2000636C4 /* CometNode.swift */; };
 		24DFEC171D722289000636C4 /* comet.png in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC161D722289000636C4 /* comet.png */; };
 		24DFEC191D72240F000636C4 /* CometTrail.sks in Resources */ = {isa = PBXBuildFile; fileRef = 24DFEC181D72240F000636C4 /* CometTrail.sks */; };
@@ -90,7 +89,10 @@
 		2486C2971D6D65FA000B2C93 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		2486C29B1D6DF6F7000B2C93 /* ProjectileNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectileNode.swift; sourceTree = "<group>"; };
 		249752B91D6FF33F00BA3C18 /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion.wav; sourceTree = "<group>"; };
-		249E724A1D724C4400394DC9 /* asteroid5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid5.png; sourceTree = "<group>"; };
+		249E725A1D7268E800394DC9 /* asteroid1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid1.png; sourceTree = "<group>"; };
+		249E725C1D726ABF00394DC9 /* asteroid2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid2.png; sourceTree = "<group>"; };
+		249E725D1D726ABF00394DC9 /* asteroid3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid3.png; sourceTree = "<group>"; };
+		249E725E1D726ABF00394DC9 /* asteroid4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid4.png; sourceTree = "<group>"; };
 		24D1A50C1D68D5F1002B7E63 /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
 		24D1A50E1D68E053002B7E63 /* projectile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = projectile.png; sourceTree = "<group>"; };
 		24DA08351D70127A00215C97 /* StarEmitterNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarEmitterNode.swift; sourceTree = "<group>"; };
@@ -100,10 +102,6 @@
 		24DCF6791D6EB91300742153 /* mediumtapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumtapped.png; sourceTree = "<group>"; };
 		24DCF67A1D6EB91300742153 /* mediumuntapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumuntapped.png; sourceTree = "<group>"; };
 		24DCF6811D6EC61B00742153 /* easytapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = easytapped.png; sourceTree = "<group>"; };
-		24DFEC061D721B5C000636C4 /* asteroid3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid3.png; sourceTree = "<group>"; };
-		24DFEC0A1D721CB2000636C4 /* asteroid2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid2.png; sourceTree = "<group>"; };
-		24DFEC0C1D721D10000636C4 /* asteroid1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid1.png; sourceTree = "<group>"; };
-		24DFEC0E1D721D8D000636C4 /* asteroid4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid4.png; sourceTree = "<group>"; };
 		24DFEC141D7220C2000636C4 /* CometNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CometNode.swift; sourceTree = "<group>"; };
 		24DFEC161D722289000636C4 /* comet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comet.png; sourceTree = "<group>"; };
 		24DFEC181D72240F000636C4 /* CometTrail.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CometTrail.sks; sourceTree = "<group>"; };
@@ -150,12 +148,11 @@
 				245B20B21D6A0D3E00C803B8 /* locationIndicator@2x.png */,
 				245B20B41D6A6DB400C803B8 /* pausebutton.png */,
 				245B20B61D6A872B00C803B8 /* star.png */,
-				24DFEC0C1D721D10000636C4 /* asteroid1.png */,
-				24DFEC0A1D721CB2000636C4 /* asteroid2.png */,
-				24DFEC061D721B5C000636C4 /* asteroid3.png */,
-				24DFEC0E1D721D8D000636C4 /* asteroid4.png */,
-				249E724A1D724C4400394DC9 /* asteroid5.png */,
 				24DFEC161D722289000636C4 /* comet.png */,
+				249E725A1D7268E800394DC9 /* asteroid1.png */,
+				249E725C1D726ABF00394DC9 /* asteroid2.png */,
+				249E725D1D726ABF00394DC9 /* asteroid3.png */,
+				249E725E1D726ABF00394DC9 /* asteroid4.png */,
 				241AAD201D6B52A400116717 /* earth.png */,
 				24DCF6741D6EB91300742153 /* Difficulty Option Selection */,
 			);
@@ -329,21 +326,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				24D1A50D1D68D5F1002B7E63 /* player.png in Resources */,
+				249E725B1D7268E800394DC9 /* asteroid1.png in Resources */,
 				24DCF67F1D6EB91300742153 /* mediumtapped.png in Resources */,
 				24DFEC171D722289000636C4 /* comet.png in Resources */,
+				249E725F1D726ABF00394DC9 /* asteroid2.png in Resources */,
+				249E72611D726ABF00394DC9 /* asteroid4.png in Resources */,
 				24DCF67C1D6EB91300742153 /* easyuntapped.png in Resources */,
+				249E72601D726ABF00394DC9 /* asteroid3.png in Resources */,
 				24DCF67E1D6EB91300742153 /* lightspeeduntapped.png in Resources */,
-				24DFEC0B1D721CB2000636C4 /* asteroid2.png in Resources */,
-				249E724B1D724C4400394DC9 /* asteroid5.png in Resources */,
 				24DFEC191D72240F000636C4 /* CometTrail.sks in Resources */,
 				24572EB31D6F97E600483D24 /* spark.png in Resources */,
 				245B20B71D6A872B00C803B8 /* star.png in Resources */,
 				245B20B51D6A6DB400C803B8 /* pausebutton.png in Resources */,
 				24DCF6821D6EC61B00742153 /* easytapped.png in Resources */,
-				24DFEC071D721B5C000636C4 /* asteroid3.png in Resources */,
 				249752BA1D6FF33F00BA3C18 /* explosion.wav in Resources */,
-				24DFEC0F1D721D8D000636C4 /* asteroid4.png in Resources */,
-				24DFEC0D1D721D10000636C4 /* asteroid1.png in Resources */,
 				245B20B31D6A0D3E00C803B8 /* locationIndicator@2x.png in Resources */,
 				2465CE541D68243A0047B63E /* LaunchScreen.storyboard in Resources */,
 				2486C2981D6D65FA000B2C93 /* MenuScene.sks in Resources */,
