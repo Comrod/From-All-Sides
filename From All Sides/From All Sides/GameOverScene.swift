@@ -17,11 +17,11 @@ class GameOverScene: SKScene {
     
     var recentScore = String()
     
-    let scoreLabel = SKLabelNode(fontNamed:"ArialMT")
-    let playAgainLabel = SKLabelNode(fontNamed: "ArialMT")
-    let didYouKnowLabel = SKLabelNode(fontNamed: "ArialMT")
-    let spaceFactLabel = SKLabelNode(fontNamed: "ArialMT")
-    let menuLabel = SKLabelNode(fontNamed: "ArialMT")
+    let scoreLabel = SKLabelNode(fontNamed:"Verdana-Bold")
+    let playAgainLabel = SKLabelNode(fontNamed: "Verdana-Bold")
+    let didYouKnowLabel = SKLabelNode(fontNamed: "Verdana-Bold")
+    let spaceFactLabel = SKLabelNode(fontNamed: "Verdana")
+    let menuLabel = SKLabelNode(fontNamed: "Verdana-Bold")
     
     override func didMoveToView(view: SKView) {
         
@@ -31,19 +31,20 @@ class GameOverScene: SKScene {
         recentScore = String(defaults.integerForKey("score"))
         
         //Score Label
-        
+        scoreLabel.fontColor = SKColor.orangeColor()
         scoreLabel.text = "Final Score — " + recentScore //do not be mistaken, the dash is actually an em dash
         scoreLabel.fontSize = 75
         scoreLabel.position = CGPoint(x: size.width/2, y: (3/4)*size.height)
        
         //Play Again Label
-        
+        playAgainLabel.fontColor = SKColor.orangeColor()
         playAgainLabel.name = "playAgainLabel"
         playAgainLabel.text = "Play Again"
         playAgainLabel.fontSize = 55
         playAgainLabel.position = CGPoint(x: size.width/2, y: (5/9)*size.height)
         
         //Did You Know Label
+        didYouKnowLabel.fontColor = SKColor.orangeColor()
         didYouKnowLabel.text = "Did You Know"
         didYouKnowLabel.fontSize = 35
         didYouKnowLabel.position = CGPoint(x: size.width/2, y: (7/18)*size.height)
@@ -51,11 +52,12 @@ class GameOverScene: SKScene {
         
         //Random Space Fact Label
         addSpaceFact()
+        spaceFactLabel.fontColor = SKColor.orangeColor()
         spaceFactLabel.fontSize = 30
         spaceFactLabel.position = CGPoint(x: size.width/2, y: (1/3)*size.height)
         
         //Menu Label
-        
+        menuLabel.fontColor = SKColor.orangeColor()
         menuLabel.name = "menuLabel"
         menuLabel.text = "Main Menu"
         menuLabel.fontSize = 55

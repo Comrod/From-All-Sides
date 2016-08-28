@@ -218,7 +218,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Setup Score Label
     func setupScoreLabel() {
-        scoreLabel = SKLabelNode(fontNamed:"ArialMT")
+        scoreLabel = SKLabelNode(fontNamed:"Verdana-Bold")
+        scoreLabel.fontColor = SKColor.orangeColor()
         scoreLabel.text = "0"
         scoreLabel.position = CGPoint(x: size.width/2, y: (3/4)*size.height)
         scoreLabel.fontSize = 60

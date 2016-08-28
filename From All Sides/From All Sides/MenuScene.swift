@@ -39,9 +39,10 @@ class MenuScene: SKScene {
         createStars()
         
         
-        let titleLabel = SKLabelNode(fontNamed:"ArialMT")
-        titleLabel.text = "Avoid The Asteroids"
-        titleLabel.fontSize = 80
+        let titleLabel = SKLabelNode(fontNamed:"Verdana-BoldItalic")
+        titleLabel.fontColor = SKColor.orangeColor()
+        titleLabel.text = "Astro-Dodger"
+        titleLabel.fontSize = 75
         titleLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
         
         getDiffOptTxtStrs() //Get the texture that has been selected from NSUserDefaults
@@ -68,20 +69,24 @@ class MenuScene: SKScene {
         hardOpt.xScale = 0.25
         hardOpt.yScale = 0.25
         
-        
-        let playLabel = SKLabelNode(fontNamed: "ArialMT")
-        playLabel.name = "playLabel"
-        playLabel.text = "Play"
-        playLabel.fontSize = 55
-        playLabel.position = CGPoint(x:size.width/2, y:(1/2)*size.height)
-        
-        let settingsLabel = SKLabelNode(fontNamed: "ArialMT")
+        let settingsLabel = SKLabelNode(fontNamed: "Verdana-Bold")
+        settingsLabel.fontColor = SKColor.orangeColor()
         settingsLabel.name = "settingsLabel"
         settingsLabel.text = "Settings"
         settingsLabel.fontSize = 55
         settingsLabel.position = CGPoint(x:size.width/2, y:(1/3)*size.height)
         
-        let highScoreLabel = SKLabelNode(fontNamed: "ArialMT")
+        let playLabel = SKLabelNode(fontNamed: "Verdana-Bold")
+        playLabel.fontColor = SKColor.orangeColor()
+        playLabel.name = "playLabel"
+        playLabel.text = "Play"
+        playLabel.fontSize = 55
+        playLabel.position = CGPoint(x:size.width/2, y:(settingsLabel.position.y + easyOpt.position.y)/2)
+        
+        
+        
+        let highScoreLabel = SKLabelNode(fontNamed: "Verdana-Bold")
+        highScoreLabel.fontColor = SKColor.orangeColor()
         highScoreLabel.text = "High Score - " + String(defaults.integerForKey("highScore")) //That dash is an em dash
         highScoreLabel.fontSize = 35
         highScoreLabel.position = CGPoint(x: size.width/2, y: (1/5)*size.height)

@@ -20,11 +20,11 @@ class SettingScene: SKScene {
     let rawLandscapeLeft = UIInterfaceOrientation.LandscapeLeft.rawValue
     let rawLandscapeRight = UIInterfaceOrientation.LandscapeRight.rawValue
     
-    let settingsLabel = SKLabelNode(fontNamed: "ArialMT")
-    let senseLabel = SKLabelNode(fontNamed: "ArialMT")
-    let decreaseSenseLabel = SKLabelNode(fontNamed: "ArialMT")
-    let increaseSenseLabel = SKLabelNode(fontNamed: "ArialMT")
-    let backLabel = SKLabelNode(fontNamed: "ArialMT")
+    let settingsLabel = SKLabelNode(fontNamed: "Verdana-Bold")
+    let senseLabel = SKLabelNode(fontNamed: "Verdana-Bold")
+    let decreaseSenseLabel = SKLabelNode(fontNamed: "Verdana-Bold")
+    let increaseSenseLabel = SKLabelNode(fontNamed: "Verdana-Bold")
+    let backLabel = SKLabelNode(fontNamed: "Verdana-Bold")
     
     override func didMoveToView(view: SKView) {
         
@@ -35,28 +35,33 @@ class SettingScene: SKScene {
         
         //Settings Label
         settingsLabel.text = "Settings"
+        settingsLabel.fontColor = SKColor.orangeColor()
         settingsLabel.fontSize = 80
         settingsLabel.position = CGPoint(x:size.width/2, y:(3/4)*size.height)
         
         //Sensitivity Label
         senseLabel.text = "Tilt Sensitivity: " + String(playerSpeed)
+        senseLabel.fontColor = SKColor.orangeColor()
         senseLabel.fontSize = 55
         senseLabel.position = CGPoint(x:(1/2)*size.width, y: (4/7)*size.height)
 
         //Decrease Sensitivity Label
         decreaseSenseLabel.name = "decSense"
+        decreaseSenseLabel.fontColor = SKColor.orangeColor()
         decreaseSenseLabel.text = "<—" //is actually an em dash
         decreaseSenseLabel.fontSize = 50
         decreaseSenseLabel.position = CGPoint(x:(1/3)*size.width, y: size.height/2)
         
         //Increase Sensitivity Label
         increaseSenseLabel.name = "incSense"
+        increaseSenseLabel.fontColor = SKColor.orangeColor()
         increaseSenseLabel.text = "—>" //is actually an em dash
         increaseSenseLabel.fontSize = 50
         increaseSenseLabel.position = CGPoint(x:(2/3)*size.width, y: size.height/2)
         
         //Back to menu Label
         backLabel.name = "backLabel"
+        backLabel.fontColor = SKColor.orangeColor()
         backLabel.text = "Back"
         backLabel.fontSize = 55
         backLabel.position = CGPoint(x:size.width/2, y:(1/5)*size.height)
